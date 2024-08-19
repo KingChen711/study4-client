@@ -1,10 +1,8 @@
 import React from "react"
 import Link from "next/link"
-import { SignedIn, SignedOut } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs"
 
 import { Button } from "@/components/ui/button"
-
-import SignOutButton from "./sign-out-button"
 
 function Actions() {
   return (
@@ -15,7 +13,7 @@ function Actions() {
         </Button>
       </SignedOut>
       <SignedIn>
-        <SignOutButton />
+        <SignOutButton>Sign Out</SignOutButton>
       </SignedIn>
 
       {/* <ThemeToggle /> */}

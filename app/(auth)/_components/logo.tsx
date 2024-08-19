@@ -10,17 +10,18 @@ const font = Poppins({
 })
 
 function Logo() {
+  console.log()
+
   return (
     <div className="flex flex-col items-center gap-y-4">
-      <div className="rounded-full bg-foreground p-1">
-        <Image
-          className="invert dark:invert-0"
-          src="/spooky.svg"
-          alt="twitch"
-          height={80}
-          width={80}
-        />
-      </div>
+      <Image
+        // className="invert dark:invert-0"
+        src="/logo_sm.webp"
+        alt="twitch"
+        className="rounded-full"
+        height={80}
+        width={80}
+      />
 
       <div className={cn("flex flex-col items-center", font.className)}>
         <p className="text-xl font-semibold">
