@@ -70,3 +70,9 @@ export function getErrorResult<TFormSchema = undefined>(
 
   return { isSuccess: false, typeError: "base", messageError }
 }
+
+export function getUsernameFromEmail(email: string) {
+  const [namePart] = email.split("@")
+  const name = namePart.toLocaleLowerCase()
+  return name
+}

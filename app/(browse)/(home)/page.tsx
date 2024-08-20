@@ -1,11 +1,12 @@
 import { SignedIn } from "@clerk/nextjs"
-import { auth, currentUser } from "@clerk/nextjs/server"
+
+// import { auth, currentUser } from "@clerk/nextjs/server"
 
 export default async function Home() {
-  const authObject = auth()
-  const user = await currentUser()
+  // const authObject = auth()
+  // const user = await currentUser()
 
-  console.log({ user, authObject })
+  // console.log({ user, authObject })
 
   return (
     <main>

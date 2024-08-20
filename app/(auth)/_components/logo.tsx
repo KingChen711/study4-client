@@ -10,8 +10,6 @@ const font = Poppins({
 })
 
 function Logo() {
-  console.log()
-
   return (
     <div className="flex flex-col items-center gap-y-4">
       <Image
@@ -27,7 +25,7 @@ function Logo() {
         <p className="text-xl font-semibold">
           Study<strong className="text-primary">4</strong>
         </p>
-        <p className="text-sm text-muted-foreground">Let&apos;s learn</p>
+        <p className="text-sm text-muted-foreground">Let&apos;s study well</p>
       </div>
     </div>
   )

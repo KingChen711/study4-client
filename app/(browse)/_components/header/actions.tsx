@@ -1,19 +1,23 @@
 import React from "react"
 import Link from "next/link"
-import { SignedIn, SignedOut, SignOutButton } from "@clerk/nextjs"
+import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
 
 import { Button } from "@/components/ui/button"
+import { UserButton } from "@/components/ui/user-button"
 
 function Actions() {
   return (
     <div className="flex items-center gap-x-2">
       <SignedOut>
-        <Button asChild>
-          <Link href="/sign-in">Login</Link>
-        </Button>
+        <SignInButton>
+          <Button asChild>
+            <Link href="/sign-in">Đăng nhập</Link>
+          </Button>
+        </SignInButton>
       </SignedOut>
       <SignedIn>
-        <SignOutButton>Sign Out</SignOutButton>
+        <UserButton />
+        {/* <SignOutButton>Sign Out</SignOutButton> */}
       </SignedIn>
 
       {/* <ThemeToggle /> */}
