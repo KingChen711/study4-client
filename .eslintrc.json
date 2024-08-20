@@ -11,6 +11,7 @@
     "plugin:tailwindcss/recommended"
   ],
   "rules": {
+    "@typescript-eslint/no-non-null-asserted-optional-chain": "off",
     "@typescript-eslint/array-type": "off",
     "@typescript-eslint/consistent-type-definitions": "off",
     "@typescript-eslint/consistent-type-imports": [

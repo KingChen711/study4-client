@@ -7,7 +7,16 @@ import { UserButton } from "@/components/ui/user-button"
 
 function Actions() {
   return (
-    <div className="flex items-center gap-x-2">
+    <div className="flex items-center">
+      <Button variant="link">
+        <Link href="/tests">Đề thi online</Link>
+      </Button>
+      <Button variant="link">
+        <Link href="/flashcards">Flashcards</Link>
+      </Button>
+      <Button variant="link">
+        <Link href="/active">Kích hoạt tài khoản</Link>
+      </Button>
       <SignedOut>
         <SignInButton>
           <Button asChild>

@@ -1,5 +1,6 @@
 import React from "react"
 
+import Footer from "./_components/foater"
 import Header from "./_components/header"
 
 type Props = {
@@ -15,6 +16,7 @@ function BrowseLayout({ children }: Props) {
           <div className="mx-auto size-full max-w-6xl">{children}</div>
         </section>
       </div>
+      <Footer />
     </main>
   )
 }

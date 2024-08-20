@@ -33,7 +33,7 @@ export const UserButton = () => {
       <DropdownMenuTrigger asChild>
         <button className="outline-none">
           <Image
-            alt={user?.primaryEmailAddress?.emailAddress || ""}
+            alt={user?.primaryEmailAddress?.emailAddress!}
             src={user?.imageUrl}
             width={30}
             height={30}
@@ -46,7 +46,7 @@ export const UserButton = () => {
           <DropdownMenuLabel asChild>
             <div className="flex items-center gap-3 px-6">
               <Image
-                alt={user?.primaryEmailAddress?.emailAddress || ""}
+                alt={user?.primaryEmailAddress?.emailAddress!}
                 src={user?.imageUrl}
                 width={44}
                 height={44}
@@ -56,19 +56,15 @@ export const UserButton = () => {
                 <div className="text-sm font-medium leading-none">
                   {user.firstName && user.lastName
                     ? `${user.firstName} ${user.lastName}`
-                    : user?.primaryEmailAddress?.emailAddress
-                      ? getUsernameFromEmail(
-                          user?.primaryEmailAddress?.emailAddress
-                        )
-                      : ""}
+                    : getUsernameFromEmail(
+                        user?.primaryEmailAddress?.emailAddress!
+                      )}
                 </div>
                 <div className="text-sm leading-none text-muted-foreground">
                   {user.username ||
-                    (user?.primaryEmailAddress?.emailAddress
-                      ? getUsernameFromEmail(
-                          user?.primaryEmailAddress?.emailAddress
-                        )
-                      : "")}
+                    getUsernameFromEmail(
+                      user?.primaryEmailAddress?.emailAddress!
+                    )}
                 </div>
               </div>
             </div>
