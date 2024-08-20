@@ -20,43 +20,45 @@ async function Welcome() {
   return (
     <section className="my-6 flex flex-col gap-y-6">
       {user && (
-        <h2 className="text-2xl font-bold">
+        <h2 className="text-lg font-bold md:text-2xl">
           Chào mừng{" "}
           {getUsernameFromEmail(user?.primaryEmailAddress?.emailAddress!)} trở
           lại!
         </h2>
       )}
       {/* TODO: Call banners from db */}
-      <Carousel className="w-full">
-        <CarouselContent>
-          <CarouselItem>
-            <Image
-              src={banner1}
-              alt="banner1"
-              sizes="100%"
-              className="h-[400px] w-full rounded-lg object-cover"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <Image
-              src={banner2}
-              alt="banner2"
-              sizes="100%"
-              className="h-[400px] w-full rounded-lg object-cover"
-            />
-          </CarouselItem>
-          <CarouselItem>
-            <Image
-              src={banner3}
-              alt="banner3"
-              sizes="100%"
-              className="h-[400px] w-full rounded-lg object-cover"
-            />
-          </CarouselItem>
-        </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
-      </Carousel>
+      <div className="max-sm:mx-6">
+        <Carousel className="w-full">
+          <CarouselContent>
+            <CarouselItem>
+              <Image
+                src={banner1}
+                alt="banner1"
+                sizes="100%"
+                className="aspect-[3/1] w-full rounded-lg object-cover"
+              />
+            </CarouselItem>
+            <CarouselItem>
+              <Image
+                src={banner2}
+                alt="banner2"
+                sizes="100%"
+                className="aspect-[3/1] w-full rounded-lg object-cover"
+              />
+            </CarouselItem>
+            <CarouselItem>
+              <Image
+                src={banner3}
+                alt="banner3"
+                sizes="100%"
+                className="aspect-[3/1] w-full rounded-lg object-cover"
+              />
+            </CarouselItem>
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
     </section>
   )
 }
