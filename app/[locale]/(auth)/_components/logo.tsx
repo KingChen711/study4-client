@@ -23,7 +23,7 @@ function Logo() {
 
       <div className={cn("flex flex-col items-center", font.className)}>
         <p className="text-xl font-semibold">
-          Study<strong className="text-primary">4</strong>
+          Prep4<strong className="text-primary">IELTS</strong>
         </p>
       </div>
     </div>

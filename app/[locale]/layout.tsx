@@ -27,7 +27,15 @@ export default async function RootLayout({
   const messages = await getMessages()
 
   return (
-    <ClerkProvider localization={locale === "vi" ? viVN : undefined}>
+    <ClerkProvider
+      localization={locale === "vi" ? viVN : undefined}
+      appearance={{
+        // baseTheme: actualTheme === "dark" ? dark : undefined,
+        elements: {
+          formButtonPrimary: "bg-primary text-primary-foreground !shadow-none",
+        },
+      }}
+    >
       <html lang={locale}>
         <body className={inter.className}>
           <NextIntlClientProvider messages={messages}>
