@@ -1,12 +1,14 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useClerk, useUser } from "@clerk/nextjs"
 import { useTranslations } from "next-intl"
 
-import { getUsernameFromEmail } from "@/lib/utils"
+import { cn, getUsernameFromEmail } from "@/lib/utils"
 
+import { Card, CardContent, CardHeader } from "./card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -24,6 +26,7 @@ export const UserButton = () => {
 
   const { isLoaded, user } = useUser()
   const { signOut, openUserProfile } = useClerk()
+  const [open, setOpen] = useState(false)
 
   //TODO: may need to add skeleton
   if (!isLoaded) return <Skeleton className="size-[30px] rounded-full" />
@@ -31,72 +34,78 @@ export const UserButton = () => {
   if (!user?.id) return null
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <button className="outline-none">
-          <Image
-            alt={user?.primaryEmailAddress?.emailAddress!}
-            src={user?.imageUrl}
-            width={30}
-            height={30}
-            className="rounded-full"
-          />
-        </button>
-      </DropdownMenuTrigger>
-      <DropdownMenuPortal>
-        <DropdownMenuContent className="rounded-2xl py-3">
-          <DropdownMenuLabel asChild>
-            <div className="flex items-center gap-3 px-6">
-              <Image
-                alt={user?.primaryEmailAddress?.emailAddress!}
-                src={user?.imageUrl}
-                width={44}
-                height={44}
-                className="rounded-full"
-              />
-              <div className="flex flex-col gap-y-1">
-                <div className="text-sm font-medium leading-none">
-                  {user.firstName && user.lastName
-                    ? `${user.firstName} ${user.lastName}`
-                    : getUsernameFromEmail(
-                        user?.primaryEmailAddress?.emailAddress!
-                      )}
-                </div>
-                <div className="text-sm leading-none text-muted-foreground">
-                  {user.username ||
-                    getUsernameFromEmail(
+    <div className="relative flex items-center justify-center">
+      <button className="outline-none" onClick={() => setOpen(!open)}>
+        <Image
+          alt={user?.primaryEmailAddress?.emailAddress!}
+          src={user?.imageUrl}
+          width={30}
+          height={30}
+          className="rounded-full"
+        />
+      </button>
+
+      <div className="">
+        <Card
+          style={{
+            top: "calc(100% + 10px)",
+          }}
+          className={cn(
+            "absolute -right-2 hidden w-[300px] flex-col rounded-2xl bg-card py-3 shadow-md",
+            open && "flex"
+          )}
+        >
+          <div className="flex min-w-fit flex-row items-center justify-start gap-3 px-6 py-3">
+            <Image
+              alt={user?.primaryEmailAddress?.emailAddress!}
+              src={user?.imageUrl}
+              width={44}
+              height={44}
+              className="block rounded-full"
+            />
+            <div className="flex flex-col gap-y-1 pr-11">
+              <div className="line-clamp-1 text-sm font-medium">
+                {user.firstName && user.lastName
+                  ? `${user.firstName} ${user.lastName}`
+                  : getUsernameFromEmail(
                       user?.primaryEmailAddress?.emailAddress!
                     )}
-                </div>
+              </div>
+              <div className="line-clamp-1 text-sm text-muted-foreground">
+                {user.username ||
+                  getUsernameFromEmail(
+                    user?.primaryEmailAddress?.emailAddress!
+                  )}
               </div>
             </div>
-          </DropdownMenuLabel>
+          </div>
 
-          <DropdownMenuItem asChild>
-            <button
-              className="w-full justify-start gap-x-3 px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-card"
-              onClick={() => openUserProfile()}
+          <div className="flex flex-col">
+            <div
+              className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
+              onClick={() => {
+                setOpen(false)
+                openUserProfile()
+              }}
             >
               <div className="flex items-center justify-center px-4">
                 <Icons.Setting className="size-3" />
               </div>
               {t("ManageAccount")}
-            </button>
-          </DropdownMenuItem>
+            </div>
 
-          <DropdownMenuItem asChild>
-            <button
-              className="w-full justify-start gap-x-3 px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-card"
+            <div
+              className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
               onClick={() => signOut(() => router.push("/"))}
             >
               <div className="flex items-center justify-center px-4">
                 <Icons.SignOut className="size-3" />
               </div>
               {t("SignOut")}
-            </button>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenuPortal>
-    </DropdownMenu>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
   )
 }
