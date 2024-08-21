@@ -12,6 +12,7 @@
     "prettier:fix": "prettier --write ."
   },
   "dependencies": {
+    "@clerk/localizations": "^2.6.0",
     "@clerk/nextjs": "^5.3.1",
     "@hookform/resolvers": "^3.7.0",
     "@ianvs/prettier-plugin-sort-imports": "^4.3.0",

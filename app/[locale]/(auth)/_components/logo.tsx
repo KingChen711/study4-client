@@ -25,7 +25,6 @@ function Logo() {
         <p className="text-xl font-semibold">
           Study<strong className="text-primary">4</strong>
         </p>
-        <p className="text-sm text-muted-foreground">Let&apos;s study well</p>
       </div>
     </div>
   )
