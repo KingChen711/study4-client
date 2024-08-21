@@ -1,9 +1,11 @@
 import React from "react"
 import Link from "next/link"
+import { getTranslations } from "@/queries/i18n/get-translations"
 
 import { Icons } from "@/components/ui/icons"
 
-function Footer() {
+async function Footer() {
+  const t = await getTranslations("Layout")
   return (
     <footer
       style={{
@@ -34,7 +36,7 @@ function Footer() {
 
           <div className="grid w-full grid-cols-12 gap-3">
             <div className="col-span-12 flex flex-col sm:col-span-6 md:col-span-3">
-              <h4 className="font-bold">Chương trình học</h4>
+              <h4 className="font-bold">{t("Footer.Curriculums")}</h4>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
                 IELTS General Reading
               </p>
@@ -61,59 +63,57 @@ function Footer() {
               </p>
             </div>
             <div className="col-span-12 flex flex-col sm:col-span-6 md:col-span-3">
-              <h4 className="font-bold">Tài nguyên</h4>
+              <h4 className="font-bold">{t("Footer.Resources")}</h4>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Thư viện đề thi
+                {t("Footer.ExamLibraries")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Blog
+                {t("Footer.Blog")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Kho tài liệu
+                {t("Footer.DocumentRepositories")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Nhóm học tập
+                {t("Footer.StudyGroups")}
               </p>
             </div>
             <div className="col-span-12 flex flex-col sm:col-span-6 md:col-span-3">
-              <h4 className="font-bold">Hỗ trợ</h4>
+              <h4 className="font-bold">{t("Footer.Support")}</h4>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Hướng dẫn sử dụng
+                {t("Footer.UsingGuide")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Hướng dẫn mua hàng
+                {t("Footer.BuyingGuide")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Chăm sóc khách hàng
+                {t("Footer.CustomerCare")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Phản hồi khiếu nại
+                {t("Footer.ComplaintResponse")}
               </p>
             </div>
             <div className="col-span-12 flex flex-col sm:col-span-6 md:col-span-3">
               <h4 className="font-bold">STUDY4</h4>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Về chúng tôi
+                {t("Footer.AboutUs")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Liên hệ
+                {t("Footer.Contact")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Điều khoản bảo mật
+                {t("Footer.PrivacyPolicy")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Điều khoản sử dụng
+                {t("Footer.TermsOfUse")}
               </p>
               <p className="cursor-pointer text-sm text-muted-foreground hover:underline">
-                Điều khoản và Điều Kiện Giao Dịch
+                {t("Footer.TermsAndConditionsOfTrading")}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 text-center">
-          @ 2024 - Bản quyền của ChicChoice💘.
-        </div>
+        <div className="mt-6 text-center">@ 2024 - {t("Footer.Copyright")}</div>
       </div>
     </footer>
   )

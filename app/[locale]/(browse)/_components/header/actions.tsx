@@ -1,33 +1,46 @@
 import React from "react"
 import Link from "next/link"
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs"
+import { getTranslations } from "@/queries/i18n/get-translations"
+import {
+  ClerkLoaded,
+  ClerkLoading,
+  SignedIn,
+  SignedOut,
+  SignInButton,
+} from "@clerk/nextjs"
 
 import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
 import { UserButton } from "@/components/ui/user-button"
 
-function Actions() {
+async function Actions() {
+  const t = await getTranslations("Layout")
   return (
     <div className="flex items-center">
       <Button variant="link">
-        <Link href="/tests">Đề thi online</Link>
+        <Link href="/tests">{t("Header.OnlineTests")}</Link>
       </Button>
       <Button variant="link">
-        <Link href="/flashcards">Flashcards</Link>
+        <Link href="/flashcards">{t("Header.Flashcards")}</Link>
       </Button>
       <Button variant="link">
-        <Link href="/active">Kích hoạt tài khoản</Link>
+        <Link href="/active">{t("Header.ActivePremium")}</Link>
       </Button>
-      <SignedOut>
-        <SignInButton>
-          <Button asChild>
-            <Link href="/sign-in">Đăng nhập</Link>
-          </Button>
-        </SignInButton>
-      </SignedOut>
-      <SignedIn>
-        <UserButton />
-        {/* <SignOutButton>Sign Out</SignOutButton> */}
-      </SignedIn>
+      <ClerkLoading>
+        <Icons.Loader className="size-6" />
+      </ClerkLoading>
+      <ClerkLoaded>
+        <SignedOut>
+          <SignInButton>
+            <Button asChild size="sm">
+              <Link href="/sign-in">{t("Header.Login")}</Link>
+            </Button>
+          </SignInButton>
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </ClerkLoaded>
 
       {/* <ThemeToggle /> */}
     </div>

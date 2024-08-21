@@ -1,5 +1,45 @@
 {
   "HomePage": {
-    "title": "Xin chào thế giới!"
+    "Greeting": "Chào mừng {username} trở lại!",
+    "NewestTestTitle": "Đề thi mới nhất"
+  },
+  "Cards": {
+    "Test": {
+      "TotalMinutes": "{totalMinutes} phút",
+      "TotalSections": "{totalSections} phần thi",
+      "TotalQuestions": "{totalQuestions} câu hỏi",
+      "Detail": "Chi tiết"
+    }
+  },
+  "Layout": {
+    "Footer": {
+      "Curriculums": "Chương trình học",
+      "Resources": "Tài nguyên",
+      "ExamLibraries": "Thư viện đề thi",
+      "Blog": "Blog",
+      "DocumentRepositories": "Kho tài liệu",
+      "StudyGroups": "Nhóm học tập",
+      "Support": "Hỗ trợ",
+      "UsingGuide": "Hướng dẫn sử dụng",
+      "BuyingGuide": "Hướng dẫn mua hàng",
+      "CustomerCare": "Chăm sóc khách hàng",
+      "ComplaintResponse": "Phản hồi khiếu nại",
+      "AboutUs": "Về chúng tôi",
+      "Contact": "Liên hệ",
+      "PrivacyPolicy": "Điều khoản bảo mật",
+      "TermsOfUse": "Điều khoản sử dụng",
+      "TermsAndConditionsOfTrading": "Điều khoản và Điều Kiện Giao Dịch",
+      "Copyright": "Bản quyền của ChicChoice💘."
+    },
+    "Header": {
+      "OnlineTests": "Đề thi online",
+      "Flashcards": "Thẻ ghi nhớ",
+      "ActivePremium": "Kích hoạt tài khoản",
+      "Login": "Đăng nhập"
+    }
+  },
+  "UserButton": {
+    "ManageAccount": "Cài đặt tài khoản",
+    "SignOut": "Đăng xuất"
   }
 }

@@ -1,5 +1,6 @@
 import React from "react"
 import Link from "next/link"
+import { getTranslations } from "@/queries/i18n/get-translations"
 
 import { cn } from "@/lib/utils"
 
@@ -13,6 +14,7 @@ import {
   CardTitle,
 } from "../ui/card"
 import { Icons } from "../ui/icons"
+import { Skeleton } from "../ui/skeleton"
 
 type Props = {
   testId: string | number //TODO:way for BE
@@ -26,7 +28,7 @@ type Props = {
   className?: string
 }
 
-function TestCard({
+async function TestCard({
   title,
   duration,
   testId,
@@ -39,7 +41,7 @@ function TestCard({
 }: Props) {
   console.log({ testId })
 
-  //TODO: add link navigate id
+  const t = await getTranslations("Cards.Test")
 
   return (
     <Link href="#" className={cn(className)}>
@@ -51,7 +53,7 @@ function TestCard({
           <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
             <div className="flex items-center gap-x-1">
               <Icons.Time className="size-[14px]" />
-              <div>{duration} phút |</div>
+              <div>{t("TotalMinutes", { totalMinutes: duration })} |</div>
             </div>
 
             <div className="flex items-center gap-x-1">
@@ -67,11 +69,15 @@ function TestCard({
 
           <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
             <div className="flex items-center gap-x-1">
-              <div>{totalSections} phần thi |</div>
+              <div>
+                {t("TotalSections", { totalSections: totalSections })} |
+              </div>
             </div>
 
             <div className="flex items-center gap-x-1">
-              <div>{totalQuestions} câu hỏi</div>
+              <div>
+                {t("TotalQuestions", { totalQuestions: totalQuestions })}
+              </div>
             </div>
           </div>
 
@@ -83,7 +89,7 @@ function TestCard({
         </CardContent>
         <CardFooter>
           <Button size="sm" className="w-full">
-            Chi tiết
+            {t("Detail")}
           </Button>
         </CardFooter>
       </Card>
@@ -92,3 +98,15 @@ function TestCard({
 }
 
 export default TestCard
+
+type TestCardSkeletonProps = {
+  className?: string
+}
+
+export function TestCardSkeleton({ className }: TestCardSkeletonProps) {
+  return (
+    <Skeleton
+      className={cn("max-h-[325px] min-h-[240px] rounded-lg", className)}
+    />
+  )
+}

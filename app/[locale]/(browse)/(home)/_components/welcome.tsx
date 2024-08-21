@@ -1,66 +1,31 @@
 import React from "react"
-import Image from "next/image"
-import banner1 from "@/assets/images/banner1.jpg"
-import banner2 from "@/assets/images/banner2.jpg"
-import banner3 from "@/assets/images/banner3.jpg"
+import { getTranslations } from "@/queries/i18n/get-translations"
 import { currentUser } from "@clerk/nextjs/server"
 
 import { getUsernameFromEmail } from "@/lib/utils"
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel"
+import { Skeleton } from "@/components/ui/skeleton"
 
 async function Welcome() {
   const user = await currentUser()
+  const t = await getTranslations("HomePage")
 
   return (
-    <section className="my-6 flex flex-col gap-y-6">
+    <>
       {user && (
         <h2 className="text-lg font-bold md:text-2xl">
-          Chào mừng{" "}
-          {getUsernameFromEmail(user?.primaryEmailAddress?.emailAddress!)} trở
-          lại!
+          {t("Greeting", {
+            username: getUsernameFromEmail(
+              user?.primaryEmailAddress?.emailAddress!
+            ),
+          })}
         </h2>
       )}
-      {/* TODO: Call banners from db */}
-      <div className="max-sm:mx-6">
-        <Carousel className="w-full">
-          <CarouselContent>
-            <CarouselItem>
-              <Image
-                src={banner1}
-                alt="banner1"
-                sizes="100%"
-                className="aspect-[3/1] w-full rounded-lg object-cover"
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <Image
-                src={banner2}
-                alt="banner2"
-                sizes="100%"
-                className="aspect-[3/1] w-full rounded-lg object-cover"
-              />
-            </CarouselItem>
-            <CarouselItem>
-              <Image
-                src={banner3}
-                alt="banner3"
-                sizes="100%"
-                className="aspect-[3/1] w-full rounded-lg object-cover"
-              />
-            </CarouselItem>
-          </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
-        </Carousel>
-      </div>
-    </section>
+    </>
   )
 }
 
 export default Welcome
+
+export function WelcomeSkeleton() {
+  return <Skeleton className="h-8 w-[500px] max-w-full" />
+}

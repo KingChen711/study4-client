@@ -1,5 +1,45 @@
 {
   "HomePage": {
-    "title": "Hello world!"
+    "Greeting": "Welcome {username} back!",
+    "NewestTestTitle": "Newest tests"
+  },
+  "Cards": {
+    "Test": {
+      "TotalMinutes": "{totalMinutes} minutes",
+      "TotalSections": "{totalSections} sections",
+      "TotalQuestions": "{totalQuestions} questions",
+      "Detail": "Detail"
+    }
+  },
+  "Layout": {
+    "Footer": {
+      "Curriculums": "Curriculums",
+      "Resources": "Resources",
+      "ExamLibraries": "Exam libraries",
+      "Blog": "Blog",
+      "DocumentRepositories": "Document repositories",
+      "StudyGroups": "Study groups",
+      "Support": "Support",
+      "UsingGuide": "Using guide",
+      "BuyingGuide": "Buying guide",
+      "CustomerCare": "Customer care",
+      "ComplaintResponse": "Complaint response",
+      "AboutUs": "About us",
+      "Contact": "Contact",
+      "PrivacyPolicy": "Privacy policy",
+      "TermsOfUse": "Terms of use",
+      "TermsAndConditionsOfTrading": "Terms and Conditions of Trading",
+      "Copyright": "Copyright by ChicChoice💘."
+    },
+    "Header": {
+      "OnlineTests": "Online tests",
+      "Flashcards": "Flashcards",
+      "ActivePremium": "Active premium",
+      "Login": "Login"
+    }
+  },
+  "UserButton": {
+    "ManageAccount": "Manage account",
+    "SignOut": "Sign out"
   }
 }

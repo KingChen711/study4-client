@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { useClerk, useUser } from "@clerk/nextjs"
+import { useTranslations } from "next-intl"
 
 import { getUsernameFromEmail } from "@/lib/utils"
 
@@ -19,6 +20,7 @@ import { Skeleton } from "./skeleton"
 
 export const UserButton = () => {
   const router = useRouter()
+  const t = useTranslations("UserButton")
 
   const { isLoaded, user } = useUser()
   const { signOut, openUserProfile } = useClerk()
@@ -78,7 +80,7 @@ export const UserButton = () => {
               <div className="flex items-center justify-center px-4">
                 <Icons.Setting className="size-3" />
               </div>
-              Cài đặt tài khoản
+              {t("ManageAccount")}
             </button>
           </DropdownMenuItem>
 
@@ -90,7 +92,7 @@ export const UserButton = () => {
               <div className="flex items-center justify-center px-4">
                 <Icons.SignOut className="size-3" />
               </div>
-              Đăng xuất
+              {t("SignOut")}
             </button>
           </DropdownMenuItem>
         </DropdownMenuContent>

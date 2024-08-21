@@ -1,10 +1,20 @@
-import NewestTests from "./_components/newest-tests"
-import Welcome from "./_components/welcome"
+import { Suspense } from "react"
 
-export default async function Home() {
+import Hero, { HeroSkeleton } from "./_components/hero"
+import NewestTests from "./_components/newest-tests"
+import Welcome, { WelcomeSkeleton } from "./_components/welcome"
+
+export default function Home() {
   return (
     <main>
-      <Welcome />
+      <section className="my-6 flex flex-col gap-y-6">
+        <Suspense fallback={<WelcomeSkeleton />}>
+          <Welcome />
+        </Suspense>
+        <Suspense fallback={<HeroSkeleton />}>
+          <Hero />
+        </Suspense>
+      </section>
       <NewestTests />
     </main>
   )
