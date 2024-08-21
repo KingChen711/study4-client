@@ -5,14 +5,7 @@ import { getTranslations } from "@/queries/i18n/get-translations"
 import { cn } from "@/lib/utils"
 
 import TagBadges from "../badges/tag-badge"
-import { Button } from "../ui/button"
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card"
 import { Icons } from "../ui/icons"
 import { Skeleton } from "../ui/skeleton"
 
