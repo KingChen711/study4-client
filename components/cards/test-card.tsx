@@ -45,7 +45,7 @@ async function TestCard({
 
   return (
     <Link href="#" className={cn(className)}>
-      <Card className="transition-all hover:-translate-y-1 hover:shadow-xl">
+      <Card className="transition-all hover:-translate-y-1 hover:shadow-primary">
         <CardHeader>
           <CardTitle className="text-lg">{title}</CardTitle>
         </CardHeader>
@@ -87,11 +87,11 @@ async function TestCard({
             ))}
           </div>
         </CardContent>
-        <CardFooter>
-          <Button size="sm" className="w-full">
+        {/* <CardFooter>
+          <Button size="sm" className="w-full" variant="outline">
             {t("Detail")}
           </Button>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     </Link>
   )
