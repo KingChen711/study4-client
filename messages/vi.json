@@ -49,5 +49,8 @@
     "Light": "Sáng",
     "Dark": "Tối",
     "System": "Thiệt bị"
+  },
+  "TestsPage": {
+    "Title": "Thư viện đề thi"
   }
 }

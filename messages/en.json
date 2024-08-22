@@ -49,5 +49,8 @@
     "Light": "Light",
     "Dark": "Light",
     "System": "System"
+  },
+  "TestsPage": {
+    "Title": "Test bank"
   }
 }
