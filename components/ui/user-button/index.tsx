@@ -19,9 +19,7 @@ import TriggerAvatar from "./trigger-avatar"
 
 export const UserButton = () => {
   const t = useTranslations("UserButton")
-
   const dropdownRef = useRef<HTMLDivElement>(null)
-
   const { isLoaded, user } = useUser()
 
   const [open, setOpen] = useState(false)
@@ -43,7 +41,7 @@ export const UserButton = () => {
 
   if (!user?.id) return null
 
-  const handleClickOutside = (event: MouseEvent): void => {
+  function handleClickOutside(event: MouseEvent): void {
     if (
       dropdownRef.current &&
       !dropdownRef.current.contains(event.target as Node)

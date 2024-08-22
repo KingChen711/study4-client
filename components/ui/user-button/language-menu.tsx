@@ -1,4 +1,7 @@
-import { ArrowLeft } from "lucide-react"
+import { useTransition } from "react"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { ArrowLeft, Check } from "lucide-react"
+import { useLocale } from "next-intl"
 
 import { cn } from "@/lib/utils"
 
@@ -20,6 +23,25 @@ export function LanguageMenu({
   openMenuLanguage,
   t,
 }: Props) {
+  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const currentLocale = useLocale()
+  const [pending, startTransition] = useTransition()
+
+  const switchLanguage = (locale: string) => {
+    startTransition(() => {
+      const params = new URLSearchParams(searchParams.toString())
+      const newPath = `/${locale}${pathname.replace(`/${currentLocale}`, "")}`
+      router.push(`${newPath}?${params.toString()}`)
+    })
+  }
+
+  const backToMainMenu = () => {
+    setOpenMenuLanguage(false)
+    setOpen(true)
+  }
+
   return (
     <Card
       style={{
@@ -35,10 +57,7 @@ export function LanguageMenu({
           size="icon"
           className="rounded-full"
           variant="ghost"
-          onClick={() => {
-            setOpenMenuLanguage(false)
-            setOpen(true)
-          }}
+          onClick={backToMainMenu}
         >
           <ArrowLeft />
         </Button>
@@ -48,11 +67,43 @@ export function LanguageMenu({
       <Separator />
 
       <div className="flex flex-col">
-        <div className="flex items-center gap-x-2 px-8 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted">
+        <div
+          onClick={() => switchLanguage("vi")}
+          className="flex items-center gap-x-2 px-5 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
+        >
+          <Check
+            className={cn(
+              currentLocale !== "vi" && "hidden",
+              currentLocale === "vi" && pending && "invisible block"
+            )}
+          />
+          <Icons.Loader
+            className={cn(
+              "size-6",
+              currentLocale !== "vi" ? "invisible" : "hidden",
+              currentLocale !== "vi" && pending && "visible block"
+            )}
+          />
           {t("Vietnamese")}
           <Icons.VietNam className="size-5" />
         </div>
-        <div className="flex items-center gap-x-2 px-8 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted">
+        <div
+          onClick={() => switchLanguage("en")}
+          className="flex items-center gap-x-2 px-5 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
+        >
+          <Check
+            className={cn(
+              currentLocale !== "en" && "hidden",
+              currentLocale === "en" && pending && "invisible block"
+            )}
+          />
+          <Icons.Loader
+            className={cn(
+              "size-6",
+              currentLocale !== "en" ? "invisible" : "hidden",
+              currentLocale !== "en" && pending && "visible block"
+            )}
+          />
           {t("English")}
           <Icons.UnitedStates className="size-5" />
         </div>
