@@ -40,6 +40,14 @@
   },
   "UserButton": {
     "ManageAccount": "Cài đặt tài khoản",
-    "SignOut": "Đăng xuất"
+    "SignOut": "Đăng xuất",
+    "Language": "Ngôn ngữ",
+    "English": "Tiếng Anh",
+    "Vietnamese": "Tiếng Việt",
+    "SelectLanguage": "Chọn ngôn ngữ của bạn",
+    "Theme": "Giao diện",
+    "Light": "Sáng",
+    "Dark": "Tối",
+    "System": "Thiệt bị"
   }
 }

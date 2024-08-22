@@ -42,7 +42,7 @@ async function Actions() {
         </Link>
       </Button>
       <ClerkLoading>
-        <Icons.Loader className="size-6" />
+        <Icons.Loader className="size-[30px]" />
       </ClerkLoading>
       <ClerkLoaded>
         <SignedOut>

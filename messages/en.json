@@ -40,6 +40,14 @@
   },
   "UserButton": {
     "ManageAccount": "Manage account",
-    "SignOut": "Sign out"
+    "SignOut": "Sign out",
+    "Language": "Language",
+    "English": "English",
+    "Vietnamese": "Vietnamese",
+    "SelectLanguage": "Select your language",
+    "Theme": "Theme",
+    "Light": "Light",
+    "Dark": "Light",
+    "System": "System"
   }
 }
