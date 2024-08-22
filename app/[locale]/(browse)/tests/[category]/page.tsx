@@ -1,6 +1,6 @@
 import React, { Suspense } from "react"
 
-import CategoryList from "./_components/category-list"
+import CategoryList, { CategoryListSkeleton } from "./_components/category-list"
 import Title, { TitleSkeleton } from "./_components/title"
 
 type Props = {
@@ -20,7 +20,11 @@ function TestsCategoryPage({ params }: Props) {
         <Title />
       </Suspense>
 
-      <CategoryList />
+      <Suspense fallback={<CategoryListSkeleton />}>
+        <CategoryList activeCategory={category} />
+      </Suspense>
+
+      <div className="size-96 bg-red-500"></div>
     </div>
   )
 }

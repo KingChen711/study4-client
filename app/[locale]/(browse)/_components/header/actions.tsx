@@ -20,7 +20,7 @@ async function Actions() {
       <Button variant="link">
         <Link
           className="text-muted-foreground hover:text-primary"
-          href="/tests"
+          href="/tests/all"
         >
           {t("Header.OnlineTests")}
         </Link>

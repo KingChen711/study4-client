@@ -51,6 +51,7 @@
     "System": "System"
   },
   "TestsPage": {
-    "Title": "Test bank"
+    "Title": "Test bank",
+    "All": "All"
   }
 }
