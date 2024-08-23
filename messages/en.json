@@ -9,6 +9,11 @@
       "TotalSections": "{totalSections} sections",
       "TotalQuestions": "{totalQuestions} questions",
       "Detail": "Detail"
+    },
+    "Goal": {
+      "LearningTarget": "Learning target",
+      "Warning": "You have not created a goal for your test preparation process.",
+      "CreateNow": "Create now"
     }
   },
   "Layout": {
@@ -52,6 +57,10 @@
   },
   "TestsPage": {
     "Title": "Test bank",
-    "All": "All"
+    "All": "All",
+    "Searchbar": {
+      "Placeholder": "Enter the keyword you want to search for: name, tag,...",
+      "Search": "Search"
+    }
   }
 }

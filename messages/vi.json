@@ -9,6 +9,11 @@
       "TotalSections": "{totalSections} phần thi",
       "TotalQuestions": "{totalQuestions} câu hỏi",
       "Detail": "Chi tiết"
+    },
+    "Goal": {
+      "LearningTarget": "Mục tiêu học tập",
+      "Warning": "Bạn chưa tạo mục tiêu cho quá trình luyện thi của mình.",
+      "CreateNow": "Tạo ngay"
     }
   },
   "Layout": {
@@ -48,10 +53,14 @@
     "Theme": "Giao diện",
     "Light": "Sáng",
     "Dark": "Tối",
-    "System": "Thiệt bị"
+    "System": "Thiết bị"
   },
   "TestsPage": {
     "Title": "Thư viện đề thi",
-    "All": "Tất cả"
+    "All": "Tất cả",
+    "Searchbar": {
+      "Placeholder": "Nhập từ khóa mà bạn muốn tìm kiếm: tên, nhãn,...",
+      "Search": "Tìm kiếm"
+    }
   }
 }
