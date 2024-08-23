@@ -7,6 +7,7 @@ import { ClerkProvider } from "@clerk/nextjs"
 import { NextIntlClientProvider } from "next-intl"
 import { getMessages } from "next-intl/server"
 
+import ScreenOverlayLoading from "@/components/ui/screen-overplay-loading"
 import { Toaster } from "@/components/ui/sonner"
 
 const inter = Inter({ subsets: ["latin"] })
@@ -41,6 +42,7 @@ export default async function RootLayout({
           <NextIntlClientProvider messages={messages}>
             {children}
             <Toaster position="top-right" />
+            <ScreenOverlayLoading />
           </NextIntlClientProvider>
         </body>
       </html>

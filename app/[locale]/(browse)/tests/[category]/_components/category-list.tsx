@@ -1,32 +1,39 @@
-import React from "react"
-import { getTranslations } from "next-intl/server"
+"use client"
+
+import React, { useState } from "react"
+import { useTranslations } from "next-intl"
 
 import { Skeleton } from "@/components/ui/skeleton"
-import CategoryBadges from "@/components/badges/category-badge"
+
+import CategoryBadges from "./category-badge"
 
 type Props = {
   activeCategory: string
 }
 
-async function CategoryList({ activeCategory }: Props) {
-  const t = await getTranslations("TestsPage")
+function CategoryList({ activeCategory }: Props) {
+  const t = useTranslations("TestsPage")
+  const [category, setCategory] = useState(activeCategory)
 
   return (
     <div className="flex flex-wrap gap-2">
       <CategoryBadges
         value="all"
         title={t("All")}
-        active={activeCategory === "all"}
+        setCategory={setCategory}
+        active={category === "all"}
       />
       <CategoryBadges
         value="ielts-academic"
         title="IELTS Academic"
-        active={activeCategory === "ielts-academic"}
+        setCategory={setCategory}
+        active={category === "ielts-academic"}
       />
       <CategoryBadges
         value="ielts-general"
         title="Ielts General"
-        active={activeCategory === "ielts-general"}
+        setCategory={setCategory}
+        active={category === "ielts-general"}
       />
     </div>
   )
