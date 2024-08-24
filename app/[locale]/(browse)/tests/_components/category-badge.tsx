@@ -1,12 +1,11 @@
 "use client"
 
 import React, { useEffect } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useOverlay } from "@/stores/use-overlay"
 
 import { cn } from "@/lib/utils"
-
-import { Badge } from "../../../../../../components/ui/badge"
+import { Badge } from "@/components/ui/badge"
 
 type Props = {
   title: string
@@ -16,7 +15,8 @@ type Props = {
 }
 
 function CategoryBadges({ title, active, value, setCategory }: Props) {
-  const { category } = useParams<{ category: string }>()
+  const searchParams = useSearchParams()
+  const category = searchParams.get("category") || "all"
   const router = useRouter()
   const { show, hide } = useOverlay()
 
@@ -29,7 +29,7 @@ function CategoryBadges({ title, active, value, setCategory }: Props) {
       onClick={() => {
         show()
         setCategory(value)
-        router.push(`/tests/${value}`)
+        router.push(`/tests?category=${value === "all" ? "" : value}`)
       }}
       variant="outline"
       className={cn(

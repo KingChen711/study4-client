@@ -13,24 +13,26 @@ type Props = {
   initTerm: string
 }
 
-function SearchBar({ initTerm }: Props) {
+function SearchBar({}: Props) {
   const t = useTranslations("TestsPage")
   const router = useRouter()
   const pathName = usePathname()
   const searchParams = useSearchParams()
   const { hide, show } = useOverlay()
 
-  const currentTerm = searchParams.get("term") || ""
-  const [searchTerm, setSearchTerm] = useState(initTerm)
+  const currentTerm = searchParams.get("term") || "" //term on url
+  const category = searchParams.get("category") || "all"
+  const [searchTerm, setSearchTerm] = useState(currentTerm) //term on search input
 
   useEffect(() => {
+    setSearchTerm(currentTerm)
     hide()
   }, [currentTerm, hide])
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     if (currentTerm !== searchTerm) {
-      router.push(`${pathName}?term=${searchTerm}`)
+      router.push(`${pathName}?category=${category}&&term=${searchTerm}`)
       show()
     }
   }
