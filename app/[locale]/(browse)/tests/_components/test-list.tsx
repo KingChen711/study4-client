@@ -16,8 +16,8 @@ async function TestList() {
           title={test.title}
           totalComments={test.totalComments}
           totalEngagements={test.totalEngagements}
-          totalQuestions={test.totalQuestions}
-          totalSections={test.totalSections}
+          totalQuestion={test.totalQuestion}
+          totalSection={test.totalSection}
           className="col-span-12 sm:col-span-6 lg:col-span-3"
         />
       ))}
@@ -30,8 +30,8 @@ async function TestList() {
           title={test.title}
           totalComments={test.totalComments}
           totalEngagements={test.totalEngagements}
-          totalQuestions={test.totalQuestions}
-          totalSections={test.totalSections}
+          totalQuestion={test.totalQuestion}
+          totalSection={test.totalSection}
           className="col-span-12 sm:col-span-6 lg:col-span-3"
         />
       ))}
@@ -44,8 +44,8 @@ async function TestList() {
           title={test.title}
           totalComments={test.totalComments}
           totalEngagements={test.totalEngagements}
-          totalQuestions={test.totalQuestions}
-          totalSections={test.totalSections}
+          totalQuestion={test.totalQuestion}
+          totalSection={test.totalSection}
           className="col-span-12 sm:col-span-6 lg:col-span-3"
         />
       ))}
@@ -58,8 +58,8 @@ async function TestList() {
           title={test.title}
           totalComments={test.totalComments}
           totalEngagements={test.totalEngagements}
-          totalQuestions={test.totalQuestions}
-          totalSections={test.totalSections}
+          totalQuestion={test.totalQuestion}
+          totalSection={test.totalSection}
           className="col-span-12 sm:col-span-6 lg:col-span-3"
         />
       ))}

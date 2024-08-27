@@ -6,8 +6,8 @@ export const tests = [
     tags: ["IELTS Academic", "Listening"],
     totalComments: 1756,
     totalEngagements: 549525,
-    totalQuestions: 40,
-    totalSections: 4,
+    totalQuestion: 40,
+    totalSection: 4,
   },
   {
     title: "IELTS Simulation Listening test 4",
@@ -16,7 +16,7 @@ export const tests = [
     tags: ["IELTS Academic", "Listening"],
     totalComments: 273,
     totalEngagements: 112218,
-    totalQuestions: 40,
-    totalSections: 4,
+    totalQuestion: 40,
+    totalSection: 4,
   },
 ]

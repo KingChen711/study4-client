@@ -6,8 +6,8 @@
   "Cards": {
     "Test": {
       "TotalMinutes": "{totalMinutes} phút",
-      "TotalSections": "{totalSections} phần thi",
-      "TotalQuestions": "{totalQuestions} câu hỏi",
+      "TotalSection": "{totalSection} phần thi",
+      "TotalQuestion": "{totalQuestion} câu hỏi",
       "Detail": "Chi tiết"
     },
     "Goal": {
@@ -64,7 +64,7 @@
     }
   },
   "TestDetailPage": {
-    "Line1": "Thời gian làm bài: {duration} phút | {totalSections} phần thi | {totalQuestions} câu hỏi | {totalComments} bình luận",
+    "Line1": "Thời gian làm bài: {duration} phút | {totalSection} phần thi | {totalQuestion} câu hỏi | {totalComments} bình luận",
     "Line2": "{totalEngagements} người đã luyện tập đề thi này",
     "Practice": "Luyện tập",
     "DoFullTest": "Làm full test",

@@ -6,8 +6,8 @@
   "Cards": {
     "Test": {
       "TotalMinutes": "{totalMinutes} minutes",
-      "TotalSections": "{totalSections} sections",
-      "TotalQuestions": "{totalQuestions} questions",
+      "TotalSection": "{totalSection} sections",
+      "TotalQuestion": "{totalQuestion} questions",
       "Detail": "Detail"
     },
     "Goal": {
@@ -64,7 +64,7 @@
     }
   },
   "TestDetailPage": {
-    "Line1": "Test duration: {duration} minutes | {totalSections} sections | {totalQuestions} questions | {totalComments} comments",
+    "Line1": "Test duration: {duration} minutes | {totalSection} sections | {totalQuestion} questions | {totalComments} comments",
     "Line2": "{totalEngagements} people have practiced this test",
     "Practice": "Practice",
     "DoFullTest": "Do full test",

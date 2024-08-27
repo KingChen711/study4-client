@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { getTranslations } from "@/queries/i18n/get-translations"
+import { type Tag } from "@/queries/tests/get-tests"
 
 import { cn } from "@/lib/utils"
 
@@ -10,26 +11,25 @@ import { Icons } from "../ui/icons"
 import { Skeleton } from "../ui/skeleton"
 
 type Props = {
-  testId: string | number //TODO:way for BE
-  title: string
+  id: number
+  testId: string
+  testTitle: string
   duration: number
-  totalEngagements: number
-  totalComments: number
-  totalSections: number
-  totalQuestions: number
-  tags: string[]
+  totalEngaged: number
+  totalSection: number
+  totalQuestion: number
+  tags: Tag[]
   className?: string
 }
 
 async function TestCard({
-  title,
   duration,
   testId,
   tags,
-  totalComments,
-  totalEngagements,
-  totalQuestions,
-  totalSections,
+  testTitle,
+  totalEngaged,
+  totalQuestion,
+  totalSection,
   className,
 }: Props) {
   const t = await getTranslations("Cards.Test")
@@ -38,7 +38,7 @@ async function TestCard({
     <Link href={`/tests/${testId}`} className={cn(className)}>
       <Card className="transition-all hover:-translate-y-1 hover:shadow-primary">
         <CardHeader>
-          <CardTitle className="text-lg">{title}</CardTitle>
+          <CardTitle className="text-lg">{testTitle}</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-2">
           <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
@@ -49,32 +49,27 @@ async function TestCard({
 
             <div className="flex items-center gap-x-1">
               <Icons.Engage className="size-[14px]" />
-              <div>{totalEngagements} |</div>
-            </div>
-
-            <div className="flex items-center gap-x-1">
-              <Icons.Comment className="size-[14px]" />
-              <div>{totalComments}</div>
+              <div>{totalEngaged}</div>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
             <div className="flex items-center gap-x-1">
-              <div>
-                {t("TotalSections", { totalSections: totalSections })} |
-              </div>
+              <div>{t("TotalSection", { totalSection })} |</div>
             </div>
 
             <div className="flex items-center gap-x-1">
-              <div>
-                {t("TotalQuestions", { totalQuestions: totalQuestions })}
-              </div>
+              <div>{t("TotalQuestion", { totalQuestion })}</div>
             </div>
           </div>
 
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <TagBadges key={tag} title={tag} />
+              <TagBadges
+                key={tag.tagId}
+                tagId={tag.tagId}
+                tagName={tag.tagName}
+              />
             ))}
           </div>
         </CardContent>

@@ -3,13 +3,15 @@ import React from "react"
 import { Badge } from "../ui/badge"
 
 type Props = {
-  title: string
+  tagId: string
+  tagName: string
 }
 
-function TagBadges({ title }: Props) {
+function TagBadges({ tagId, tagName }: Props) {
+  console.log({ tagId })
   return (
     <Badge variant="outline" className="bg-green-50 text-primary">
-      #{title}
+      #{tagName}
     </Badge>
   )
 }
