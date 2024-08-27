@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import { type TestSection } from "@/queries/test/get-test"
+import { type CheckedState } from "@radix-ui/react-checkbox"
 import { Check, ChevronsUpDown, LightbulbIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
@@ -33,11 +34,19 @@ type Props = {
 
 function PracticeTab({ sections }: Props) {
   const t = useTranslations("TestDetailPage")
+  const [selectedSectionIds, setSelectedSectionIds] = useState<number[]>([])
 
   const [limitTimeStates, setLimitTimeStates] = useState<LimitTimeState>({
     open: false,
     value: "no-limit",
   })
+
+  const handleCheckedChange = (value: CheckedState, sectionId: number) => {
+    const checked = value.valueOf() as boolean
+    setSelectedSectionIds((prev) =>
+      checked ? [...prev, sectionId] : prev.filter((i) => i !== sectionId)
+    )
+  }
 
   return (
     <div>
@@ -52,19 +61,26 @@ function PracticeTab({ sections }: Props) {
       </Alert>
 
       <form className="mt-5 flex flex-col gap-y-2">
-        <h3>Chọn phần thi bạn muốn làm:</h3>
+        <h3 className="font-bold">{t("SelectSections")}</h3>
         {sections.map((section) => (
           <div
             key={section.testSectionId}
             className="flex cursor-pointer space-x-2"
           >
-            <Checkbox id={section.testSectionId.toString()} />
+            <Checkbox
+              checked={selectedSectionIds.includes(section.testSectionId)}
+              onCheckedChange={(value) =>
+                handleCheckedChange(value, section.testSectionId)
+              }
+              id={section.testSectionId.toString()}
+            />
             <div className="grid cursor-pointer gap-1.5 leading-none">
               <label
                 htmlFor={section.testSectionId.toString()}
-                className="text-sm font-medium leading-none"
+                className="cursor-pointer select-none text-sm font-medium leading-none"
               >
-                {section.testSectionName} ({section.totalQuestion} câu hỏi)
+                {section.testSectionName} ({section.totalQuestion}{" "}
+                {t("Questions")})
               </label>
               <div className="flex items-center gap-x-2">
                 {section.testSectionPartitions
@@ -76,13 +92,13 @@ function PracticeTab({ sections }: Props) {
             </div>
           </div>
         ))}
-        <h3>Giới hạn thời gian:</h3>
+        <h3 className="font-bold">{t("LimitTime")}</h3>
         <div className="flex items-center gap-4">
           <LimitTimeSelector
             states={limitTimeStates}
             setStates={setLimitTimeStates}
           />
-          <Button>Luyện tập</Button>
+          <Button>{t("Practice")}</Button>
         </div>
       </form>
     </div>
@@ -114,6 +130,7 @@ function LimitTimeSelector({
   states: LimitTimeState
   setStates: React.Dispatch<React.SetStateAction<LimitTimeState>>
 }) {
+  const t = useTranslations("TestDetailPage")
   return (
     <Popover
       open={states.open}
@@ -128,8 +145,8 @@ function LimitTimeSelector({
         >
           {states.value
             ? states.value === "no-limit"
-              ? "no-limit"
-              : `${states.value} phút`
+              ? t("NoLimit")
+              : `${states.value} ${t("Minutes")}`
             : "Select time limit..."}
           <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
         </Button>
@@ -152,7 +169,9 @@ function LimitTimeSelector({
                       states.value === limitTime ? "opacity-100" : "opacity-0"
                     )}
                   />
-                  {limitTime === "no-limit" ? "no-limit" : `${limitTime} phút`}
+                  {limitTime === "no-limit"
+                    ? t("NoLimit")
+                    : `${limitTime} ${t("Minutes")}`}
                 </CommandItem>
               ))}
             </CommandGroup>

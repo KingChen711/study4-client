@@ -68,11 +68,7 @@ async function TestCard({
 
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
-              <TagBadges
-                key={tag.tagId}
-                tagId={tag.tagId}
-                tagName={tag.tagName}
-              />
+              <TagBadges key={tag.tagId} tagName={tag.tagName} />
             ))}
           </div>
         </CardContent>

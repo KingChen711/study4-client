@@ -23,7 +23,7 @@ async function TestInfo({ testId }: Props) {
     <div className="flex flex-col gap-y-2 rounded-lg border p-4">
       <div className="flex flex-wrap gap-2">
         {test.tags.map((tag) => (
-          <TagBadges key={tag.tagId} tagId={tag.tagId} tagName={tag.tagName} />
+          <TagBadges key={tag.tagId} tagName={tag.tagName} />
         ))}
       </div>
       <h2 className="line-clamp-2 text-3xl font-bold">{test.testTitle}</h2>

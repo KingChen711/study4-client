@@ -73,6 +73,11 @@
     "Line2": "{totalEngaged} people have practiced this test",
     "Practice": "Practice",
     "DoFullTest": "Do full test",
-    "ProTips": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test."
+    "ProTips": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test.",
+    "SelectSections": "Select sections you want to take:",
+    "LimitTime": "Limit time:",
+    "NoLimit": "no limit",
+    "Minutes": "minutes",
+    "Questions": "questions"
   }
 }
