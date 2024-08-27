@@ -69,8 +69,8 @@
     }
   },
   "TestDetailPage": {
-    "Line1": "Test duration: {duration} minutes | {totalSection} sections | {totalQuestion} questions | {totalComments} comments",
-    "Line2": "{totalEngagements} people have practiced this test",
+    "Line1": "Test duration: {duration} minutes | {totalSection} sections | {totalQuestion} questions",
+    "Line2": "{totalEngaged} people have practiced this test",
     "Practice": "Practice",
     "DoFullTest": "Do full test",
     "ProTips": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test."

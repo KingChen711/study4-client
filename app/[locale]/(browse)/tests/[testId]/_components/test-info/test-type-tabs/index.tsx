@@ -1,24 +1,26 @@
 "use client"
 
 import React, { useState } from "react"
+import { type TestSection } from "@/queries/test/get-test"
 
 import FullTestTab from "./full-test-tab"
 import PracticeTab from "./practice-tab"
 import Tabs from "./tabs"
 
 type Props = {
-  sections: string[]
+  sections: TestSection[]
 }
 
 export type TestType = "practice" | "full"
 
-function TestTypeTabs({}: Props) {
+function TestTypeTabs({ sections }: Props) {
   const [activeTab, setActiveTab] = useState<TestType>("practice")
+
   return (
     <div>
       <Tabs activeTab={activeTab} setActiveType={setActiveTab} />
 
-      {activeTab === "practice" && <PracticeTab />}
+      {activeTab === "practice" && <PracticeTab sections={sections} />}
       {activeTab === "full" && <FullTestTab />}
     </div>
   )

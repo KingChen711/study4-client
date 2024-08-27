@@ -2,7 +2,7 @@ import React from "react"
 import getTests, { type TestOrderBy } from "@/queries/test/get-tests"
 
 import Paginator from "@/components/ui/paginator"
-import TestCard from "@/components/cards/test-card"
+import TestCard, { TestCardSkeleton } from "@/components/cards/test-card"
 
 type Props = {
   term: string
@@ -17,7 +17,7 @@ async function TestList({ page, term, orderBy, category }: Props) {
     orderBy,
     term,
     page,
-    pageSize: 4,
+    pageSize: 12,
     category: category === "all" ? undefined : category,
   })
 
@@ -53,3 +53,18 @@ async function TestList({ page, term, orderBy, category }: Props) {
 }
 
 export default TestList
+
+export function TestListSkeleton() {
+  return (
+    <div className="grid grid-cols-12 gap-4">
+      {Array(12)
+        .fill(null)
+        .map((_, i) => (
+          <TestCardSkeleton
+            key={i}
+            className="col-span-12 sm:col-span-6 lg:col-span-3"
+          />
+        ))}
+    </div>
+  )
+}

@@ -3,7 +3,7 @@ import React, { Suspense } from "react"
 import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
 
 import CommentList from "./_components/comment-list"
-import TestInfo from "./_components/test-info"
+import TestInfo, { TestInfoSkeleton } from "./_components/test-info"
 
 type Props = {
   params: {
@@ -17,7 +17,9 @@ function TestDetailPage({ params }: Props) {
   return (
     <div className="grid grid-cols-12 gap-6 py-8">
       <div className="col-span-9 flex flex-col gap-y-4">
-        <TestInfo testId={testId} />
+        <Suspense fallback={<TestInfoSkeleton />}>
+          <TestInfo testId={testId} />
+        </Suspense>
         <CommentList testId={testId} />
       </div>
       <div className="col-span-3">

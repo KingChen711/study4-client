@@ -23,8 +23,8 @@ type Props = {
 }
 
 async function TestCard({
+  id,
   duration,
-  testId,
   tags,
   testTitle,
   totalEngaged,
@@ -35,7 +35,7 @@ async function TestCard({
   const t = await getTranslations("Cards.Test")
 
   return (
-    <Link href={`/tests/${testId}`} className={cn(className)}>
+    <Link href={`/tests/${id}`} className={cn(className)}>
       <Card className="transition-all hover:-translate-y-1 hover:shadow-primary">
         <CardHeader>
           <CardTitle className="text-lg">{testTitle}</CardTitle>

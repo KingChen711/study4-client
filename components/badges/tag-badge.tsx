@@ -1,9 +1,10 @@
 import React from "react"
 
 import { Badge } from "../ui/badge"
+import { Skeleton } from "../ui/skeleton"
 
 type Props = {
-  tagId: string
+  tagId?: number
   tagName: string
 }
 
@@ -17,4 +18,7 @@ function TagBadges({ tagId, tagName }: Props) {
 }
 
 export default TagBadges
-TagBadges
+
+export function TagBadgesSkeleton() {
+  return <Skeleton className="h-[22px] w-32" />
+}

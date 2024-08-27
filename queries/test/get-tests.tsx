@@ -15,7 +15,7 @@ type Params = {
   category?: string
 }
 
-type TestType = "Listening" | "Reading"
+type TestType = "Listening" | "Reading" | "Writing"
 
 type Test = {
   id: number
@@ -30,7 +30,7 @@ type Test = {
   tags: Tag[]
 }
 
-export type Tag = { tagId: string; tagName: string }
+export type Tag = { tagId: number; tagName: string }
 
 type GetTestsResult = { tests: Test[]; page: number; totalPage: number }
 

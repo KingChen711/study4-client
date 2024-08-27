@@ -7,7 +7,7 @@ import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
 import CategoryList, { CategoryListSkeleton } from "./_components/category-list"
 import SearchBar from "./_components/search-bar"
 import SortDropDown from "./_components/sort-drop-down"
-import TestList from "./_components/test-list"
+import TestList, { TestListSkeleton } from "./_components/test-list"
 import Title, { TitleSkeleton } from "./_components/title"
 
 type Props = {
@@ -58,7 +58,7 @@ function TestsPage({ searchParams }: Props) {
         </div>
       </div>
 
-      <Suspense fallback="Loading...">
+      <Suspense fallback={<TestListSkeleton />}>
         <TestList
           term={term}
           page={page}
