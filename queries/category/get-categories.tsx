@@ -4,18 +4,16 @@ import "server-only"
 
 import prep4Api from "@/lib/prep4-api"
 
-type Category = {
+export type Category = {
   testCategoryId: number
   testCategoryName: string
 }
 
 export type Tag = { tagId: string; tagName: string }
 
-type GetCategoriesResult = Category[]
-
-const getCategories = cache(async (): Promise<GetCategoriesResult> => {
+const getCategories = cache(async (): Promise<Category[]> => {
   try {
-    const { data } = await prep4Api.get<{ data: GetCategoriesResult }>(
+    const { data } = await prep4Api.get<{ data: Category[] }>(
       "/api/test-categories"
     )
 

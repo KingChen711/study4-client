@@ -1,38 +1,31 @@
-"use client"
+import React from "react"
+import getCategories from "@/queries/category/get-categories"
+import { getTranslations } from "next-intl/server"
 
-import React, { useState } from "react"
-import { useTranslations } from "next-intl"
-
-import useCategories from "@/hooks/category/use-categories"
 import { Skeleton } from "@/components/ui/skeleton"
 
-import CategoryBadges from "./category-badge"
+import CategoryBadge from "./category-badge"
 
 type Props = {
   activeCategory: string
 }
 
-function CategoryList({ activeCategory }: Props) {
-  const t = useTranslations("TestsPage")
-  const [currentCategory, setCurrentCategory] = useState(activeCategory)
-  const { data, isPending } = useCategories()
-
-  if (isPending) return <CategoryListSkeleton />
+async function CategoryList({ activeCategory }: Props) {
+  const categories = await getCategories()
+  const t = await getTranslations("TestsPage")
 
   return (
     <div className="flex flex-wrap gap-2">
-      <CategoryBadges
+      <CategoryBadge
         isAllBadge
         title={t("All")}
-        setCurrentCategory={setCurrentCategory}
-        active={currentCategory === "all"}
+        active={activeCategory === "all"}
       />
-      {data?.map((category) => (
-        <CategoryBadges
+      {categories.map((category) => (
+        <CategoryBadge
           key={category.testCategoryId}
-          active={currentCategory === category.testCategoryName}
+          active={activeCategory === category.testCategoryName}
           title={category.testCategoryName}
-          setCurrentCategory={setCurrentCategory}
         />
       ))}
     </div>

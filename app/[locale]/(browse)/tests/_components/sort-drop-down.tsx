@@ -35,11 +35,14 @@ function SortDropDown({ orderBy }: Props) {
     hide()
   }, [hide, orderBy])
 
-  function handleSelectSort(orderBy: TestOrderBy) {
+  function handleSelectSort(newOrderBy: TestOrderBy) {
+    if (orderBy === newOrderBy) return
     const term = searchParams.get("term") || ""
     const category = searchParams.get("category") || "all"
     show()
-    router.push(`/tests?term=${term}&category=${category}&orderBy=${orderBy}`)
+    router.push(
+      `/tests?term=${term}&category=${category}&orderBy=${newOrderBy}`
+    )
   }
 
   return (
