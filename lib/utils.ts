@@ -2,6 +2,7 @@ import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import axios, { type AxiosError } from "axios"
 import { clsx, type ClassValue } from "clsx"
 import { StatusCodes } from "http-status-codes"
+import queryString from "query-string"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
@@ -75,4 +76,28 @@ export function getUsernameFromEmail(email: string) {
   const [namePart] = email.split("@")
   const name = namePart.toLocaleLowerCase()
   return name
+}
+
+type UrlQueryParams = {
+  params: string
+  key: string
+  value: string | null
+}
+
+export function formUrlQuery({ params, key, value }: UrlQueryParams) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  const query = queryString.parse(params)
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  query[key] = value
+
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+  return queryString.stringifyUrl(
+    {
+      url: window.location.pathname,
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      query,
+    },
+    { skipNull: true }
+  )
 }

@@ -15,3 +15,8 @@ export type ActionResponse<TFormSchema = undefined, TData = undefined> =
           typeError: "form"
           fieldErrors: Record<keyof TFormSchema, string>
         })
+
+export type PagingMetaData = {
+  pageNumber: number
+  totalPages: number
+}
