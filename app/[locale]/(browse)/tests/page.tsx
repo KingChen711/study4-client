@@ -1,6 +1,6 @@
 import React, { Suspense } from "react"
 
-import GoalCard from "@/components/cards/goal-card"
+import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
 
 import CategoryList, { CategoryListSkeleton } from "./_components/category-list"
 import SearchBar from "./_components/search-bar"
@@ -16,6 +16,7 @@ type Props = {
 }
 
 function TestsPage({ searchParams }: Props) {
+  //TODO:responsive
   const { term = "", category = "all", page = "1" } = searchParams
 
   console.log({ page })
@@ -35,7 +36,11 @@ function TestsPage({ searchParams }: Props) {
           <SearchBar initTerm={term} />
         </div>
 
-        <GoalCard className="h-full lg:col-span-3"></GoalCard>
+        <div className="col-span-3">
+          <Suspense fallback={<GoalCardSkeleton className="w-full" />}>
+            <GoalCard className="w-full" />
+          </Suspense>
+        </div>
       </div>
 
       <Suspense fallback="Loading...">

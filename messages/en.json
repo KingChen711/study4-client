@@ -62,5 +62,12 @@
       "Placeholder": "Enter the keyword you want to search for: name, tag,...",
       "Search": "Search"
     }
+  },
+  "TestDetailPage": {
+    "Line1": "Test duration: {duration} minutes | {totalSections} sections | {totalQuestions} questions | {totalComments} comments",
+    "Line2": "{totalEngagements} people have practiced this test",
+    "Practice": "Practice",
+    "DoFullTest": "Do full test",
+    "ProTips": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test."
   }
 }

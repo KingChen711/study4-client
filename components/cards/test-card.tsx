@@ -32,12 +32,10 @@ async function TestCard({
   totalSections,
   className,
 }: Props) {
-  console.log({ testId })
-
   const t = await getTranslations("Cards.Test")
 
   return (
-    <Link href="#" className={cn(className)}>
+    <Link href={`/tests/${testId}`} className={cn(className)}>
       <Card className="transition-all hover:-translate-y-1 hover:shadow-primary">
         <CardHeader>
           <CardTitle className="text-lg">{title}</CardTitle>

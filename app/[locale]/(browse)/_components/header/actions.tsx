@@ -14,6 +14,7 @@ import { Icons } from "@/components/ui/icons"
 import { UserButton } from "@/components/ui/user-button"
 
 async function Actions() {
+  //TODO:responsive
   const t = await getTranslations("Layout")
   return (
     <div className="flex items-center">

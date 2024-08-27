@@ -8,6 +8,7 @@ import { Button } from "../ui/button"
 import { Card, CardContent } from "../ui/card"
 import { Icons } from "../ui/icons"
 import { Separator } from "../ui/separator"
+import { Skeleton } from "../ui/skeleton"
 
 type Props = { className?: string }
 
@@ -56,3 +57,18 @@ async function GoalCard({ className }: Props) {
 }
 
 export default GoalCard
+
+export function GoalCardSkeleton({ className }: { className?: string }) {
+  return (
+    <Card className={cn("col-span-3 pt-4", className)}>
+      <CardContent className="flex flex-col items-center">
+        <Skeleton className="h-6 w-40" />
+        <Separator className="my-2 bg-primary" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="my-1 h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="mt-3 h-9 rounded-full lg:w-full" />
+      </CardContent>
+    </Card>
+  )
+}
