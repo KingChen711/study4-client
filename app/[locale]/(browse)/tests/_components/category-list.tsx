@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { useTranslations } from "next-intl"
 
+import useCategories from "@/hooks/category/use-categories"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import CategoryBadges from "./category-badge"
@@ -13,28 +14,27 @@ type Props = {
 
 function CategoryList({ activeCategory }: Props) {
   const t = useTranslations("TestsPage")
-  const [category, setCategory] = useState(activeCategory)
+  const [currentCategory, setCurrentCategory] = useState(activeCategory)
+  const { data, isPending } = useCategories()
+
+  if (isPending) return <CategoryListSkeleton />
 
   return (
     <div className="flex flex-wrap gap-2">
       <CategoryBadges
-        value="all"
+        isAllBadge
         title={t("All")}
-        setCategory={setCategory}
-        active={category === "all"}
+        setCurrentCategory={setCurrentCategory}
+        active={currentCategory === "all"}
       />
-      <CategoryBadges
-        value="ielts-academic"
-        title="IELTS Academic"
-        setCategory={setCategory}
-        active={category === "ielts-academic"}
-      />
-      <CategoryBadges
-        value="ielts-general"
-        title="Ielts General"
-        setCategory={setCategory}
-        active={category === "ielts-general"}
-      />
+      {data?.map((category) => (
+        <CategoryBadges
+          key={category.testCategoryId}
+          active={currentCategory === category.testCategoryName}
+          title={category.testCategoryName}
+          setCurrentCategory={setCurrentCategory}
+        />
+      ))}
     </div>
   )
 }

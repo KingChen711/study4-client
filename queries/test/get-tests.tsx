@@ -57,11 +57,8 @@ const getTests = cache(async (params: Params): Promise<GetTestsResult> => {
       }
     )
 
-    console.log({ data })
-
-    return data.data
+    return data.data || { page: 0, totalPage: 0, tests: [] }
   } catch (error) {
-    console.log({ error })
     return { page: 0, totalPage: 0, tests: [] }
   }
 })

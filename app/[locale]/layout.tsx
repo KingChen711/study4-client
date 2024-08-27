@@ -10,6 +10,8 @@ import { getMessages } from "next-intl/server"
 import ScreenOverlayLoading from "@/components/ui/screen-overplay-loading"
 import { Toaster } from "@/components/ui/sonner"
 
+import { ReactQueryProvider } from "./react-query-provider"
+
 const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
@@ -39,11 +41,13 @@ export default async function RootLayout({
     >
       <html lang={locale}>
         <body className={inter.className}>
-          <NextIntlClientProvider messages={messages}>
-            {children}
-            <Toaster position="top-right" />
-            <ScreenOverlayLoading />
-          </NextIntlClientProvider>
+          <ReactQueryProvider>
+            <NextIntlClientProvider messages={messages}>
+              {children}
+              <Toaster position="top-right" />
+              <ScreenOverlayLoading />
+            </NextIntlClientProvider>
+          </ReactQueryProvider>
         </body>
       </html>
     </ClerkProvider>

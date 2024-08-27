@@ -17,9 +17,9 @@ type Props = {
 
 function TestsPage({ searchParams }: Props) {
   //TODO:responsive
-  const { term = "", category = "all", page = "1" } = searchParams
-
-  console.log({ page })
+  const term = searchParams.term || ""
+  const category = searchParams.category || "all"
+  // const page = searchParams.page || "1"
 
   return (
     <div className="flex flex-col gap-y-6 py-8">

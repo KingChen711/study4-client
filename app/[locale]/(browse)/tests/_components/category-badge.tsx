@@ -10,11 +10,16 @@ import { Badge } from "@/components/ui/badge"
 type Props = {
   title: string
   active: boolean
-  value: string
-  setCategory: (value: string) => void
+  setCurrentCategory: (value: string) => void
+  isAllBadge?: boolean
 }
 
-function CategoryBadges({ title, active, value, setCategory }: Props) {
+function CategoryBadges({
+  title,
+  active,
+  setCurrentCategory,
+  isAllBadge = false,
+}: Props) {
   const searchParams = useSearchParams()
   const category = searchParams.get("category") || "all"
   const router = useRouter()
@@ -28,8 +33,8 @@ function CategoryBadges({ title, active, value, setCategory }: Props) {
     <Badge
       onClick={() => {
         show()
-        setCategory(value)
-        router.push(`/tests?category=${value === "all" ? "" : value}`)
+        setCurrentCategory(isAllBadge ? "all" : title)
+        router.push(`/tests?category=${isAllBadge ? "all" : title}`)
       }}
       variant="outline"
       className={cn(

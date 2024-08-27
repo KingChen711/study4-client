@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { getTranslations } from "@/queries/i18n/get-translations"
-import { type Tag } from "@/queries/tests/get-tests"
+import { type Tag } from "@/queries/test/get-tests"
 
 import { cn } from "@/lib/utils"
 

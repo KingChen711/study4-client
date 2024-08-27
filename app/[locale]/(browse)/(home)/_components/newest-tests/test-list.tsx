@@ -1,5 +1,5 @@
 import React from "react"
-import getTests from "@/queries/tests/get-tests"
+import getTests from "@/queries/test/get-tests"
 
 import TestCard, { TestCardSkeleton } from "@/components/cards/test-card"
 
