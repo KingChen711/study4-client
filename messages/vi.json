@@ -61,6 +61,11 @@
     "Searchbar": {
       "Placeholder": "Nhập từ khóa mà bạn muốn tìm kiếm: tên, nhãn,...",
       "Search": "Tìm kiếm"
+    },
+    "SortBar": {
+      "Newest": "Mới nhất",
+      "Hottest": "Nhiều lượt thực hành nhất",
+      "OrderBy": "Xếp theo"
     }
   },
   "TestDetailPage": {

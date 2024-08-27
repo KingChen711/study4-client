@@ -1,9 +1,12 @@
 import React, { Suspense } from "react"
+import { type TestOrderBy } from "@/queries/test/get-tests"
+import { z } from "zod"
 
 import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
 
 import CategoryList, { CategoryListSkeleton } from "./_components/category-list"
 import SearchBar from "./_components/search-bar"
+import SortDropDown from "./_components/sort-drop-down"
 import TestList from "./_components/test-list"
 import Title, { TitleSkeleton } from "./_components/title"
 
@@ -12,14 +15,23 @@ type Props = {
     category?: string
     term?: string
     page?: string
+    orderBy?: TestOrderBy
   }
 }
 
+export const testSearchParamsSchema = z.object({
+  page: z.coerce
+    .number()
+    .catch(1)
+    .transform((value) => (value <= 0 ? 1 : value)),
+  term: z.string().catch(""),
+  orderBy: z.enum(["-totalEngaged", "-createDate"]).catch("-createDate"),
+  category: z.string().catch("all"),
+})
+
 function TestsPage({ searchParams }: Props) {
-  //TODO:responsive
-  const term = searchParams.term || ""
-  const category = searchParams.category || "all"
-  // const page = searchParams.page || "1"
+  const { category, page, orderBy, term } =
+    testSearchParamsSchema.parse(searchParams)
 
   return (
     <div className="flex flex-col gap-y-6 py-8">
@@ -33,7 +45,10 @@ function TestsPage({ searchParams }: Props) {
             <CategoryList activeCategory={category} />
           </Suspense>
 
-          <SearchBar initTerm={term} />
+          <div className="flex items-center gap-x-2">
+            <SearchBar initTerm={term} />
+            <SortDropDown orderBy={orderBy} />
+          </div>
         </div>
 
         <div className="col-span-3">
@@ -44,7 +59,12 @@ function TestsPage({ searchParams }: Props) {
       </div>
 
       <Suspense fallback="Loading...">
-        <TestList />
+        <TestList
+          term={term}
+          page={page}
+          orderBy={orderBy}
+          category={category}
+        />
       </Suspense>
     </div>
   )

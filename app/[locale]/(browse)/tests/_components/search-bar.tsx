@@ -38,7 +38,7 @@ function SearchBar({}: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex items-center gap-x-4">
+    <form onSubmit={handleSubmit} className="flex flex-1 items-center gap-x-4">
       <div className="flex flex-1 items-center rounded-lg border-2 px-2">
         <Search className="size-6" />
         <Input

@@ -1,63 +1,36 @@
 import React from "react"
+import getTests, { type TestOrderBy } from "@/queries/test/get-tests"
 
-import { tests } from "@/lib/seed"
 import TestCard from "@/components/cards/test-card"
 
-async function TestList() {
-  await new Promise((resolve) => setTimeout(resolve, 3000))
+type Props = {
+  term: string
+  page: number
+  orderBy: TestOrderBy
+  category: string
+}
+
+//TODO: no result
+async function TestList({ page, term, orderBy, category }: Props) {
+  const { tests } = await getTests({
+    orderBy,
+    term,
+    page,
+    pageSize: 12,
+    category: category === "all" ? undefined : category,
+  })
+
   return (
     <div className="grid grid-cols-12 gap-4">
       {tests.map((test) => (
         <TestCard
           key={test.id}
           duration={test.duration}
-          testId={test.id}
+          id={test.id}
+          testId={test.testId}
           tags={test.tags}
-          title={test.title}
-          totalComments={test.totalComments}
-          totalEngagements={test.totalEngagements}
-          totalQuestion={test.totalQuestion}
-          totalSection={test.totalSection}
-          className="col-span-12 sm:col-span-6 lg:col-span-3"
-        />
-      ))}
-      {tests.map((test) => (
-        <TestCard
-          key={test.id}
-          duration={test.duration}
-          testId={test.id}
-          tags={test.tags}
-          title={test.title}
-          totalComments={test.totalComments}
-          totalEngagements={test.totalEngagements}
-          totalQuestion={test.totalQuestion}
-          totalSection={test.totalSection}
-          className="col-span-12 sm:col-span-6 lg:col-span-3"
-        />
-      ))}
-      {tests.map((test) => (
-        <TestCard
-          key={test.id}
-          duration={test.duration}
-          testId={test.id}
-          tags={test.tags}
-          title={test.title}
-          totalComments={test.totalComments}
-          totalEngagements={test.totalEngagements}
-          totalQuestion={test.totalQuestion}
-          totalSection={test.totalSection}
-          className="col-span-12 sm:col-span-6 lg:col-span-3"
-        />
-      ))}
-      {tests.map((test) => (
-        <TestCard
-          key={test.id}
-          duration={test.duration}
-          testId={test.id}
-          tags={test.tags}
-          title={test.title}
-          totalComments={test.totalComments}
-          totalEngagements={test.totalEngagements}
+          testTitle={test.testTitle}
+          totalEngaged={test.totalEngaged}
           totalQuestion={test.totalQuestion}
           totalSection={test.totalSection}
           className="col-span-12 sm:col-span-6 lg:col-span-3"

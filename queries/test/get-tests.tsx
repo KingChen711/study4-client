@@ -4,12 +4,15 @@ import "server-only"
 
 import prep4Api from "@/lib/prep4-api"
 
+export type TestOrderBy = "-createDate" | "-totalEngaged"
+
 type Params = {
-  pageSize?: number
-  page?: number
-  term?: string
-  orderBy?: "-createDate" | "-totalEngaged"
+  pageSize: number
+  page: number
+  term: string
+  orderBy: TestOrderBy
   userId?: string
+  category?: string
 }
 
 type TestType = "Listening" | "Reading"
@@ -33,27 +36,11 @@ type GetTestsResult = { tests: Test[]; page: number; totalPage: number }
 
 //TODO:pass user id after have who am i
 const getTests = cache(async (params: Params): Promise<GetTestsResult> => {
-  console.log("call get tests")
-
-  const {
-    orderBy = "-createDate",
-    page = 1,
-    pageSize = 12,
-    term = "",
-    userId,
-  } = params
-
   try {
     const { data } = await prep4Api.get<{ data: GetTestsResult }>(
       "/api/tests",
       {
-        params: {
-          orderBy,
-          page,
-          pageSize,
-          term,
-          userId,
-        },
+        params,
       }
     )
 

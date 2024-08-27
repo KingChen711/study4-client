@@ -4,7 +4,12 @@ import getTests from "@/queries/test/get-tests"
 import TestCard, { TestCardSkeleton } from "@/components/cards/test-card"
 
 async function TestList() {
-  const { tests } = await getTests({ orderBy: "-createDate", pageSize: 8 })
+  const { tests } = await getTests({
+    orderBy: "-createDate",
+    pageSize: 8,
+    page: 1,
+    term: "",
+  })
 
   return (
     <div className="grid grid-cols-12 gap-4">

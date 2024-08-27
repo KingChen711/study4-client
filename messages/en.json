@@ -61,6 +61,11 @@
     "Searchbar": {
       "Placeholder": "Enter the keyword you want to search for: name, tag,...",
       "Search": "Search"
+    },
+    "SortBar": {
+      "Newest": "Newest",
+      "Hottest": "Hottest",
+      "OrderBy": "Order by"
     }
   },
   "TestDetailPage": {

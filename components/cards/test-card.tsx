@@ -44,7 +44,10 @@ async function TestCard({
           <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">
             <div className="flex items-center gap-x-1">
               <Icons.Time className="size-[14px]" />
-              <div>{t("TotalMinutes", { totalMinutes: duration })} |</div>
+              <div>
+                {t("TotalMinutes", { totalMinutes: Math.round(duration / 60) })}{" "}
+                |
+              </div>
             </div>
 
             <div className="flex items-center gap-x-1">
