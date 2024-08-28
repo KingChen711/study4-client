@@ -22,7 +22,8 @@ export const practiceTest = {
       testSectionId: 1,
       testSectionName: "Recording 1",
       readingDesc: null,
-      audioResourceUrl: "http://example.com/audio1.mp3",
+      audioResourceUrl:
+        "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg",
       totalQuestion: 10,
       sectionTranscript: null,
       testSectionPartitions: [
@@ -134,7 +135,8 @@ export const practiceTest = {
       testSectionId: 2,
       testSectionName: "Recording 2",
       readingDesc: null,
-      audioResourceUrl: "http://example.com/audio2.mp3",
+      audioResourceUrl:
+        "https://actions.google.com/sounds/v1/alarms/dinner_bell_triangle.ogg",
       totalQuestion: 10,
       sectionTranscript: null,
       testSectionPartitions: [
@@ -367,7 +369,8 @@ export const practiceTest = {
       testSectionId: 3,
       testSectionName: "Recording 3",
       readingDesc: null,
-      audioResourceUrl: "http://example.com/audio3.mp3",
+      audioResourceUrl:
+        "https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg",
       totalQuestion: 10,
       sectionTranscript: null,
       testSectionPartitions: [
@@ -490,7 +493,8 @@ export const practiceTest = {
       testSectionId: 4,
       testSectionName: "Recording 4",
       readingDesc: null,
-      audioResourceUrl: "http://example.com/audio4.mp3",
+      audioResourceUrl:
+        "https://actions.google.com/sounds/v1/alarms/phone_alerts_and_rings.ogg",
       totalQuestion: 10,
       sectionTranscript: null,
       testSectionPartitions: [
@@ -610,4 +614,4 @@ export const practiceTest = {
       testId: "00000000-0000-0000-0000-000000000000",
     },
   ],
-} as const
+}

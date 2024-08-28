@@ -1,9 +1,10 @@
 import React from "react"
 import { practiceTest } from "@/constants"
 
-import { Button } from "@/components/ui/button"
-
 import EscapeDialog from "../_components/escape-dialog"
+import TestPaper from "../_components/test-paper"
+import SectionContent from "../_components/test-paper/section-content"
+import SectionTabs from "../_components/test-paper/section-tabs"
 
 type Props = {
   params: {
@@ -30,13 +31,7 @@ function PracticePage({ params, searchParams }: Props) {
         <EscapeDialog testId={test.id} />
       </div>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-10 flex flex-col gap-y-4 rounded-lg border bg-card">
-          <div className="size-96 bg-green-500"></div>
-          <div className="size-96 bg-green-500"></div>
-          <div className="size-96 bg-green-500"></div>
-          <div className="size-96 bg-green-500"></div>
-          <div className="size-96 bg-green-500"></div>
-        </div>
+        <TestPaper />
         <div className="relative col-span-2">
           <div className="sticky top-24 h-96 rounded-lg border bg-red-500"></div>
         </div>
