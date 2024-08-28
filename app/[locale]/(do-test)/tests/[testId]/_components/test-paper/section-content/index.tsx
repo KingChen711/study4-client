@@ -8,7 +8,6 @@ import Passage from "./passage"
 import Recording from "./recording"
 
 type Props = {
-  a?: string
   section: TestSection
 }
 

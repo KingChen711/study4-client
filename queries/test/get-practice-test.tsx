@@ -34,7 +34,7 @@ export type Partition = {
   questions: Question[]
 }
 
-type Question = {
+export type Question = {
   isMultipleChoice: boolean
   questionId: number
   questionNumber: number
