@@ -9,7 +9,7 @@ type Props = {
 
 function TagBadges({ tagName }: Props) {
   return (
-    <Badge variant="outline" className="bg-green-50 text-primary">
+    <Badge variant="outline" className="bg-primary/10 text-primary">
       #{tagName}
     </Badge>
   )

@@ -1,6 +1,7 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
 import { type TestSection } from "@/queries/test/get-test"
 import { type CheckedState } from "@radix-ui/react-checkbox"
 import { Check, ChevronsUpDown, LightbulbIcon } from "lucide-react"
@@ -16,6 +17,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
+import { Icons } from "@/components/ui/icons"
 import {
   Popover,
   PopoverContent,
@@ -30,12 +32,16 @@ type LimitTimeState = {
 
 type Props = {
   sections: TestSection[]
+  testId: number
 }
 
-function PracticeTab({ sections }: Props) {
+function PracticeTab({ sections, testId }: Props) {
+  const router = useRouter()
   const t = useTranslations("TestDetailPage")
-  const [selectedSectionIds, setSelectedSectionIds] = useState<number[]>([])
 
+  const [pending, startTransition] = useTransition()
+
+  const [selectedSectionIds, setSelectedSectionIds] = useState<number[]>([])
   const [limitTimeStates, setLimitTimeStates] = useState<LimitTimeState>({
     open: false,
     value: "no-limit",
@@ -46,6 +52,17 @@ function PracticeTab({ sections }: Props) {
     setSelectedSectionIds((prev) =>
       checked ? [...prev, sectionId] : prev.filter((i) => i !== sectionId)
     )
+  }
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    startTransition(() => {
+      router.push(
+        `/tests/${testId}/practice?limit=${limitTimeStates.value}` +
+          selectedSectionIds.map((id) => `&section=${id}`).join("")
+      )
+    })
   }
 
   return (
@@ -60,7 +77,7 @@ function PracticeTab({ sections }: Props) {
         </AlertDescription>
       </Alert>
 
-      <form className="mt-5 flex flex-col gap-y-2">
+      <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-y-2">
         <h3 className="font-bold">{t("SelectSections")}</h3>
         {sections.map((section) => (
           <div
@@ -98,7 +115,13 @@ function PracticeTab({ sections }: Props) {
             states={limitTimeStates}
             setStates={setLimitTimeStates}
           />
-          <Button>{t("Practice")}</Button>
+          <Button
+            disabled={selectedSectionIds.length === 0 || pending}
+            type="submit"
+          >
+            {t("Practice")}{" "}
+            {pending && <Icons.Loader className="ml-1 size-4" />}
+          </Button>
         </div>
       </form>
     </div>
@@ -138,7 +161,7 @@ function LimitTimeSelector({
     >
       <PopoverTrigger asChild>
         <Button
-          variant="outline"
+          variant="secondary"
           role="combobox"
           aria-expanded={states.open}
           className="flex-1 justify-between"

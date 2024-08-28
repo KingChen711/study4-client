@@ -32,7 +32,7 @@ function CategoryBadge({ title, active, isAllBadge = false }: Props) {
       }}
       variant="outline"
       className={cn(
-        "select-none border-b-4 bg-green-100 px-4 py-1 text-base text-primary",
+        "select-none border-b-4 bg-primary/20 px-4 py-1 text-base text-primary",
         !active &&
           "cursor-pointer select-auto border-2 border-b-4 bg-transparent font-normal text-foreground hover:bg-green-100 active:border-b-2"
       )}

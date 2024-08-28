@@ -40,7 +40,7 @@ function Paginator({ metadata }: Props) {
       pageCount={metadata.totalPages}
       breakClassName={buttonVariants({ variant: "ghost" })}
       containerClassName={cn("flex justify-center gap-2")}
-      pageLinkClassName={buttonVariants({ variant: "outline" })}
+      pageLinkClassName={buttonVariants({ variant: "nav" })}
       previousLinkClassName={buttonVariants({ variant: "link" })}
       disabledClassName={"pointer-events-none opacity-50"}
       nextLinkClassName={buttonVariants({ variant: "link" })}

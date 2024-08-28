@@ -29,9 +29,9 @@ export const Icons = {
     >
       <path
         fill="currentColor"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="M0 .75A.75.75 0 0 1 .75 0h6.5a.75.75 0 0 1 0 1.5H.75A.75.75 0 0 1 0 .75M3.25 3a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5zm2 3a.75.75 0 0 0 0 1.5h2a.75.75 0 0 0 0-1.5zm5.5-6a1 1 0 0 1 1 1v9h1.5a.75.75 0 0 1 .53 1.28l-2.5 2.5a.75.75 0 0 1-1.06 0l-2.5-2.5A.75.75 0 0 1 8.25 10h1.5V1a1 1 0 0 1 1-1"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       />
     </svg>
   ),
@@ -90,25 +90,25 @@ export const Icons = {
       {...props}
     >
       <mask id="ipSAnalysis0">
-        <g fill="none" stroke-width="4">
+        <g fill="none" strokeWidth="4">
           <path
             fill="#fff"
             stroke="#fff"
-            stroke-linejoin="round"
+            strokeLinejoin="round"
             d="M44 5H4v12h40V5Z"
           />
           <path
             stroke="#fff"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
             d="m4 41.03l12.176-12.3l6.579 6.3L30.798 27l4.48 4.368"
           />
           <path
             stroke="#fff"
-            stroke-linecap="round"
+            strokeLinecap="round"
             d="M44 16.172v26m-40-26v14M13.015 43H44"
           />
-          <path stroke="#000" stroke-linecap="round" d="M17 11h21m-28-.003h1" />
+          <path stroke="#000" strokeLinecap="round" d="M17 11h21m-28-.003h1" />
         </g>
       </mask>
       <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAnalysis0)" />
@@ -214,8 +214,8 @@ export const Icons = {
       <g
         fill="none"
         stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       >
         <circle cx="5" cy="2.75" r="2.25" />
         <path d="M3.5 12.5h-3V11A4.51 4.51 0 0 1 7 7m6.5 1.5l-4.71 4.71l-2.13.29l.3-2.13l4.7-4.71L13.5 8.5z" />
@@ -233,9 +233,9 @@ export const Icons = {
     >
       <path
         fill="currentColor"
-        fill-rule="evenodd"
+        fillRule="evenodd"
         d="m4.843 10.944l-.194 2.335a.204.204 0 0 0 .339.17l2.21-1.964l.589.013L8 11.5c1.695 0 3.087-.44 4.02-1.177c.89-.702 1.48-1.76 1.48-3.323s-.59-2.62-1.48-3.323C11.087 2.94 9.695 2.5 8 2.5c-1.695 0-3.087.44-4.02 1.177C3.09 4.38 2.5 5.437 2.5 7c0 1.648.656 2.742 1.648 3.448zm1.141 3.625l1.77-1.572C7.834 13 7.916 13 8 13c3.866 0 7-2 7-6s-3.134-6-7-6s-7 2-7 6c0 2.117.878 3.674 2.277 4.67l-.123 1.484a1.704 1.704 0 0 0 2.83 1.415"
-        clip-rule="evenodd"
+        clipRule="evenodd"
       />
     </svg>
   ),
@@ -365,10 +365,10 @@ export const Icons = {
             gradientTransform="matrix(0 -253.715 235.975 0 68 275.717)"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#FD5" />
-            <stop offset=".1" stop-color="#FD5" />
-            <stop offset=".5" stop-color="#FF543E" />
-            <stop offset="1" stop-color="#C837AB" />
+            <stop stopColor="#FD5" />
+            <stop offset=".1" stopColor="#FD5" />
+            <stop offset=".5" stopColor="#FF543E" />
+            <stop offset="1" stopColor="#C837AB" />
           </radialGradient>
           <radialGradient
             id="skillIconsInstagram1"
@@ -378,9 +378,9 @@ export const Icons = {
             gradientTransform="matrix(22.25952 111.2061 -458.39518 91.75449 -42.881 18.441)"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#3771C8" />
-            <stop offset=".128" stop-color="#3771C8" />
-            <stop offset="1" stop-color="#60F" stop-opacity="0" />
+            <stop stopColor="#3771C8" />
+            <stop offset=".128" stopColor="#3771C8" />
+            <stop offset="1" stopColor="#60F" stopOpacity="0" />
           </radialGradient>
         </defs>
       </g>

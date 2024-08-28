@@ -79,5 +79,11 @@
     "NoLimit": "không giới hạn",
     "Minutes": "phút",
     "Questions": "câu hỏi"
+  },
+  "DoTestPage": {
+    "LeaveTest": "Thoát bài kiểm tra?",
+    "LeaveTestDesc": "Tiến trình làm bài của bạn sẽ không được lưu.",
+    "Leave": "Thoát",
+    "Cancel": "Hủy"
   }
 }

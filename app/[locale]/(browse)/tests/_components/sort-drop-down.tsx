@@ -48,7 +48,7 @@ function SortDropDown({ orderBy }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="gap-x-1">
+        <Button variant="secondary" className="gap-x-1">
           <Icons.Sort className="size-4" />
           <p>{t("OrderBy")}:</p> <strong>{t(sortMap[orderBy])}</strong>
         </Button>

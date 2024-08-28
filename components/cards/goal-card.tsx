@@ -46,7 +46,7 @@ async function GoalCard({ className }: Props) {
         <Button
           variant="outline"
           size="sm"
-          className="mt-3 gap-x-1 rounded-full border-primary bg-green-50 hover:bg-primary hover:text-primary-foreground lg:w-full"
+          className="mt-3 gap-x-1 rounded-full lg:w-full"
         >
           <Icons.Analysis className="size-4" />
           Thống kê kết quả

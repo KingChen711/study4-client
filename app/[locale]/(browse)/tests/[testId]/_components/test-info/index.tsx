@@ -17,6 +17,7 @@ async function TestInfo({ testId }: Props) {
   const t = await getTranslations("TestDetailPage")
   const test = await getTest({ testId })
 
+  //TODO: not found page
   if (!test) return notFound()
 
   return (
@@ -44,7 +45,7 @@ async function TestInfo({ testId }: Props) {
         </div>
       </div>
 
-      <TestTypeTabs sections={test.testSections} />
+      <TestTypeTabs testId={test.id} sections={test.testSections} />
     </div>
   )
 }
