@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React from "react"
 import { practiceTest } from "@/constants"
 
 import SectionBadge from "./section-badge"

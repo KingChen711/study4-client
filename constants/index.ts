@@ -23,7 +23,7 @@ export const practiceTest = {
       testSectionName: "Recording 1",
       readingDesc: null,
       audioResourceUrl:
-        "https://actions.google.com/sounds/v1/alarms/bugle_tune.ogg",
+        "https://actions.google.com/sounds/v1/alarms/medium_bell_ringing_near.ogg",
       totalQuestion: 10,
       sectionTranscript: null,
       testSectionPartitions: [

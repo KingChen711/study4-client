@@ -17,7 +17,7 @@ function TestPaper() {
   }
 
   return (
-    <section className="col-span-10 flex flex-col gap-y-4 rounded-lg border bg-card p-4">
+    <section className="flex flex-1 flex-col gap-y-6 rounded-lg border bg-card p-4">
       <SectionTabs
         activeSection={activeSection}
         onClickSection={handleClickSection}

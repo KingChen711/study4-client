@@ -3,8 +3,6 @@ import { practiceTest } from "@/constants"
 
 import EscapeDialog from "../_components/escape-dialog"
 import TestPaper from "../_components/test-paper"
-import SectionContent from "../_components/test-paper/section-content"
-import SectionTabs from "../_components/test-paper/section-tabs"
 
 type Props = {
   params: {
@@ -30,9 +28,9 @@ function PracticePage({ params, searchParams }: Props) {
         <h2 className="text-xl font-bold">{test.testTitle}</h2>
         <EscapeDialog testId={test.id} />
       </div>
-      <div className="grid grid-cols-12 gap-4">
+      <div className="flex flex-1 gap-4">
         <TestPaper />
-        <div className="relative col-span-2">
+        <div className="relative w-60">
           <div className="sticky top-24 h-96 rounded-lg border bg-red-500"></div>
         </div>
       </div>
