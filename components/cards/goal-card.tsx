@@ -1,6 +1,6 @@
 import React from "react"
+import { getTranslations } from "@/queries/i18n/get-translations"
 import { currentUser } from "@clerk/nextjs/server"
-import { getTranslations } from "next-intl/server"
 
 import { cn } from "@/lib/utils"
 

@@ -1,7 +1,7 @@
 import React from "react"
 import { notFound } from "next/navigation"
+import { getTranslations } from "@/queries/i18n/get-translations"
 import getTest from "@/queries/test/get-test"
-import { getTranslations } from "next-intl/server"
 
 import { Icons } from "@/components/ui/icons"
 import { Skeleton } from "@/components/ui/skeleton"

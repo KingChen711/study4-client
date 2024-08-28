@@ -1,6 +1,6 @@
 import React from "react"
 import getCategories from "@/queries/category/get-categories"
-import { getTranslations } from "next-intl/server"
+import { getTranslations } from "@/queries/i18n/get-translations"
 
 import { Skeleton } from "@/components/ui/skeleton"
 

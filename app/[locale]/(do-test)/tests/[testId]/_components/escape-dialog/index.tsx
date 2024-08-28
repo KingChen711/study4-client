@@ -1,5 +1,5 @@
 import React from "react"
-import { getTranslations } from "next-intl/server"
+import { getTranslations } from "@/queries/i18n/get-translations"
 
 import { Button } from "@/components/ui/button"
 import {

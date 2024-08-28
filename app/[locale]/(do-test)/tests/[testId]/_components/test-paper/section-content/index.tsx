@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { type TestSection } from "@/queries/test/get-practice-test"
 
 import Partitions from "./partitions"
 import Passage from "./passage"
@@ -8,13 +9,7 @@ import Recording from "./recording"
 
 type Props = {
   a?: string
-  section: {
-    testSectionId: number
-    testSectionName: string
-    readingDesc: string | null
-    audioResourceUrl: string | null
-    totalQuestion: number
-  }
+  section: TestSection
 }
 
 function SectionContent({ section }: Props) {
@@ -24,7 +19,10 @@ function SectionContent({ section }: Props) {
 
       <div className="grid grid-cols-12 gap-4">
         <Passage readingDesc={section.readingDesc} />
-        <Partitions havePassage={!!section.readingDesc} />
+        <Partitions
+          partitions={section.testSectionPartitions}
+          havePassage={!!section.readingDesc}
+        />
       </div>
     </div>
   )

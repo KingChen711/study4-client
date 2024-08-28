@@ -1,18 +1,17 @@
 import React from "react"
-import { practiceTest } from "@/constants"
+import { type Partition } from "@/queries/test/get-practice-test"
 
-import { cn } from "@/lib/utils"
+import { cn, indexToAlphabet } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 type Props = {
   havePassage: boolean
+  partitions: Partition[]
 }
 
-function Partitions({ havePassage }: Props) {
-  const partitions = practiceTest.testSections[1].testSectionPartitions
-
+function Partitions({ havePassage, partitions }: Props) {
   return (
     <div
       className={cn(
@@ -49,7 +48,7 @@ function Partitions({ havePassage }: Props) {
                     <div className="flex flex-col gap-y-2">
                       <div>{question.questionDesc}</div>
                       <RadioGroup className="flex flex-col gap-y-2">
-                        {question.questionAnswers?.map((a) => {
+                        {question.questionAnswers?.map((a, i) => {
                           return (
                             <div
                               key={a.questionAnswerId}
@@ -60,7 +59,7 @@ function Partitions({ havePassage }: Props) {
                                 id={a.questionAnswerId.toString()}
                               />
                               <Label htmlFor={a.questionAnswerId.toString()}>
-                                {a.answerText}
+                                {indexToAlphabet(i)}. {a.answerText}
                               </Label>
                             </div>
                           )

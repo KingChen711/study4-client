@@ -19,7 +19,7 @@ type Props = {
   }
 }
 
-export const testSearchParamsSchema = z.object({
+const testSearchParamsSchema = z.object({
   page: z.coerce
     .number()
     .catch(1)

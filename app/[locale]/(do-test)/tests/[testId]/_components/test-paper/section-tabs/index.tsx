@@ -1,22 +1,20 @@
 "use client"
 
 import React from "react"
-import { practiceTest } from "@/constants"
+import { type TestSection } from "@/queries/test/get-practice-test"
 
 import SectionBadge from "./section-badge"
 
 type Props = {
-  // testSections:...
+  sections: TestSection[]
   activeSection: number
   onClickSection: (sectionId: number) => void
 }
 
-function SectionTabs({ activeSection, onClickSection }: Props) {
-  const testSections = practiceTest.testSections
-
+function SectionTabs({ activeSection, onClickSection, sections }: Props) {
   return (
     <div className="flex flex-wrap items-center gap-3">
-      {testSections.map((section) => (
+      {sections.map((section) => (
         <SectionBadge
           key={section.testSectionId}
           sectionId={section.testSectionId}

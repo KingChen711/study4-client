@@ -101,3 +101,7 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
     { skipNull: true }
   )
 }
+
+export function indexToAlphabet(num: number): string {
+  return String.fromCharCode(65 + num)
+}
