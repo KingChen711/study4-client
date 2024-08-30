@@ -7,8 +7,8 @@ import SectionBadge from "./section-badge"
 
 type Props = {
   sections: TestSection[]
-  activeSection: number
-  onClickSection: (sectionId: number) => void
+  activeSection: string
+  onClickSection: (sectionName: string) => void
 }
 
 function SectionTabs({ activeSection, onClickSection, sections }: Props) {
@@ -17,9 +17,9 @@ function SectionTabs({ activeSection, onClickSection, sections }: Props) {
       {sections.map((section) => (
         <SectionBadge
           key={section.testSectionId}
-          sectionId={section.testSectionId}
+          sectionName={section.testSectionName}
           title={section.testSectionName}
-          active={activeSection === section.testSectionId}
+          active={activeSection === section.testSectionName}
           onClickSection={onClickSection}
         />
       ))}

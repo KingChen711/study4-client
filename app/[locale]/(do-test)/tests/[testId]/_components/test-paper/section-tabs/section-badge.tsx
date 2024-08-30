@@ -6,16 +6,17 @@ import { Badge } from "@/components/ui/badge"
 type Props = {
   active: boolean
   title: string
-  sectionId: number
-  onClickSection: (sectionId: number) => void
+  sectionName: string
+  onClickSection: (sectionName: string) => void
 }
 
-function SectionBadge({ title, sectionId, active, onClickSection }: Props) {
+function SectionBadge({ title, sectionName, active, onClickSection }: Props) {
   return (
     <Badge
       variant="secondary"
       onClick={() => {
-        onClickSection(sectionId)
+        console.log({ sectionName })
+        onClickSection(sectionName)
       }}
       className={cn(
         "cursor-pointer px-4 py-1 text-base font-normal",

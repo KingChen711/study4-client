@@ -1,7 +1,7 @@
 "use client"
 
 import React from "react"
-import { useHighlightQuestion } from "@/stores/use-hightlight-question"
+import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
 
 import { Button } from "@/components/ui/button"
@@ -17,7 +17,6 @@ function AnswerProgress({ limit }: Props) {
   const handleNavigateQuestion = (answer: Answer) => {
     highlightQuestion({
       questionId: answer.questionId,
-      sectionId: answer.sectionId,
       sectionName: answer.sectionName,
     })
   }

@@ -5,7 +5,6 @@ export type Answer = {
   questionNumber: number
   sectionName: string
   selectedAnswer: string
-  sectionId: number
 }
 
 interface SubmitAnswersState {

@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { type Question } from "@/queries/test/get-practice-test"
-import { useHighlightQuestion } from "@/stores/use-hightlight-question"
+import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers } from "@/stores/use-submit-answers"
 
 import { cn, indexToAlphabet } from "@/lib/utils"

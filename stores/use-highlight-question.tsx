@@ -3,7 +3,6 @@ import { create } from "zustand"
 type HighlightInput = {
   sectionName: string
   questionId: number
-  sectionId: number
 }
 
 interface HighlightQuestionState {

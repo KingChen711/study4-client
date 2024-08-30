@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react"
 import { type PracticeTest } from "@/queries/test/get-practice-test"
-import { useHighlightQuestion } from "@/stores/use-hightlight-question"
+import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers } from "@/stores/use-submit-answers"
 
 import SectionContent from "./section-content"
@@ -17,12 +17,12 @@ function TestPaper({ test }: Props) {
   const { initAnswer } = useSubmitAnswers()
   const { highlightedQuestion } = useHighlightQuestion()
 
-  const [activeSection, setActiveSection] = useState<number>(
-    testSections[0].testSectionId
+  const [activeSection, setActiveSection] = useState<string>(
+    testSections[0].testSectionName
   )
 
-  function handleClickSection(sectionId: number) {
-    setActiveSection(sectionId)
+  function handleClickSection(sectionName: string) {
+    setActiveSection(sectionName)
   }
 
   useEffect(() => {
@@ -34,7 +34,6 @@ function TestPaper({ test }: Props) {
               questionId: q.questionId,
               questionNumber: q.questionNumber,
               sectionName: ts.testSectionName,
-              sectionId: ts.testSectionId,
               selectedAnswer: "",
             }
           })
@@ -45,7 +44,7 @@ function TestPaper({ test }: Props) {
 
   useEffect(() => {
     if (!highlightedQuestion) return
-    setActiveSection(highlightedQuestion.sectionId)
+    setActiveSection(highlightedQuestion.sectionName)
   }, [highlightedQuestion])
 
   return (
@@ -56,7 +55,7 @@ function TestPaper({ test }: Props) {
         onClickSection={handleClickSection}
       />
       <SectionContent
-        section={testSections.find((s) => s.testSectionId === activeSection)!}
+        section={testSections.find((s) => s.testSectionName === activeSection)!}
       />
     </section>
   )
