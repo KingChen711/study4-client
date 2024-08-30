@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { type Question } from "@/queries/test/get-practice-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers } from "@/stores/use-submit-answers"
@@ -20,10 +20,6 @@ function QuestionContent({ question }: Props) {
       value,
     })
   }
-
-  useEffect(() => {
-    console.log({ answers })
-  }, [answers])
 
   if (question.isMultipleChoice)
     return (

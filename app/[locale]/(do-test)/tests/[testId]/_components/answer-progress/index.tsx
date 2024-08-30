@@ -12,10 +12,9 @@ type Props = {
 
 function AnswerProgress({ limit }: Props) {
   const { getAnswersEachSection } = useSubmitAnswers()
-  const { highlightQuestion } = useHighlightQuestion()
 
   const handleNavigateQuestion = (answer: Answer) => {
-    highlightQuestion({
+    useHighlightQuestion.getState().highlightQuestion({
       questionId: answer.questionId,
       sectionName: answer.sectionName,
     })

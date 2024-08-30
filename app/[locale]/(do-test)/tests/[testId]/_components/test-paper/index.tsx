@@ -14,7 +14,6 @@ type Props = {
 
 function TestPaper({ test }: Props) {
   const testSections = test.testSections
-  const { initAnswer } = useSubmitAnswers()
   const { highlightedQuestion } = useHighlightQuestion()
 
   const [activeSection, setActiveSection] = useState<string>(
@@ -26,7 +25,7 @@ function TestPaper({ test }: Props) {
   }
 
   useEffect(() => {
-    initAnswer(
+    useSubmitAnswers.getState().initAnswer(
       testSections.flatMap((ts) =>
         ts.testSectionPartitions.flatMap((tsp) =>
           tsp.questions.map((q) => {
@@ -40,12 +39,14 @@ function TestPaper({ test }: Props) {
         )
       )
     )
-  }, [initAnswer, testSections])
+  }, [testSections])
 
   useEffect(() => {
     if (!highlightedQuestion) return
     setActiveSection(highlightedQuestion.sectionName)
   }, [highlightedQuestion])
+
+  console.log("Rerender test paper")
 
   return (
     <section className="flex flex-1 flex-col gap-y-6 rounded-lg border bg-card p-4">

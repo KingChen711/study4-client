@@ -14,10 +14,7 @@ function SectionBadge({ title, sectionName, active, onClickSection }: Props) {
   return (
     <Badge
       variant="secondary"
-      onClick={() => {
-        console.log({ sectionName })
-        onClickSection(sectionName)
-      }}
+      onClick={() => onClickSection(sectionName)}
       className={cn(
         "cursor-pointer px-4 py-1 text-base font-normal",
         active &&
