@@ -26,7 +26,7 @@ export const UserButton = () => {
   const [openMenuLanguage, setOpenMenuLanguage] = useState(false)
   const [openMenuTheme, setOpenMenuTheme] = useState(false)
 
-  //TODO
+  //TODO: can handle now
   console.log({ openMenuTheme })
 
   useEffect(() => {

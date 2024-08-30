@@ -386,4 +386,23 @@ export const Icons = {
       </g>
     </svg>
   ),
+  Hamburger: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      className={cn(className)}
+      {...props}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="1.5"
+        d="M4.5 6.5h15M4.5 12h15m-15 5.5h15"
+      ></path>
+    </svg>
+  ),
 }

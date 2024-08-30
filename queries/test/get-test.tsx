@@ -41,7 +41,7 @@ type Params = {
   testId: string
 }
 
-//TODO:pass user id after have who am i
+//TODO:do when have who am i: pass user id
 const getTest = cache(async (params: Params): Promise<TestDetail | null> => {
   try {
     const { data } = await prep4Api.get<{ data: TestDetail }>(

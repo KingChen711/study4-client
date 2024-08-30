@@ -10,11 +10,15 @@ const font = Poppins({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
 })
 
-function Logo() {
+type Props = {
+  mobile?: boolean
+}
+
+function Logo({ mobile = false }: Props) {
   return (
     <Link href="/">
       <div className="flex items-center gap-x-4 transition">
-        <div className="overflow-hidden rounded-full bg-foreground p-1 max-lg:mr-10 max-lg:shrink-0">
+        <div className="overflow-hidden rounded-full bg-foreground p-1">
           <Image
             // className="invert dark:invert-0"
             src="/logo_sm.webp"
@@ -24,7 +28,9 @@ function Logo() {
           />
         </div>
 
-        <div className={cn("hidden lg:block", font.className)}>
+        <div
+          className={cn("hidden lg:block", font.className, mobile && "block")}
+        >
           <p className="text-lg font-semibold">
             Prep4<strong className="text-primary">IELTS</strong>
           </p>

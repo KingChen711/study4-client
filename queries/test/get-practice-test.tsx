@@ -57,7 +57,7 @@ type Params = {
   testId: string
 }
 
-//TODO:pass user id after have who am i
+//TODO:do when have who am i: pass user id
 const getPracticeTest = cache(
   async ({ testId, section }: Params): Promise<PracticeTest | null> => {
     try {

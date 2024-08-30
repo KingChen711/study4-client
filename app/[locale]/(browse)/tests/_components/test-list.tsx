@@ -11,7 +11,7 @@ type Props = {
   category: string
 }
 
-//TODO: no result
+//TODO: no result -> can handle now
 async function TestList({ page, term, orderBy, category }: Props) {
   const { tests, totalPage } = await getTests({
     orderBy,

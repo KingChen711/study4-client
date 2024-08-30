@@ -1,6 +1,6 @@
 import React from "react"
 
-//TODO:
+//TODO: can handle now
 function NotFound() {
   return <div>NotFound</div>
 }

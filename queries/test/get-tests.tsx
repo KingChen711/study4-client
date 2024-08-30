@@ -34,7 +34,7 @@ export type Tag = { tagId: number; tagName: string }
 
 type GetTestsResult = { tests: Test[]; page: number; totalPage: number }
 
-//TODO:pass user id after have who am i
+//TODO:do when have who am i: pass user id
 const getTests = cache(async (params: Params): Promise<GetTestsResult> => {
   try {
     const { data } = await prep4Api.get<{ data: GetTestsResult }>(

@@ -13,14 +13,15 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { UserButton } from "@/components/ui/user-button"
 
+import MobileNavbar from "./mobile-navbar"
+
 async function Actions() {
-  //TODO:responsive
   const t = await getTranslations("Layout")
   return (
     <div className="flex items-center">
       <Button variant="link">
         <Link
-          className="text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary max-sm:hidden"
           href="/tests"
         >
           {t("Header.OnlineTests")}
@@ -28,7 +29,7 @@ async function Actions() {
       </Button>
       <Button variant="link">
         <Link
-          className="text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary max-sm:hidden"
           href="/flashcards"
         >
           {t("Header.Flashcards")}
@@ -36,7 +37,7 @@ async function Actions() {
       </Button>
       <Button variant="link">
         <Link
-          className="text-muted-foreground hover:text-primary"
+          className="text-muted-foreground hover:text-primary max-sm:hidden"
           href="/active"
         >
           {t("Header.ActivePremium")}
@@ -63,7 +64,7 @@ async function Actions() {
         </SignedIn>
       </ClerkLoaded>
 
-      {/* <ThemeToggle /> */}
+      <MobileNavbar />
     </div>
   )
 }

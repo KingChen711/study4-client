@@ -17,7 +17,7 @@ async function TestInfo({ testId }: Props) {
   const t = await getTranslations("TestDetailPage")
   const test = await getTest({ testId })
 
-  //TODO: not found page
+  //TODO: not found page -> can handle now
   if (!test) return notFound()
 
   return (
