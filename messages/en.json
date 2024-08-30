@@ -85,6 +85,9 @@
     "LeaveTest": "Leave the test?",
     "LeaveTestDesc": "Your test progress will not be saved.",
     "Leave": "Leave",
-    "Cancel": "Cancel"
+    "Cancel": "Cancel",
+    "Submit": "Submit",
+    "CompleteTime": "Complete time:",
+    "OverTimeMessage": "In practice mode, the system does not automatically submit when the time limit is over. But you can voluntarily.😏"
   }
 }

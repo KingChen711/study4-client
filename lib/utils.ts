@@ -105,3 +105,15 @@ export function formUrlQuery({ params, key, value }: UrlQueryParams) {
 export function indexToAlphabet(num: number): string {
   return String.fromCharCode(65 + num)
 }
+
+export function convertSecondToText(seconds: number): string {
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const remainingSeconds = seconds % 60
+
+  const hh = hours.toString().padStart(2, "0")
+  const mm = minutes.toString().padStart(2, "0")
+  const ss = remainingSeconds.toString().padStart(2, "0")
+
+  return `${hh}:${mm}:${ss}`
+}
