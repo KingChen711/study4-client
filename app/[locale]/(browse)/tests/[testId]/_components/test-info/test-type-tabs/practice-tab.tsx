@@ -59,8 +59,9 @@ function PracticeTab({ sections, testId }: Props) {
 
     startTransition(() => {
       router.push(
-        `/tests/${testId}/practice?limit=${limitTimeStates.value}` +
-          selectedSectionIds.map((id) => `&section=${id}`).join("")
+        `/tests/${testId}/practice?` +
+          selectedSectionIds.map((id) => `section=${id}&`).join("") +
+          `limit=${limitTimeStates.value}`
       )
     })
   }

@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { type Question } from "@/queries/test/get-practice-test"
+import { useHighlightQuestion } from "@/stores/use-hightlight-question"
+import { useSubmitAnswers } from "@/stores/use-submit-answers"
 
-import { indexToAlphabet } from "@/lib/utils"
+import { cn, indexToAlphabet } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -9,15 +11,41 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 type Props = { question: Question }
 
 function QuestionContent({ question }: Props) {
+  const { answers, patchAnswer } = useSubmitAnswers()
+  const { highlightedQuestion } = useHighlightQuestion()
+
+  const handleChangeAnswer = (value: string, questionId: number) => {
+    patchAnswer({
+      questionId,
+      value,
+    })
+  }
+
+  useEffect(() => {
+    console.log({ answers })
+  }, [answers])
+
   if (question.isMultipleChoice)
     return (
-      <div key={question.questionId} className="flex gap-x-4">
+      <div
+        key={question.questionId}
+        className={cn(
+          "flex gap-x-4 p-3",
+          highlightedQuestion?.questionId === question.questionId &&
+            "rounded-lg border-2 border-primary shadow shadow-primary"
+        )}
+      >
         <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
           {question.questionNumber}
         </div>
         <div className="flex flex-col gap-y-2">
           <div>{question.questionDesc}</div>
-          <RadioGroup className="flex flex-col gap-y-2">
+          <RadioGroup
+            onValueChange={(value) =>
+              handleChangeAnswer(value, question.questionId)
+            }
+            className="flex flex-col gap-y-2"
+          >
             {question.questionAnswers?.map((a, i) => {
               return (
                 <div
@@ -25,7 +53,11 @@ function QuestionContent({ question }: Props) {
                   className="flex items-center space-x-2"
                 >
                   <RadioGroupItem
-                    value={a.questionAnswerId.toString()}
+                    checked={
+                      answers[question.questionId]?.selectedAnswer ===
+                      indexToAlphabet(i)
+                    }
+                    value={indexToAlphabet(i)}
                     id={a.questionAnswerId.toString()}
                   />
                   <Label htmlFor={a.questionAnswerId.toString()}>
@@ -40,11 +72,24 @@ function QuestionContent({ question }: Props) {
     )
 
   return (
-    <div key={question.questionId} className="flex items-center gap-x-4">
+    <div
+      key={question.questionId}
+      className={cn(
+        "flex items-center gap-x-4 p-3",
+        highlightedQuestion?.questionId === question.questionId &&
+          "rounded-lg border-2 border-primary shadow shadow-primary"
+      )}
+    >
       <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
         {question.questionNumber}
       </div>
-      <Input className="flex-1" />
+      <Input
+        value={answers[question.questionId]?.selectedAnswer || ""}
+        onChange={(e) =>
+          handleChangeAnswer(e.target.value, question.questionId)
+        }
+        className="flex-1"
+      />
     </div>
   )
 }

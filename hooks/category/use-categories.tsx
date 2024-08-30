@@ -19,8 +19,7 @@ function useCategories() {
       prep4Api
         .get<{ data: Categories }>("/api/test-categories")
         .then((res) => res.data.data || [])
-        .catch((error: Error) => {
-          console.log({ error })
+        .catch((_: Error) => {
           return [] as Categories
         }),
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

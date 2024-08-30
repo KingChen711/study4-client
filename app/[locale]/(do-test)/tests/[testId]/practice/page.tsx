@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import getPracticeTest from "@/queries/test/get-practice-test"
 import { z } from "zod"
 
+import AnswerProgress from "../_components/answer-progress"
 import EscapeDialog from "../_components/escape-dialog"
 import TestPaper from "../_components/test-paper"
 
@@ -33,7 +34,6 @@ async function PracticePage({ params, searchParams }: Props) {
 
   const test = await getPracticeTest({ testId, section })
 
-  console.log({ limit })
   if (!test || test.testSections.length === 0) return notFound()
 
   return (
@@ -44,9 +44,7 @@ async function PracticePage({ params, searchParams }: Props) {
       </div>
       <div className="flex flex-1 gap-4">
         <TestPaper test={test} />
-        <div className="relative w-60">
-          <div className="sticky top-24 h-96 rounded-lg border bg-red-500"></div>
-        </div>
+        <AnswerProgress limit={limit} />
       </div>
     </div>
   )

@@ -31,7 +31,7 @@ function Partitions({ havePassage, partitions }: Props) {
           />
           <div
             className={cn(
-              "col-span-12 flex flex-col gap-y-4 xl:col-span-5",
+              "col-span-12 flex flex-col xl:col-span-5",
               (havePassage || partition.isVerticalLayout) && "xl:col-span-12"
             )}
           >
