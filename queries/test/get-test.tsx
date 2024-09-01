@@ -4,6 +4,8 @@ import "server-only"
 
 import prep4Api from "@/lib/prep4-api"
 
+import whoAmI from "../users/who-am-i"
+
 type TestDetail = {
   id: number
   testId: string
@@ -14,8 +16,22 @@ type TestDetail = {
   totalQuestion: number
   totalSection: number
   tags: Tag[]
-  testHistories: unknown[]
+  testHistories: TestHistory[]
   testSections: TestSection[]
+}
+
+export type TestHistory = {
+  testHistoryId: number
+  totalRightAnswer: number
+  totalWrongAnswer: number
+  totalSkipAnswer: number
+  totalQuestion: number
+  totalCompletionTime: number
+  takenDate: Date
+  accuracyRate: number
+  isFull: boolean
+  testType: "Listening"
+  bandScore: string
 }
 
 export type TestSection = {
@@ -37,17 +53,18 @@ type Tag = {
 }
 
 type Params = {
-  userId?: string
   testId: string
 }
 
 //TODO:do when have who am i: pass user id
 const getTest = cache(async (params: Params): Promise<TestDetail | null> => {
   try {
+    const currentUser = await whoAmI()
+
     const { data } = await prep4Api.get<{ data: TestDetail }>(
       `/api/tests/${params.testId}`,
       {
-        params: { userId: params.userId },
+        params: { userId: currentUser ? currentUser.userId : undefined },
       }
     )
 

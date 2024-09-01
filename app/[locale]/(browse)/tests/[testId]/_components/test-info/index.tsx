@@ -7,6 +7,7 @@ import { Icons } from "@/components/ui/icons"
 import { Skeleton } from "@/components/ui/skeleton"
 import TagBadges, { TagBadgesSkeleton } from "@/components/badges/tag-badge"
 
+import History from "./history"
 // import TagBadges from "@/components/badges/tag-badge"
 
 import TestTypeTabs from "./test-type-tabs"
@@ -44,6 +45,8 @@ async function TestInfo({ testId }: Props) {
           })}
         </div>
       </div>
+
+      <History testHistories={test.testHistories || []} />
 
       <TestTypeTabs testId={test.id} sections={test.testSections} />
     </div>

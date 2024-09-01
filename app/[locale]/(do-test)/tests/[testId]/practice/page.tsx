@@ -44,7 +44,7 @@ async function PracticePage({ params, searchParams }: Props) {
       </div>
       <div className="flex flex-1 gap-4">
         <TestPaper test={test} />
-        <AnswerProgress limit={limit} />
+        <AnswerProgress testId={test.id} limit={limit} />
       </div>
     </div>
   )

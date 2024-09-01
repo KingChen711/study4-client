@@ -1,21 +1,30 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useTransition } from "react"
+import { useRouter } from "next/navigation"
+import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
 import { useTranslations } from "next-intl"
+import { toast } from "sonner"
 
 import { cn, convertSecondToText } from "@/lib/utils"
+import { submitTest } from "@/actions/do-test/submit-test"
 import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
 
 type Props = {
   limit: string
+  testId: number
+  isFullTest?: boolean
 }
 
-function AnswerProgress({ limit }: Props) {
-  const { getAnswersEachSection } = useSubmitAnswers()
+function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
+  const { getAnswersEachSection, answers } = useSubmitAnswers()
   const [time, setTime] = useState<number>(0)
   const t = useTranslations("DoTestPage")
+  const [pending, startTransition] = useTransition()
+  const router = useRouter()
 
   const handleNavigateQuestion = (answer: Answer) => {
     useHighlightQuestion.getState().highlightQuestion({
@@ -26,6 +35,7 @@ function AnswerProgress({ limit }: Props) {
 
   useEffect(() => {
     function updateTime() {
+      if (pending) return
       setTime((prev) => prev + 1)
     }
 
@@ -34,9 +44,30 @@ function AnswerProgress({ limit }: Props) {
     return () => {
       clearInterval(timer)
     }
-  }, [limit])
+  }, [limit, pending])
 
-  console.log(time)
+  function handleSubmit() {
+    startTransition(async () => {
+      const res = await submitTest({
+        isFull: isFullTest,
+        testId,
+        totalCompletionTime: time,
+        takenDateTime: new Date(),
+        questionAnswers: Object.values(answers).map((a) => ({
+          questionId: a.questionId,
+          selectedAnswer: a.selectedAnswer,
+        })),
+      })
+
+      if (res.isSuccess) {
+        router.push(`/tests/${testId}`)
+        return
+      }
+
+      //i18n
+      toast.error(UNKNOWN_ERROR_MESSAGE)
+    })
+  }
 
   return (
     <div className="relative w-52">
@@ -59,8 +90,13 @@ function AnswerProgress({ limit }: Props) {
           </p>
         )}
 
-        <Button variant="outline" className="w-full uppercase">
-          {t("Submit")}
+        <Button
+          onClick={handleSubmit}
+          variant="outline"
+          className="w-full uppercase"
+          disabled={pending}
+        >
+          {t("Submit")} {pending && <Icons.Loader className="ml-1 size-4" />}
         </Button>
 
         <div className="mt-6 flex flex-col gap-y-4">
