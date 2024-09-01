@@ -12,6 +12,8 @@ import { Skeleton } from "../ui/skeleton"
 
 type Props = { className?: string }
 
+//TODO:
+
 async function GoalCard({ className }: Props) {
   const t = await getTranslations("Cards.Goal")
   const user = await currentUser()
@@ -49,7 +51,7 @@ async function GoalCard({ className }: Props) {
           className="mt-3 gap-x-1 rounded-full lg:w-full"
         >
           <Icons.Analysis className="size-4" />
-          Thống kê kết quả
+          {t("Analysis")}
         </Button>
       </CardContent>
     </Card>

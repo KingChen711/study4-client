@@ -14,7 +14,7 @@ import {
 type Props = { testHistories: TestHistory[] }
 
 async function History({ testHistories }: Props) {
-  console.log(testHistories[0])
+  if (testHistories.length <= 0) return null
 
   return (
     <div>

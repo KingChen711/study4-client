@@ -13,7 +13,8 @@
     "Goal": {
       "LearningTarget": "Mục tiêu học tập",
       "Warning": "Bạn chưa tạo mục tiêu cho quá trình luyện thi của mình.",
-      "CreateNow": "Tạo ngay"
+      "CreateNow": "Tạo ngay",
+      "Analysis": "Thống kê kết quả"
     }
   },
   "Layout": {
@@ -86,8 +87,8 @@
     "LeaveTestDesc": "Tiến trình làm bài của bạn sẽ không được lưu.",
     "Leave": "Thoát",
     "Cancel": "Hủy",
-    "Submit": "Submit",
-    "CompleteTime": "Complete time:",
+    "Submit": "Nộp bài",
+    "CompleteTime": "Thời gian làm bài:",
     "OverTimeMessage": "Trong chế độ luyện tập, hệ thống không tự động nộp bài khi hết thời gian giới hạn. Nhưng bạn có thể tự giác.😏"
   }
 }

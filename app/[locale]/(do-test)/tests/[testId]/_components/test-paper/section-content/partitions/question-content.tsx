@@ -71,7 +71,7 @@ function QuestionContent({ question }: Props) {
     <div
       key={question.questionId}
       className={cn(
-        "flex items-center gap-x-4 p-3",
+        "flex gap-x-4 p-3",
         highlightedQuestion?.questionId === question.questionId &&
           "rounded-lg border-2 border-primary shadow shadow-primary"
       )}
@@ -79,13 +79,19 @@ function QuestionContent({ question }: Props) {
       <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
         {question.questionNumber}
       </div>
-      <Input
-        value={answers[question.questionId]?.selectedAnswer || ""}
-        onChange={(e) =>
-          handleChangeAnswer(e.target.value, question.questionId)
-        }
-        className="flex-1"
-      />
+      <div className="flex flex-col gap-y-2">
+        {question.questionDesc && (
+          <p className="font-medium">{question.questionDesc}</p>
+        )}
+
+        <Input
+          value={answers[question.questionId]?.selectedAnswer || ""}
+          onChange={(e) =>
+            handleChangeAnswer(e.target.value, question.questionId)
+          }
+          className="w-full"
+        />
+      </div>
     </div>
   )
 }

@@ -13,7 +13,8 @@
     "Goal": {
       "LearningTarget": "Learning target",
       "Warning": "You have not created a goal for your test preparation process.",
-      "CreateNow": "Create now"
+      "CreateNow": "Create now",
+      "Analysis": "Result statistics"
     }
   },
   "Layout": {
