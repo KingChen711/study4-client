@@ -46,7 +46,7 @@ async function TestInfo({ testId }: Props) {
         </div>
       </div>
 
-      <History testHistories={test.testHistories || []} />
+      <History testId={test.id} testHistories={test.testHistories || []} />
 
       <TestTypeTabs testId={test.id} sections={test.testSections} />
     </div>

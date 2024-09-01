@@ -8,7 +8,11 @@ const intlMiddleware = createMiddleware({
   defaultLocale: AppConfig.defaultLocale,
 })
 
-const isProtectedRoute = createRouteMatcher(["(.*)/tests/(.*)/practice"])
+const isProtectedRoute = createRouteMatcher([
+  "(.*)/tests/(.*)/practice",
+  "(.*)/tests/(.*)/full-test",
+  "(.*)/tests/(.*)/results/(.*)",
+])
 
 export default clerkMiddleware((auth, req) => {
   if (isProtectedRoute(req)) auth().protect()

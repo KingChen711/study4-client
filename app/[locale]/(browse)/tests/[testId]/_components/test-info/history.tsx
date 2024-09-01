@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import { type TestHistory } from "@/queries/test/get-test"
 
 import { convertSecondToText } from "@/lib/utils"
@@ -11,9 +12,10 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-type Props = { testHistories: TestHistory[] }
+type Props = { testHistories: TestHistory[]; testId: number }
 
-async function History({ testHistories }: Props) {
+//TODO:i18n
+async function History({ testHistories, testId }: Props) {
   if (testHistories.length <= 0) return null
 
   return (
@@ -52,9 +54,12 @@ async function History({ testHistories }: Props) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="cursor-pointer text-nowrap text-right text-primary hover:underline">
+                    <Link
+                      href={`/tests/${testId}/results/${test.testHistoryId}`}
+                      className="cursor-pointer text-nowrap text-right text-primary hover:underline"
+                    >
                       Xem chi tiết
-                    </div>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))}
