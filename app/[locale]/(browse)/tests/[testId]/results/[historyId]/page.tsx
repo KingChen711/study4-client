@@ -5,6 +5,7 @@ import getHistory from "@/queries/test/get-history"
 import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
 
 import CommentList from "../../_components/comment-list"
+import AnswerDetail from "./_components/answer-detail"
 import DetailResult, { DetailResultSkeleton } from "./_components/detail-result"
 import OverallResult, {
   OverallResultSkeleton,
@@ -21,21 +22,17 @@ async function HistoryDetailPage({ historyId, testId }: Props) {
   if (!testHistroyDetail) return notFound()
 
   return (
-    <div className="grid grid-cols-12 gap-6 py-8">
-      <div className="col-span-12 flex flex-col gap-y-4 lg:col-span-9">
+    <div className="mt-8 flex flex-col gap-y-4">
+      <div className="flex flex-col gap-y-2 rounded-lg border p-4">
         <Suspense fallback={<OverallResultSkeleton />}>
           <OverallResult testHistory={testHistroyDetail.testHistory} />
         </Suspense>
         <Suspense fallback={<DetailResultSkeleton />}>
           <DetailResult sectionHistories={testHistroyDetail.sectionHistories} />
         </Suspense>
-        <CommentList testId={testId} />
+        <AnswerDetail sections={testHistroyDetail.sectionHistories} />
       </div>
-      <div className="col-span-12 lg:col-span-3">
-        <Suspense fallback={<GoalCardSkeleton className="w-full" />}>
-          <GoalCard className="w-full" />
-        </Suspense>
-      </div>
+      <CommentList testId={testId} />
     </div>
   )
 }

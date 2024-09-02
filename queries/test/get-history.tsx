@@ -653,7 +653,7 @@ export interface PartitionHistory {
 
 export interface TestGrade {
   testGradeId: number
-  gradeStatus: string
+  gradeStatus: "Skip" | "Correct" | "Wrong"
   questionNumber: number
   rightAnswer: string
   inputedAnswer: string

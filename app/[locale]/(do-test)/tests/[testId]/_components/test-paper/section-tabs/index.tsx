@@ -3,7 +3,7 @@
 import React from "react"
 import { type TestSection } from "@/queries/test/get-practice-test"
 
-import SectionBadge from "./section-badge"
+import SectionBadge from "../../../../../../../../components/badges/section-badge"
 
 type Props = {
   sections: TestSection[]

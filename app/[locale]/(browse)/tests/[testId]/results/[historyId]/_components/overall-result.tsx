@@ -11,7 +11,7 @@ type Props = {
 
 function OverallResult({ testHistory }: Props) {
   return (
-    <div className="flex flex-col gap-y-2 rounded-lg border p-4">
+    <>
       <h2 className="line-clamp-2 text-3xl font-bold">
         Kết quả thi: IELTS Simulation Listening test 1
       </h2>
@@ -65,7 +65,7 @@ function OverallResult({ testHistory }: Props) {
           <div>câu hỏi</div>
         </div>
       </div>
-    </div>
+    </>
   )
 }
 
