@@ -46,8 +46,6 @@ function TestPaper({ test }: Props) {
     setActiveSection(highlightedQuestion.sectionName)
   }, [highlightedQuestion])
 
-  console.log("Rerender test paper")
-
   return (
     <section className="flex flex-1 flex-col gap-y-6 rounded-lg border bg-card p-4">
       <SectionTabs

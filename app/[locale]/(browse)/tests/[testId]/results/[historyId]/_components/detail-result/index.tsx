@@ -3,7 +3,6 @@
 import React, { useState } from "react"
 import { type SectionHistory } from "@/queries/test/get-history"
 
-import AnswerDetail from "../answer-detail"
 import SectionTabs from "./section-tabs"
 import TableResult from "./table-result"
 

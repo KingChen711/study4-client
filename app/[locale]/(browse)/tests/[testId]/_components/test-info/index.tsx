@@ -12,9 +12,9 @@ import History from "./history"
 
 import TestTypeTabs from "./test-type-tabs"
 
-type Props = { testId: string }
+type Props = { testId: string; locale: string }
 
-async function TestInfo({ testId }: Props) {
+async function TestInfo({ testId, locale }: Props) {
   const t = await getTranslations("TestDetailPage")
   const test = await getTest({ testId })
 
@@ -46,7 +46,11 @@ async function TestInfo({ testId }: Props) {
         </div>
       </div>
 
-      <History testId={test.id} testHistories={test.testHistories || []} />
+      <History
+        testId={test.id}
+        testHistories={test.testHistories || []}
+        locale={locale}
+      />
 
       <TestTypeTabs testId={test.id} sections={test.testSections} />
     </div>

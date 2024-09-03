@@ -1,8 +1,5 @@
 import React from "react"
-import {
-  type PartitionHistory,
-  type SectionHistory,
-} from "@/queries/test/get-history"
+import { type SectionHistory } from "@/queries/test/get-history"
 
 import { cn } from "@/lib/utils"
 import {

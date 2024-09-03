@@ -32,6 +32,11 @@ export type TestHistory = {
   isFull: boolean
   testType: "Listening"
   bandScore: string
+  partitionHistories: PartitionHistory[]
+}
+
+type PartitionHistory = {
+  testSectionName: string
 }
 
 export type TestSection = {

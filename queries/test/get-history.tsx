@@ -682,16 +682,17 @@ type Params = {
 
 const getHistory = cache(
   async (params: Params): Promise<TestHistoryDetail | null> => {
-    // try {
-    //   const { data } = await prep4Api.get<{ data: TestHistoryDetail }>(
-    //     `/api/test-histories/${params.historyId}`
-    //   )
+    try {
+      const { data } = await prep4Api.get<{ data: TestHistoryDetail }>(
+        `/api/test-histories/${params.historyId}`
+      )
 
-    //   return data.data || null
-    // } catch (error) {
-    //   return null
-    // }
-    return mockData
+      return data.data || null
+    } catch (error) {
+      // console.log(error.response.data)
+      return null
+    }
+    // return mockData
   }
 )
 

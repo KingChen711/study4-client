@@ -1,6 +1,5 @@
 import React from "react"
-import Link from "next/link"
-import { SectionHistory } from "@/queries/test/get-history"
+import { type SectionHistory } from "@/queries/test/get-history"
 
 import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"

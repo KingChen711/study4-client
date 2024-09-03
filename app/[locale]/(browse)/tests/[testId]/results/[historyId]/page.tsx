@@ -2,8 +2,6 @@ import React, { Suspense } from "react"
 import { notFound } from "next/navigation"
 import getHistory from "@/queries/test/get-history"
 
-import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
-
 import CommentList from "../../_components/comment-list"
 import AnswerDetail from "./_components/answer-detail"
 import DetailResult, { DetailResultSkeleton } from "./_components/detail-result"
@@ -12,11 +10,13 @@ import OverallResult, {
 } from "./_components/overall-result"
 
 type Props = {
-  testId: string
-  historyId: string
+  params: {
+    testId: string
+    historyId: string
+  }
 }
 
-async function HistoryDetailPage({ historyId, testId }: Props) {
+async function HistoryDetailPage({ params: { historyId, testId } }: Props) {
   const testHistroyDetail = await getHistory({ historyId })
 
   if (!testHistroyDetail) return notFound()

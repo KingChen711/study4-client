@@ -1,12 +1,21 @@
 import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import axios, { type AxiosError } from "axios"
 import { clsx, type ClassValue } from "clsx"
+import { format, type Locale } from "date-fns"
 import { StatusCodes } from "http-status-codes"
 import queryString from "query-string"
 import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+export function toDate(isoString: Date, locale: Locale): string {
+  return format(isoString, "dd/MM/yyyy", { locale })
+}
+
+export function toDateTime(isoString: Date, locale: Locale): string {
+  return format(isoString, "dd/MM/yyyy HH:mm", { locale })
 }
 
 export type BaseErrorResponse = {
