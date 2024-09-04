@@ -24,7 +24,7 @@ function TestTypeTabs({ sections, testId }: Props) {
       {activeTab === "practice" && (
         <PracticeTab testId={testId} sections={sections} />
       )}
-      {activeTab === "full" && <FullTestTab />}
+      {activeTab === "full" && <FullTestTab testId={testId} />}
     </div>
   )
 }

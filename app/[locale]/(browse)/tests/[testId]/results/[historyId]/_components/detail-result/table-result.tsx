@@ -70,7 +70,7 @@ function TableResult({ section }: Props) {
                     {(partition.accuracyRate * 100).toFixed(1)}%
                   </div>
                 </TableCell>
-                <TableCell className="w-52">
+                <TableCell className="w-52 min-w-52">
                   <div className="flex flex-wrap gap-2">
                     {partition.testGrades.map((grade) => (
                       <div

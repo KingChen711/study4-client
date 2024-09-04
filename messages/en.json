@@ -74,8 +74,12 @@
     "Line1": "Test duration: {duration} minutes | {totalSection} sections | {totalQuestion} questions",
     "Line2": "{totalEngaged} people have practiced this test",
     "Practice": "Practice",
+    "StartTest": "Start taking the test",
     "DoFullTest": "Do full test",
-    "ProTips": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test.",
+    "ProTips": {
+      "Practice": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test.",
+      "FullTest": "The system will automatically submit the test when the test time is up in full test mode."
+    },
     "SelectSections": "Select sections you want to take:",
     "LimitTime": "Limit time:",
     "NoLimit": "no limit",

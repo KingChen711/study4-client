@@ -74,8 +74,12 @@
     "Line1": "Thời gian làm bài: {duration} phút | {totalSection} phần thi | {totalQuestion} câu hỏi",
     "Line2": "{totalEngaged} người đã luyện tập đề thi này",
     "Practice": "Luyện tập",
+    "StartTest": "Bắt đầu làm bài thi",
     "DoFullTest": "Làm full test",
-    "ProTips": "Hình thức luyện tập từng phần và chọn mức thời gian phù hợp sẽ giúp bạn tập trung vào giải đúng các câu hỏi thay vì phải chịu áp lực hoàn thành bài thi.",
+    "ProTips": {
+      "Practice": "Hình thức luyện tập từng phần và chọn mức thời gian phù hợp sẽ giúp bạn tập trung vào giải đúng các câu hỏi thay vì phải chịu áp lực hoàn thành bài thi.",
+      "FullTest": "Hệ thống sẽ tự động nộp bài khi hết thời gian thi trong chế độ full test."
+    },
     "SelectSections": "Chọn phần thi bạn muốn làm:",
     "LimitTime": "Giới hạn thời gian:",
     "NoLimit": "không giới hạn",

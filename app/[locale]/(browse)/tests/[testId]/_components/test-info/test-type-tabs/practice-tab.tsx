@@ -73,8 +73,8 @@ function PracticeTab({ sections, testId }: Props) {
         <AlertTitle className="font-semibold text-primary">
           Pro tips:
         </AlertTitle>
-        <AlertDescription className="text-primary">
-          {t("ProTips")}
+        <AlertDescription className="font-medium text-primary">
+          {t("ProTips.Practice")}
         </AlertDescription>
       </Alert>
 

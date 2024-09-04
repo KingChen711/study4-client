@@ -4,7 +4,6 @@ import { type TestHistory } from "@/queries/test/get-test"
 import { enUS, vi } from "date-fns/locale"
 
 import { convertSecondToText, toDateTime } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import {
   Table,
   TableBody,

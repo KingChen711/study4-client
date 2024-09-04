@@ -16,14 +16,14 @@ const AnswerDetail = ({ sections }: Props) => {
       {sections.map((section) => (
         <div key={section.sectionName}>
           <h4 className="mb-2 font-bold">{section.sectionName}</h4>
-          <div className="grid max-h-[240px] grid-flow-col grid-cols-2 grid-rows-5 gap-x-4 gap-y-2">
+          <div className="gap-x-4 gap-y-2 lg:columns-2">
             {section.partitionHistories
               .flatMap((ph) => ph.testGrades)
               .map((tg) => {
                 return (
                   <div
                     key={tg.questionId}
-                    className="flex items-center gap-x-2"
+                    className="mb-2 flex flex-wrap items-center gap-2"
                   >
                     <div className="flex size-10 items-center justify-center rounded-full bg-primary/10 font-bold text-primary">
                       {tg.questionNumber}

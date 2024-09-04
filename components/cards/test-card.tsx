@@ -36,8 +36,8 @@ async function TestCard({
 
   return (
     <Link href={`/tests/${id}`} className={cn(className)}>
-      <Card className="transition-all hover:-translate-y-1 hover:shadow-primary">
-        <CardHeader>
+      <Card className="h-full transition-all hover:-translate-y-1 hover:shadow-primary">
+        <CardHeader className="pb-2">
           <CardTitle className="text-lg">{testTitle}</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-2">

@@ -1,3 +1,5 @@
+"use client"
+
 import React from "react"
 
 import {
@@ -18,7 +20,7 @@ function AnswerDialog({ gradeId, partitionId }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <div className="cursor-pointer text-primary hover:underline">
+        <div className="cursor-pointer text-nowrap text-primary hover:underline">
           [Chi tiết]
         </div>
       </DialogTrigger>

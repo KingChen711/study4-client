@@ -33,7 +33,7 @@ async function TestInfo({ testId, locale }: Props) {
         <div className="flex items-center gap-x-1">
           <Icons.Time className="size-4" />
           {t("Line1", {
-            duration: Math.round(test.duration) / 60,
+            duration: Math.round(test.duration / 60),
             totalSection: test.totalSection,
             totalQuestion: test.totalQuestion,
           })}

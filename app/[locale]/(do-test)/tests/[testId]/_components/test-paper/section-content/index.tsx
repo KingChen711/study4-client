@@ -14,7 +14,7 @@ type Props = {
 function SectionContent({ section }: Props) {
   return (
     <div className="flex min-h-full flex-col gap-y-6">
-      <Recording srcUrl={section.audioResourceUrl} />
+      <Recording srcUrl={section.cloudResource?.url || null} />
 
       <div className="grid grid-cols-12 gap-4">
         <Passage readingDesc={section.readingDesc} />

@@ -4,7 +4,7 @@ import "server-only"
 
 import prep4Api from "@/lib/prep4-api"
 
-export type PracticeTest = {
+export type FullTest = {
   id: number
   testId: string
   testTitle: string
@@ -22,7 +22,7 @@ export type TestSection = {
   testSectionId: number
   testSectionName: string
   totalQuestion: number
-  cloudResource: { url: string | null } | null
+  audioResourceUrl: string | null
   readingDesc: string | null
   testSectionPartitions: Partition[]
 }
@@ -53,16 +53,14 @@ type Tag = {
 }
 
 type Params = {
-  section: number[]
   testId: string
 }
 
-//TODO:do when have who am i: pass user id
-const getPracticeTest = cache(
-  async ({ testId, section }: Params): Promise<PracticeTest | null> => {
+const getFullTest = cache(
+  async ({ testId }: Params): Promise<FullTest | null> => {
     try {
-      const { data } = await prep4Api.get<{ data: PracticeTest }>(
-        `/api/tests/${testId}/practice?${section.map((s) => `&section=${s}`).join("")}`
+      const { data } = await prep4Api.get<{ data: FullTest }>(
+        `/api/tests/${testId}/start`
       )
 
       return data.data || null
@@ -72,4 +70,4 @@ const getPracticeTest = cache(
   }
 )
 
-export default getPracticeTest
+export default getFullTest
