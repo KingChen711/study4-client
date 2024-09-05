@@ -68,7 +68,8 @@
       "Newest": "Newest",
       "Hottest": "Hottest",
       "OrderBy": "Order by"
-    }
+    },
+    "NotFound": "Not found"
   },
   "TestDetailPage": {
     "Line1": "Test duration: {duration} minutes | {totalSection} sections | {totalQuestion} questions",
@@ -93,7 +94,8 @@
       "CompletionTime": "Completion time",
       "Action": "Action",
       "ViewDetail": "View detail"
-    }
+    },
+    "NotFound": "Not found"
   },
   "DoTestPage": {
     "LeaveTest": "Leave the test?",
@@ -103,5 +105,24 @@
     "Submit": "Submit",
     "CompleteTime": "Complete time:",
     "OverTimeMessage": "In practice mode, the system does not automatically submit when the time limit is over. But you can voluntarily.😏"
+  },
+  "TestResultPage": {
+    "NotFound": "Not found test result",
+    "TestResult": "Test result: {testName}",
+    "Overall": "Overall:",
+    "BackToTest": "Back to test",
+    "Result": "Result:",
+    "Accurate": "Accurate:",
+    "Accurate2": "Accurate",
+    "CompletionTime": "Completion time:",
+    "RightAnswer": "Right answer",
+    "WrongAnswer": "Wrong answer",
+    "SkipAnswer": "Skip answer",
+    "Question": "question(s)",
+    "Analysis": "Detailed analysis",
+    "TypeQuestion": "Type question",
+    "Questions": "Questions",
+    "NotAnswered": "not answered",
+    "Detail": "Detail"
   }
 }

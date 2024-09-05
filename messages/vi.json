@@ -68,7 +68,8 @@
       "Newest": "Đề mới nhất",
       "Hottest": "Nhiều lượt tham gia nhất",
       "OrderBy": "Xếp theo"
-    }
+    },
+    "NotFound": "Không tìm thấy"
   },
   "TestDetailPage": {
     "Line1": "Thời gian làm bài: {duration} phút | {totalSection} phần thi | {totalQuestion} câu hỏi",
@@ -93,7 +94,8 @@
       "CompletionTime": "Thời gian làm bài",
       "Action": "Hành động",
       "ViewDetail": "Xem chi tiết"
-    }
+    },
+    "NotFound": "Không tìm thấy"
   },
   "DoTestPage": {
     "LeaveTest": "Thoát bài kiểm tra?",
@@ -103,5 +105,24 @@
     "Submit": "Nộp bài",
     "CompleteTime": "Thời gian làm bài:",
     "OverTimeMessage": "Trong chế độ luyện tập, hệ thống không tự động nộp bài khi hết thời gian giới hạn. Nhưng bạn có thể tự giác.😏"
+  },
+  "TestResultPage": {
+    "NotFound": "Không tìm thấy kết quả bài kiểm tra",
+    "TestResult": "Kết quả thi: {testName}",
+    "Overall": "Tổng quan:",
+    "BackToTest": "Quay về đề thi",
+    "Result": "Kết quả:",
+    "Accurate": "Độ chính xác:",
+    "Accurate2": "Độ chính xác",
+    "CompletionTime": "Thời gian làm bài:",
+    "RightAnswer": "Số câu đúng",
+    "WrongAnswer": "Số câu sai",
+    "SkipAnswer": "Số câu bỏ qua",
+    "Question": "câu hỏi",
+    "Analysis": "Phân tích chi tiết",
+    "TypeQuestion": "Loại câu hỏi",
+    "Questions": "Câu hỏi",
+    "NotAnswered": "chưa trả lời",
+    "Detail": "Chi tiết"
   }
 }

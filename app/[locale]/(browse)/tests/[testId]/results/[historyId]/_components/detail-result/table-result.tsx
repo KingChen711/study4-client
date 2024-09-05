@@ -1,5 +1,6 @@
 import React from "react"
 import { type SectionHistory } from "@/queries/test/get-history"
+import { useTranslations } from "next-intl"
 
 import {
   Table,
@@ -17,6 +18,8 @@ type Props = {
 }
 
 function TableResult({ section }: Props) {
+  const t = useTranslations("TestResultPage")
+
   return (
     <div className="mb-4 mt-1 grid w-full rounded-xl border bg-muted">
       <div className="overflow-x-auto">
@@ -24,22 +27,22 @@ function TableResult({ section }: Props) {
           <TableHeader>
             <TableRow>
               <TableHead className="text-nowrap text-black">
-                Phân loại câu hỏi
+                {t("TypeQuestion")}
               </TableHead>
               <TableHead className="text-nowrap text-center text-black">
-                Số câu đúng
+                {t("RightAnswer")}
               </TableHead>
               <TableHead className="text-nowrap text-center text-black">
-                Số câu sai
+                {t("RightAnswer")}
               </TableHead>
               <TableHead className="text-nowrap text-center text-black">
-                Số câu bỏ qua
+                {t("SkipAnswer")}
               </TableHead>
               <TableHead className="text-nowrap text-center text-black">
-                Độ chính xác
+                {t("Accurate2")}
               </TableHead>
               <TableHead className="text-nowrap text-black">
-                Danh sách câu hỏi
+                {t("Questions")}
               </TableHead>
             </TableRow>
           </TableHeader>

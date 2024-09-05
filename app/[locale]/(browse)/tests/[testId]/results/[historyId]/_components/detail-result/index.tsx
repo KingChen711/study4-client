@@ -2,6 +2,7 @@
 
 import React, { useState } from "react"
 import { type SectionHistory } from "@/queries/test/get-history"
+import { useTranslations } from "next-intl"
 
 import SectionTabs from "./section-tabs"
 import TableResult from "./table-result"
@@ -13,13 +14,15 @@ function DetailResult({ sectionHistories }: Props) {
     sectionHistories[0].sectionName
   )
 
+  const t = useTranslations("TestResultPage")
+
   function handleClickSection(sectionName: string) {
     setActiveSection(sectionName)
   }
 
   return (
     <div className="flex flex-col gap-y-2">
-      <h3 className="my-2 text-xl font-bold">Phân tích chi tiết:</h3>
+      <h3 className="my-2 text-xl font-bold">{t("Analysis")}</h3>
       <SectionTabs
         activeSection={activeSection}
         onClickSection={handleClickSection}

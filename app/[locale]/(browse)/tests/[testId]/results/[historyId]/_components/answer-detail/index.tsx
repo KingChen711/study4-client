@@ -1,4 +1,5 @@
 import React from "react"
+import { getTranslations } from "@/queries/i18n/get-translations"
 import { type SectionHistory } from "@/queries/test/get-history"
 
 import { cn } from "@/lib/utils"
@@ -10,7 +11,9 @@ type Props = {
   sections: SectionHistory[]
 }
 
-const AnswerDetail = ({ sections }: Props) => {
+const AnswerDetail = async ({ sections }: Props) => {
+  const t = await getTranslations("TestResultPage")
+
   return (
     <div className="flex flex-col gap-y-4">
       {sections.map((section) => (
@@ -37,7 +40,7 @@ const AnswerDetail = ({ sections }: Props) => {
                       )}
                     >
                       {tg.gradeStatus === "Skip"
-                        ? "chưa trả lời"
+                        ? t("NotAnswered")
                         : tg.inputedAnswer}
                     </div>
                     {tg.gradeStatus === "Correct" && (

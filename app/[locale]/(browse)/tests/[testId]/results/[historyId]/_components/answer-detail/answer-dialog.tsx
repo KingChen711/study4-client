@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import { useTranslations } from "next-intl"
 
 import { cn } from "@/lib/utils"
 import useAnswerTranscript from "@/hooks/use-answer-transcript"
@@ -12,6 +13,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
+import NoResult from "@/components/ui/no-result"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import TagBadges from "@/components/badges/tag-badge"
@@ -36,6 +38,8 @@ function AnswerDialog({
     partitionId,
   })
 
+  const t = useTranslations("TestResultPage")
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -54,11 +58,11 @@ function AnswerDialog({
           </div>
         ) : (
           <div className="cursor-pointer text-nowrap text-primary hover:underline">
-            [Chi tiết]
+            [{t("Detail")}]
           </div>
         )}
       </DialogTrigger>
-      <DialogContent className="max-h-[80%] w-full max-w-screen-md overflow-y-hidden">
+      <DialogContent className="w-full max-w-screen-md overflow-y-hidden">
         <DialogHeader>
           {isPending && (
             <div className="flex aspect-[9/14] w-full flex-col">
@@ -69,8 +73,9 @@ function AnswerDialog({
               </div>
             </div>
           )}
-          {/* TODO:Not found */}
-          {!isPending && !answerTranscript && <div>Not Found</div>}
+          {!isPending && !answerTranscript && (
+            <NoResult title="Not found answer transcript" />
+          )}
           {answerTranscript && (
             <>
               <DialogTitle>
@@ -84,7 +89,7 @@ function AnswerDialog({
                   }
                 />
 
-                <div className="max-h-[50dvh] overflow-y-auto border-b">
+                <div className="max-h-[40dvh] overflow-y-auto border-b">
                   <div className="mb-2 h-96 w-full bg-danger"></div>
                   <div className="mb-2 h-96 w-full bg-danger"></div>
                   <div className="mb-2 h-96 w-full bg-danger"></div>
