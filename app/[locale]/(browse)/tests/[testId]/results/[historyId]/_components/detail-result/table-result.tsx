@@ -1,7 +1,6 @@
 import React from "react"
 import { type SectionHistory } from "@/queries/test/get-history"
 
-import { cn } from "@/lib/utils"
 import {
   Table,
   TableBody,
@@ -10,6 +9,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+import AnswerDialog from "../answer-detail/answer-dialog"
 
 type Props = {
   section: SectionHistory
@@ -73,20 +74,14 @@ function TableResult({ section }: Props) {
                 <TableCell className="w-52 min-w-52">
                   <div className="flex flex-wrap gap-2">
                     {partition.testGrades.map((grade) => (
-                      <div
+                      <AnswerDialog
                         key={grade.questionId}
-                        className={cn(
-                          "flex size-7 items-center justify-center rounded-full border text-xs text-black hover:text-white",
-                          grade.inputedAnswer === grade.rightAnswer &&
-                            "border-primary bg-primary/10 hover:bg-primary",
-                          grade.inputedAnswer !== grade.rightAnswer &&
-                            "border-red-500 bg-red-100 hover:bg-red-500",
-                          !grade.inputedAnswer &&
-                            "border-neutral-600 bg-neutral-300 hover:bg-neutral-600"
-                        )}
-                      >
-                        {grade.questionNumber}
-                      </div>
+                        gradeId={grade.testGradeId}
+                        partitionId={partition.partitionHistoryId}
+                        circleQuestion
+                        gradeStatus={grade.gradeStatus}
+                        questionNumber={grade.questionNumber}
+                      />
                     ))}
                   </div>
                 </TableCell>

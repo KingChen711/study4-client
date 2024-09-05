@@ -1,15 +1,16 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { type PracticeTest } from "@/queries/test/get-practice-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers } from "@/stores/use-submit-answers"
+
+import { type DoTest } from "@/types/do-test"
 
 import SectionContent from "./section-content"
 import SectionTabs from "./section-tabs"
 
 type Props = {
-  test: PracticeTest
+  test: DoTest
 }
 
 function TestPaper({ test }: Props) {

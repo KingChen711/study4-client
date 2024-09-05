@@ -1,8 +1,8 @@
 import React from "react"
-import { type Question } from "@/queries/test/get-practice-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers } from "@/stores/use-submit-answers"
 
+import { type Question } from "@/types/do-test"
 import { cn, indexToAlphabet } from "@/lib/utils"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"

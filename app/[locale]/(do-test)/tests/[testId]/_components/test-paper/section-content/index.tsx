@@ -1,7 +1,8 @@
 "use client"
 
 import React from "react"
-import { type TestSection } from "@/queries/test/get-practice-test"
+
+import { type TestSection } from "@/types/do-test"
 
 import Partitions from "./partitions"
 import Passage from "./passage"

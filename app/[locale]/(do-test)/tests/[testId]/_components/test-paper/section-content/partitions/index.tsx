@@ -1,6 +1,6 @@
 import React from "react"
-import { type Partition } from "@/queries/test/get-practice-test"
 
+import { type Partition } from "@/types/do-test"
 import { cn } from "@/lib/utils"
 
 import PartitionContent from "./partition-content"

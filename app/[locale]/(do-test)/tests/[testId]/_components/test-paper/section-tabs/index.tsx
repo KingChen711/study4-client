@@ -1,7 +1,8 @@
 "use client"
 
 import React from "react"
-import { type TestSection } from "@/queries/test/get-practice-test"
+
+import { type TestSection } from "@/types/do-test"
 
 import SectionBadge from "../../../../../../../../components/badges/section-badge"
 
