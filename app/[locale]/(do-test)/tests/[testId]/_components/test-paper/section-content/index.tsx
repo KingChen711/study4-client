@@ -3,10 +3,10 @@
 import React from "react"
 
 import { type TestSection } from "@/types/do-test"
+import Passage from "@/components/ui/passage"
+import Recording from "@/components/ui/recording"
 
 import Partitions from "./partitions"
-import Passage from "./passage"
-import Recording from "./recording"
 
 type Props = {
   section: TestSection

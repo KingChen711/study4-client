@@ -36,7 +36,6 @@ export type Tag = { tagId: number; tagName: string }
 
 type GetTestsResult = { tests: Test[]; page: number; totalPage: number }
 
-//TODO:do when have who am i: pass user id
 const getTests = cache(async (params: Params): Promise<GetTestsResult> => {
   try {
     const currentUser = await whoAmI()

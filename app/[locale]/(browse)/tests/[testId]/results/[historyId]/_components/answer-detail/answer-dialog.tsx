@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import NoResult from "@/components/ui/no-result"
+import Recording from "@/components/ui/recording"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import TagBadges from "@/components/badges/tag-badge"
@@ -37,6 +38,8 @@ function AnswerDialog({
     gradeId,
     partitionId,
   })
+
+  console.log({ gradeId, partitionId })
 
   const t = useTranslations("TestResultPage")
 
@@ -79,7 +82,7 @@ function AnswerDialog({
           {answerTranscript && (
             <>
               <DialogTitle>
-                Đáp án chi tiết #{answerTranscript.testGrade.questionNumber}
+                Đáp án chi tiết #{answerTranscript.testGrades[0].questionNumber}
               </DialogTitle>
               <DialogDescription className="overflow-y-hidden">
                 <TagBadges
@@ -89,28 +92,21 @@ function AnswerDialog({
                   }
                 />
 
-                <div className="max-h-[40dvh] overflow-y-auto border-b">
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>
-                  <div className="mb-2 h-96 w-full bg-danger"></div>a
+                <div className="mt-4 flex max-h-[40dvh] flex-col gap-y-4 overflow-y-auto border-b">
+                  <Recording
+                    srcUrl={
+                      answerTranscript.testSectionPart.cloudResource?.url ||
+                      null
+                    }
+                  />
+                  <div className="rounded-md bg-input p-3">
+                    {answerTranscript.testSectionPart.partitionDesc}
+                  </div>
+                  {/* <Passage readingDesc={section.readingDesc} /> */}
                 </div>
                 <Separator className="my-2" />
                 <div className="max-h-[30dvh] overflow-y-auto">
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>
-                  <div className="mb-2 h-96 w-full bg-warning"></div>b
+                  {/* <QuestionContent answerTranscript={answerTranscript}/> */}
                 </div>
               </DialogDescription>
             </>

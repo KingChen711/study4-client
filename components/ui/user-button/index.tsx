@@ -14,7 +14,6 @@ import { LanguageMenu } from "./language-menu"
 import ManageAccountButton from "./manage-account-button"
 import MenuHeader from "./menu-header"
 import SignOutButton from "./sign-out-button"
-import ThemeButton from "./theme-button"
 import TriggerAvatar from "./trigger-avatar"
 
 export const UserButton = () => {
@@ -24,10 +23,6 @@ export const UserButton = () => {
 
   const [open, setOpen] = useState(false)
   const [openMenuLanguage, setOpenMenuLanguage] = useState(false)
-  const [openMenuTheme, setOpenMenuTheme] = useState(false)
-
-  //TODO: can handle now
-  console.log({ openMenuTheme })
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside)
@@ -71,25 +66,15 @@ export const UserButton = () => {
 
         <Separator />
 
-        <div className="flex flex-col">
-          <ThemeButton
-            setOpenMainMenu={setOpen}
-            setOpenMenuTheme={setOpenMenuTheme}
-            t={t}
-          />
-          <LanguageButton
-            setOpenMainMenu={setOpen}
-            setOpenMenuLanguage={setOpenMenuLanguage}
-            t={t}
-          />
-        </div>
+        <LanguageButton
+          setOpenMainMenu={setOpen}
+          setOpenMenuLanguage={setOpenMenuLanguage}
+          t={t}
+        />
 
-        <Separator />
+        <ManageAccountButton t={t} setOpen={setOpen} />
 
-        <div className="flex flex-col">
-          <ManageAccountButton t={t} setOpen={setOpen} />
-          <SignOutButton t={t} />
-        </div>
+        <SignOutButton t={t} />
       </Card>
 
       <LanguageMenu

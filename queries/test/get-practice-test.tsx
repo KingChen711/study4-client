@@ -10,7 +10,6 @@ type Params = {
   testId: string
 }
 
-//TODO:do when have who am i: pass user id
 const getPracticeTest = cache(
   async ({ testId, section }: Params): Promise<DoTest | null> => {
     try {

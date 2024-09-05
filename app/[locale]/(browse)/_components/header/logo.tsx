@@ -18,13 +18,13 @@ function Logo({ mobile = false }: Props) {
   return (
     <Link href="/">
       <div className="flex items-center gap-x-4 transition">
-        <div className="overflow-hidden rounded-full bg-foreground p-1">
+        <div className="overflow-hidden rounded-full bg-foreground">
           <Image
             // className="invert dark:invert-0"
             src="/logo_sm.webp"
             alt="logo"
-            width={36}
-            height={36}
+            width={44}
+            height={44}
           />
         </div>
 

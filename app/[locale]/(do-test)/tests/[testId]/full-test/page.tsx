@@ -12,6 +12,7 @@ type Props = {
   }
 }
 
+//TODO:auto submit on deadline
 async function FullTestPage({ params }: Props) {
   const { testId } = params
 

@@ -1,10 +1,13 @@
 import React, { useEffect, useRef } from "react"
 
+import { cn } from "@/lib/utils"
+
 type Props = {
   srcUrl: string | null
+  className?: string
 }
 
-function Recording({ srcUrl }: Props) {
+function Recording({ srcUrl, className }: Props) {
   const audioRef = useRef<HTMLAudioElement | null>(null)
 
   useEffect(() => {
@@ -16,7 +19,7 @@ function Recording({ srcUrl }: Props) {
   return (
     <>
       {srcUrl && (
-        <audio ref={audioRef} controls className="w-full">
+        <audio ref={audioRef} controls className={cn("w-full", className)}>
           <source src={srcUrl} type="audio/mpeg" />
           Your browser does not support the audio element.
         </audio>

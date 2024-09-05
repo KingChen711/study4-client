@@ -33,7 +33,7 @@ function TableResult({ section }: Props) {
                 {t("RightAnswer")}
               </TableHead>
               <TableHead className="text-nowrap text-center text-black">
-                {t("RightAnswer")}
+                {t("WrongAnswer")}
               </TableHead>
               <TableHead className="text-nowrap text-center text-black">
                 {t("SkipAnswer")}

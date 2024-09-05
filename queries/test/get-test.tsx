@@ -61,7 +61,6 @@ type Params = {
   testId: string
 }
 
-//TODO:do when have who am i: pass user id
 const getTest = cache(async (params: Params): Promise<TestDetail | null> => {
   try {
     const currentUser = await whoAmI()
