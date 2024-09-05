@@ -1,13 +1,43 @@
-import React from "react"
+"use client"
 
-import Logo from "@/app/[locale]/(browse)/_components/header/logo"
+import React from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { staffRoutes } from "@/constants/routes"
+
+import { cn } from "@/lib/utils"
 
 function LeftSidebar() {
+  const pathname = usePathname()
+
+  console.log({ pathname })
+
   return (
-    <nav className="fixed left-0 top-0 z-[49] flex h-20 w-full items-center justify-between border-b bg-background px-6 lg:px-3">
-      <Logo />
-      {/* <Actions /> */}
-    </nav>
+    <section className="sticky left-0 top-0 flex h-screen w-fit shrink-0 flex-col justify-between overflow-y-auto border-r pr-9 pt-24 dark:shadow-none max-lg:px-6 max-sm:hidden lg:w-[300px]">
+      <div className="flex flex-col">
+        {staffRoutes.map(({ Icon, label, route }) => {
+          const isActive = pathname.endsWith(route)
+
+          return (
+            <Link
+              key={route}
+              href={route}
+              className={cn(
+                "flex items-center justify-start gap-4 p-4 lg:pl-9",
+                isActive &&
+                  "rounded-r-full bg-primary text-primary-foreground max-lg:rounded-lg"
+              )}
+            >
+              <Icon className={cn("size-5")} />
+
+              <p className={cn("max-lg:hidden", isActive && "font-semibold")}>
+                {label}
+              </p>
+            </Link>
+          )
+        })}
+      </div>
+    </section>
   )
 }
 

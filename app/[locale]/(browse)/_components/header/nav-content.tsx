@@ -3,6 +3,7 @@
 import React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { staffRoutes } from "@/constants/routes"
 import { useTranslations } from "next-intl"
 
 import { cn } from "@/lib/utils"
@@ -32,7 +33,7 @@ function NavContent() {
   const pathname = usePathname()
   return (
     <section className="flex h-full flex-col gap-y-3 pt-6">
-      {routes.map((route) => {
+      {staffRoutes.map((route) => {
         const isActive =
           (pathname.includes(route.route) && route.route.length > 1) ||
           pathname === route.route

@@ -1,17 +1,16 @@
 import React from "react"
 
 import LeftSidebar from "./_components/left-sidebar"
-
-// import StaffNavbar from "./_components/staff-navbar"
+import StaffNavbar from "./_components/staff-navbar"
 
 type Props = {
   children: React.ReactNode
 }
 
-function BrowseLayout({ children }: Props) {
+function StaffLayout({ children }: Props) {
   return (
     <main className="relative">
-      {/* <StaffNavbar /> */}
+      <StaffNavbar />
       <div className="flex">
         <LeftSidebar />
         <section className="flex min-h-screen flex-1 flex-col px-6 pb-6 pt-28 max-md:pb-14 sm:px-8">
@@ -22,4 +21,4 @@ function BrowseLayout({ children }: Props) {
   )
 }
 
-export default BrowseLayout
+export default StaffLayout
