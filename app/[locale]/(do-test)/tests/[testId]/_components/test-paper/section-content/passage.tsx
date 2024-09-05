@@ -10,7 +10,7 @@ function Passage({ readingDesc }: Props) {
   return (
     <div
       className={cn(
-        "col-span-12 h-80 bg-yellow-500 xl:col-span-7",
+        "col-span-12 h-80 bg-warning xl:col-span-7",
         !readingDesc && "hidden"
       )}
     ></div>

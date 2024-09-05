@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/carousel"
 import { Skeleton } from "@/components/ui/skeleton"
 
+//TODO: load banner từ DB
 function Hero() {
   return (
     <section className="max-sm:mx-6">

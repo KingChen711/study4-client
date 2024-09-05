@@ -76,7 +76,7 @@ function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
         <p
           className={cn(
             "mb-2 mt-1 line-clamp-1 text-xl font-bold",
-            limit !== "no-limit" && +limit * 60 <= time && "text-red-500"
+            limit !== "no-limit" && +limit * 60 <= time && "text-danger"
           )}
         >
           {convertSecondToText(
@@ -85,7 +85,7 @@ function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
         </p>
 
         {limit !== "no-limit" && +limit * 60 <= time && (
-          <p className="mb-2 text-balance rounded-lg border bg-muted p-2 text-sm font-medium text-red-500">
+          <p className="mb-2 text-balance rounded-lg border bg-muted p-2 text-sm font-medium text-danger">
             {t("OverTimeMessage")}
           </p>
         )}

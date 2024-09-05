@@ -1,6 +1,7 @@
 import React from "react"
 import getTests, { type TestOrderBy } from "@/queries/test/get-tests"
 
+import NoResult from "@/components/ui/no-result"
 import Paginator from "@/components/ui/paginator"
 import TestCard, { TestCardSkeleton } from "@/components/cards/test-card"
 
@@ -20,6 +21,17 @@ async function TestList({ page, term, orderBy, category }: Props) {
     pageSize: 12,
     category: category === "all" ? undefined : category,
   })
+
+  if (tests.length === 0) {
+    return (
+      <NoResult
+        title="Not found any tests"
+        className="mt-4"
+        linkTitle="Reset filters"
+        href="/tests"
+      />
+    )
+  }
 
   return (
     <>

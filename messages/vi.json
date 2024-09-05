@@ -78,13 +78,22 @@
     "DoFullTest": "Làm full test",
     "ProTips": {
       "Practice": "Hình thức luyện tập từng phần và chọn mức thời gian phù hợp sẽ giúp bạn tập trung vào giải đúng các câu hỏi thay vì phải chịu áp lực hoàn thành bài thi.",
-      "FullTest": "Hệ thống sẽ tự động nộp bài khi hết thời gian thi trong chế độ full test."
+      "FullTest": "Hệ thống sẽ tự động nộp bài khi hết thời gian thi trong chế độ full test. Hoặc bạn có thể nộp sớm hơn nếu muốn."
     },
     "SelectSections": "Chọn phần thi bạn muốn làm:",
     "LimitTime": "Giới hạn thời gian:",
     "NoLimit": "không giới hạn",
     "Minutes": "phút",
-    "Questions": "câu hỏi"
+    "Questions": "câu hỏi",
+    "History": {
+      "YourTestResults": "Kết quả làm bài của bạn:",
+      "TakenDate": "Ngày làm",
+      "Sections": "Phần thi",
+      "Result": "Kết quả",
+      "CompletionTime": "Thời gian làm bài",
+      "Action": "Hành động",
+      "ViewDetail": "Xem chi tiết"
+    }
   },
   "DoTestPage": {
     "LeaveTest": "Thoát bài kiểm tra?",

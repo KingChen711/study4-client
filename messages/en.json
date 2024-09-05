@@ -78,13 +78,22 @@
     "DoFullTest": "Do full test",
     "ProTips": {
       "Practice": "Practicing in sections and choosing the right time will help you focus on getting the questions right instead of feeling pressured to complete the test.",
-      "FullTest": "The system will automatically submit the test when the test time is up in full test mode."
+      "FullTest": "The system will automatically submit the test when the test time is up in full test mode. Or you can volunteer to submit early."
     },
     "SelectSections": "Select sections you want to take:",
     "LimitTime": "Limit time:",
     "NoLimit": "no limit",
     "Minutes": "minutes",
-    "Questions": "questions"
+    "Questions": "questions",
+    "History": {
+      "YourTestResults": "Your test results:",
+      "TakenDate": "Taken date",
+      "Sections": "Sections",
+      "Result": "Result",
+      "CompletionTime": "Completion time",
+      "Action": "Action",
+      "ViewDetail": "View detail"
+    }
   },
   "DoTestPage": {
     "LeaveTest": "Leave the test?",

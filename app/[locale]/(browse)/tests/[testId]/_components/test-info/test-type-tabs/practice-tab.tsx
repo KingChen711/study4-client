@@ -68,12 +68,12 @@ function PracticeTab({ sections, testId }: Props) {
 
   return (
     <div>
-      <Alert className="h-fit w-full border-primary">
-        <LightbulbIcon className="size-4 stroke-primary" />
-        <AlertTitle className="font-semibold text-primary">
+      <Alert className="h-fit w-full border-success">
+        <LightbulbIcon className="size-4 stroke-success" />
+        <AlertTitle className="font-semibold text-success">
           Pro tips:
         </AlertTitle>
-        <AlertDescription className="font-medium text-primary">
+        <AlertDescription className="font-medium text-success">
           {t("ProTips.Practice")}
         </AlertDescription>
       </Alert>

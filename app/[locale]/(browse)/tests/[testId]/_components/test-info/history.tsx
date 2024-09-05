@@ -2,6 +2,7 @@ import React from "react"
 import Link from "next/link"
 import { type TestHistory } from "@/queries/test/get-test"
 import { enUS, vi } from "date-fns/locale"
+import { getTranslations } from "next-intl/server"
 
 import { convertSecondToText, toDateTime } from "@/lib/utils"
 import {
@@ -15,25 +16,34 @@ import {
 
 type Props = { testHistories: TestHistory[]; testId: number; locale: string }
 
-//TODO:i18n
 async function History({ testHistories, testId, locale }: Props) {
+  const t = await getTranslations("TestDetailPage")
+
   if (testHistories.length <= 0) return null
 
   return (
     <div>
-      <h4 className="font-bold">Kết quả làm bài của bạn:</h4>
+      <h4 className="font-bold">{t("History.YourTestResults")}</h4>
 
       <div className="mb-4 mt-1 grid w-full rounded-xl border bg-muted">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead className="text-nowrap">Ngày làm</TableHead>
-                <TableHead className="text-nowrap">Phần thi</TableHead>
-                <TableHead className="text-nowrap">Kết quả</TableHead>
-                <TableHead className="text-nowrap">Thời gian làm bài</TableHead>
+                <TableHead className="text-nowrap">
+                  {t("History.TakenDate")}
+                </TableHead>
+                <TableHead className="text-nowrap">
+                  {t("History.Sections")}
+                </TableHead>
+                <TableHead className="text-nowrap text-center">
+                  {t("History.Result")}
+                </TableHead>
+                <TableHead className="text-nowrap text-center">
+                  {t("History.CompletionTime")}
+                </TableHead>
                 <TableHead className="text-nowrap text-right">
-                  Hành động
+                  {t("History.Action")}
                 </TableHead>
               </TableRow>
             </TableHeader>
@@ -48,7 +58,7 @@ async function History({ testHistories, testId, locale }: Props) {
                   <TableCell>
                     <div className="flex flex-wrap gap-2">
                       {test.isFull ? (
-                        <div className="rounded-lg bg-primary px-2 py-1 text-xs font-bold text-primary-foreground">
+                        <div className="rounded-lg bg-success px-2 py-1 text-xs font-bold text-success-foreground">
                           Full test
                         </div>
                       ) : (
@@ -61,7 +71,7 @@ async function History({ testHistories, testId, locale }: Props) {
                         ).map((section) => (
                           <div
                             key={section}
-                            className="rounded-lg bg-yellow-500 px-2 py-1 text-xs font-bold text-primary-foreground"
+                            className="rounded-lg bg-warning px-2 py-1 text-xs font-bold text-warning-foreground"
                           >
                             {section}
                           </div>
@@ -70,10 +80,10 @@ async function History({ testHistories, testId, locale }: Props) {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-nowrap">{`${test.totalRightAnswer}/${test.totalQuestion}`}</div>
+                    <div className="text-nowrap text-center">{`${test.totalRightAnswer}/${test.totalQuestion}`}</div>
                   </TableCell>
                   <TableCell>
-                    <div className="text-nowrap">
+                    <div className="text-nowrap text-center">
                       {convertSecondToText(test.totalCompletionTime)}
                     </div>
                   </TableCell>
@@ -82,7 +92,7 @@ async function History({ testHistories, testId, locale }: Props) {
                       href={`/tests/${testId}/results/${test.testHistoryId}`}
                       className="cursor-pointer text-nowrap text-right text-primary hover:underline"
                     >
-                      Xem chi tiết
+                      {t("History.ViewDetail")}
                     </Link>
                   </TableCell>
                 </TableRow>

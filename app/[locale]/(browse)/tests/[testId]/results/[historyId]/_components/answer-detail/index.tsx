@@ -41,10 +41,10 @@ const AnswerDetail = ({ sections }: Props) => {
                         : tg.inputedAnswer}
                     </div>
                     {tg.gradeStatus === "Correct" && (
-                      <Icons.Check className="size-3 text-primary" />
+                      <Icons.Check className="size-4 text-success" />
                     )}
                     {tg.gradeStatus === "Wrong" && (
-                      <Icons.X className="size-3 text-red-500" />
+                      <Icons.X className="size-3 text-danger" />
                     )}
 
                     <AnswerDialog

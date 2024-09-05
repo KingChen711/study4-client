@@ -43,16 +43,16 @@ function OverallResult({ testHistory }: Props) {
           </div>
         </div>
         <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.Correct className="size-6 text-primary" />
-          <div className="mt-1 font-bold text-primary">Trả lời đúng</div>
+          <Icons.Correct className="size-6 text-success" />
+          <div className="mt-1 font-bold text-success">Trả lời đúng</div>
           <div className="text-lg font-bold">
             {testHistory.totalRightAnswer}
           </div>
           <div>câu hỏi</div>
         </div>
         <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.Wrong className="size-6 text-red-500" />
-          <div className="mt-1 font-bold text-red-500">Trả lời sai</div>
+          <Icons.Wrong className="size-6 text-danger" />
+          <div className="mt-1 font-bold text-danger">Trả lời sai</div>
           <div className="text-lg font-bold">
             {testHistory.totalWrongAnswer}
           </div>

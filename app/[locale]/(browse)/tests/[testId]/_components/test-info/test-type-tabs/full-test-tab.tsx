@@ -26,12 +26,10 @@ function FullTestTab({ testId }: Props) {
 
   return (
     <div>
-      <Alert className="h-fit w-full border-yellow-500">
-        <TriangleAlertIcon className="size-4 stroke-yellow-500" />
-        <AlertTitle className="font-semibold text-yellow-500">
-          Warning:
-        </AlertTitle>
-        <AlertDescription className="font-medium text-yellow-500">
+      <Alert className="h-fit w-full border-warning">
+        <TriangleAlertIcon className="size-4 stroke-warning" />
+        <AlertTitle className="font-semibold text-warning">Warning:</AlertTitle>
+        <AlertDescription className="font-medium text-warning">
           {t("ProTips.FullTest")}
         </AlertDescription>
       </Alert>

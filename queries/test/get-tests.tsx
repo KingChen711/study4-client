@@ -4,6 +4,8 @@ import "server-only"
 
 import prep4Api from "@/lib/prep4-api"
 
+import whoAmI from "../users/who-am-i"
+
 export type TestOrderBy = "-createDate" | "-totalEngaged"
 
 type Params = {
@@ -37,10 +39,15 @@ type GetTestsResult = { tests: Test[]; page: number; totalPage: number }
 //TODO:do when have who am i: pass user id
 const getTests = cache(async (params: Params): Promise<GetTestsResult> => {
   try {
+    const currentUser = await whoAmI()
+
     const { data } = await prep4Api.get<{ data: GetTestsResult }>(
       "/api/tests",
       {
-        params,
+        params: {
+          ...params,
+          userId: currentUser ? currentUser.userId : undefined,
+        },
       }
     )
 

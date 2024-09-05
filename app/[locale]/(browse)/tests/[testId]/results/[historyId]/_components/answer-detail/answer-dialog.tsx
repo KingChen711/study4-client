@@ -44,11 +44,10 @@ function AnswerDialog({
             className={cn(
               "flex size-7 cursor-pointer items-center justify-center rounded-full border text-xs text-black hover:text-white",
               gradeStatus === "Correct" &&
-                "border-primary bg-primary/10 hover:bg-primary",
+                "border-success bg-success-100 hover:bg-success",
               gradeStatus === "Wrong" &&
-                "border-red-500 bg-red-100 hover:bg-red-500",
-              gradeStatus === "Skip" &&
-                "border-neutral-600 bg-neutral-300 hover:bg-neutral-600"
+                "border-danger bg-danger-100 hover:bg-danger",
+              gradeStatus === "Skip" && "border-skip bg-skip-100 hover:bg-skip"
             )}
           >
             {questionNumber}
@@ -86,27 +85,27 @@ function AnswerDialog({
                 />
 
                 <div className="max-h-[50dvh] overflow-y-auto border-b">
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>
-                  <div className="mb-2 h-96 w-full bg-red-500"></div>a
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>
+                  <div className="mb-2 h-96 w-full bg-danger"></div>a
                 </div>
                 <Separator className="my-2" />
                 <div className="max-h-[30dvh] overflow-y-auto">
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>
-                  <div className="mb-2 h-96 w-full bg-green-500"></div>b
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>
+                  <div className="mb-2 h-96 w-full bg-warning"></div>b
                 </div>
               </DialogDescription>
             </>
