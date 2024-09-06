@@ -20,3 +20,5 @@ export type PagingMetaData = {
   pageNumber: number
   totalPages: number
 }
+
+export type TestType = "Listening" | "Reading" | "Speaking" | "Writing"

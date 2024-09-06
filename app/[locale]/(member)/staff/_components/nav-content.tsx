@@ -12,7 +12,9 @@ const NavContent = () => {
   return (
     <section className="flex h-full flex-col gap-y-3 pt-6">
       {staffRoutes.map(({ Icon, label, route }) => {
-        const isActive = pathname.endsWith(route)
+        const isActive =
+          (pathname.slice(3).startsWith(route) && route !== "/staff") ||
+          (pathname.slice(3) === "/staff" && route === "/staff")
 
         return (
           <SheetClose asChild key={route}>

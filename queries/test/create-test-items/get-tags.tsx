@@ -2,8 +2,7 @@ import { cache } from "react"
 
 import "server-only"
 
-import { type Tag } from "../get-tests"
-import getCreateTestItem from "./get-create-test-items"
+import getCreateTestItem, { type Tag } from "./get-create-test-items"
 
 const getTags = cache(async (): Promise<Tag[]> => {
   try {
