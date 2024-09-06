@@ -517,4 +517,23 @@ export const Icons = {
       ></path>
     </svg>
   ),
+  Slash: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 15 15"
+      className={cn(className)}
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        stroke="currentColor"
+        strokeWidth="2"
+        d="M4.109 14L9.466 1h1.352L5.46 14H4.109Z"
+        clipRule="evenodd"
+      ></path>
+    </svg>
+  ),
 }

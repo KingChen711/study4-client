@@ -43,11 +43,15 @@ const AnswerDetail = async ({ sections }: Props) => {
                         ? t("NotAnswered")
                         : tg.inputedAnswer}
                     </div>
+
                     {tg.gradeStatus === "Correct" && (
                       <Icons.Check className="size-4 text-success" />
                     )}
                     {tg.gradeStatus === "Wrong" && (
                       <Icons.X className="size-3 text-danger" />
+                    )}
+                    {tg.gradeStatus === "Skip" && (
+                      <Icons.Slash className="size-3 text-skip" />
                     )}
 
                     <AnswerDialog

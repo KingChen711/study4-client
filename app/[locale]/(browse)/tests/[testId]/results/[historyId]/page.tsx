@@ -1,6 +1,5 @@
 import React, { Suspense } from "react"
 import { notFound } from "next/navigation"
-import { getTranslations } from "@/queries/i18n/get-translations"
 import getHistory from "@/queries/test/get-history"
 
 import CommentList from "../../_components/comment-list"

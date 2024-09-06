@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState, useTransition } from "react"
+import React, { useCallback, useEffect, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
@@ -33,20 +33,7 @@ function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
     })
   }
 
-  useEffect(() => {
-    function updateTime() {
-      if (pending) return
-      setTime((prev) => prev + 1)
-    }
-
-    const timer = setInterval(updateTime, 1000)
-
-    return () => {
-      clearInterval(timer)
-    }
-  }, [limit, pending])
-
-  function handleSubmit() {
+  const handleSubmit = useCallback(() => {
     startTransition(async () => {
       const res = await submitTest({
         isFull: isFullTest,
@@ -67,7 +54,25 @@ function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
       //i18n
       toast.error(UNKNOWN_ERROR_MESSAGE)
     })
-  }
+  }, [answers, isFullTest, router, testId, time])
+
+  useEffect(() => {
+    function updateTime() {
+      if (pending) return
+      setTime((prev) => prev + 1)
+    }
+
+    const timer = setInterval(updateTime, 1000)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [limit, pending])
+
+  useEffect(() => {
+    if (!isFullTest || pending || time < +limit * 60) return
+    handleSubmit()
+  }, [pending, isFullTest, time, limit, handleSubmit])
 
   return (
     <div className="relative w-52">
@@ -84,7 +89,7 @@ function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
           )}
         </p>
 
-        {limit !== "no-limit" && +limit * 60 <= time && (
+        {!isFullTest && limit !== "no-limit" && +limit * 60 <= time && (
           <p className="mb-2 text-balance rounded-lg border bg-muted p-2 text-sm font-medium text-danger">
             {t("OverTimeMessage")}
           </p>

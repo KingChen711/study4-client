@@ -123,6 +123,8 @@
     "TypeQuestion": "Loại câu hỏi",
     "Questions": "Câu hỏi",
     "NotAnswered": "chưa trả lời",
-    "Detail": "Chi tiết"
+    "Detail": "Chi tiết",
+    "AnswerDetail": "Đáp án chi tiết #{questionNumber}",
+    "RightAnswer2": "Đáp án đúng: {rightAnswer}"
   }
 }

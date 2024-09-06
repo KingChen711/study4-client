@@ -19,6 +19,8 @@ import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import TagBadges from "@/components/badges/tag-badge"
 
+import QuestionContent from "./question-content"
+
 type Props = {
   partitionId: number
   gradeId: number
@@ -82,7 +84,9 @@ function AnswerDialog({
           {answerTranscript && (
             <>
               <DialogTitle>
-                Đáp án chi tiết #{answerTranscript.testGrades[0].questionNumber}
+                {t("AnswerDetail", {
+                  questionNumber: answerTranscript.testGrades[0].questionNumber,
+                })}
               </DialogTitle>
               <DialogDescription className="overflow-y-hidden">
                 <TagBadges
@@ -99,14 +103,14 @@ function AnswerDialog({
                       null
                     }
                   />
+                  {/* <Passage readingDesc={section.readingDesc} /> */}
                   <div className="rounded-md bg-input p-3">
                     {answerTranscript.testSectionPart.partitionDesc}
                   </div>
-                  {/* <Passage readingDesc={section.readingDesc} /> */}
                 </div>
                 <Separator className="my-2" />
                 <div className="max-h-[30dvh] overflow-y-auto">
-                  {/* <QuestionContent answerTranscript={answerTranscript}/> */}
+                  <QuestionContent answerTranscript={answerTranscript} />
                 </div>
               </DialogDescription>
             </>

@@ -1,8 +1,8 @@
 import React from "react"
 import Link from "next/link"
+import { getTranslations } from "@/queries/i18n/get-translations"
 import { type TestHistory } from "@/queries/test/get-test"
 import { enUS, vi } from "date-fns/locale"
-import { getTranslations } from "next-intl/server"
 
 import { convertSecondToText, toDateTime } from "@/lib/utils"
 import {

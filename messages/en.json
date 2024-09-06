@@ -123,6 +123,8 @@
     "TypeQuestion": "Type question",
     "Questions": "Questions",
     "NotAnswered": "not answered",
-    "Detail": "Detail"
+    "Detail": "Detail",
+    "AnswerDetail": "Answer detail #{questionNumber}",
+    "RightAnswer2": "Right answer: {rightAnswer}"
   }
 }
