@@ -1,13 +1,14 @@
 "use client"
 
-import React, { useMemo, useState } from "react"
+import React, { useEffect, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import {
+  type PartitionTag,
   type Tag,
   type TestCategory,
 } from "@/queries/test/create-test-items/get-create-test-items"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { AlertTriangle, CheckIcon, Plus, Trash2Icon } from "lucide-react"
+import { CheckIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
@@ -15,8 +16,7 @@ import {
   createSection,
   mutationTestSchema,
   type TMutationTestSchema,
-} from "@/lib/validation/muation-test"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+} from "@/lib/validation/mutation-test"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -26,11 +26,9 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
-import ErrorMessage from "@/components/ui/error-message"
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -44,35 +42,27 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
-import Recording from "@/components/ui/recording"
 import TagBadges from "@/components/badges/tag-badge"
 
-const testTypeToSectionPrefix = {
-  Listening: "Recording",
-  Reading: "Passage",
-  Speaking: "Unknown",
-  Writing: "Unknown",
-}
+import SectionFields from "./sections-field"
 
 type Props = {
   categoryItems: TestCategory[]
+  partitionTagItems: PartitionTag[]
   tagItems: Tag[]
   type: "create" | "update"
-  testId?: string
-} & (
-  | {
-      type: "create"
-    }
-  | {
-      type: "update"
-      testId: string
-    }
-)
+}
 
-function TestForm({ type, testId, categoryItems, tagItems }: Props) {
+export type THandleChangeCorrectOption = {
+  sectionIndex: number
+  partitionIndex: number
+  questionIndex: number
+  questionAnswerIndex: number
+}
+
+function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
   const router = useRouter()
-
-  const [file, setFile] = useState<File | null>(null)
+  const [pending, startTransition] = useTransition()
 
   const form = useForm<TMutationTestSchema>({
     resolver: zodResolver(mutationTestSchema),
@@ -82,36 +72,11 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
       totalQuestion: 0,
       totalSection: 1,
       tags: [],
-      testSections: [
-        createSection({ sectionNumber: 1, testType: "Listening" }),
-      ],
+      testSections: [createSection({ testType: "Listening" })],
     },
   })
 
-  const testSectionsErrors = useMemo(
-    () => form.formState.errors.testSections || [],
-    [form.formState.errors]
-  )
-
-  const testType = form.getValues("testType")
-
-  //   const { mutate, isPending } = useMutateTest(type)
-
-  // Get updated test
-  //   const { isLoading } = useTest(testId, (test) => {
-  //     form.setValue("code", test.code)
-  //     form.setValue("name", test.name)
-  //     form.setValue("description", test.description || "")
-  //     form.setValue("color", test.color)
-  //     form.setValue("icon", test.icon)
-  //   })
-
-  //   const disabling = useMemo(
-  //     () => isPending || isLoading,
-  //     [isPending, isLoading]
-  //   )
-
-  const disabling = false
+  useEffect(() => console.log(form.formState.errors), [form.formState.errors])
 
   const onSubmit = async (values: TMutationTestSchema) => {
     console.log({ values })
@@ -182,45 +147,23 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
     )
   }
 
-  const handleImageChange = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
-  ) => {
-    e.preventDefault()
+  const handleChangeCorrectOption = ({
+    sectionIndex,
+    partitionIndex,
+    questionIndex,
+    questionAnswerIndex,
+  }: THandleChangeCorrectOption) => {
+    const questionAnswersCount = form.getValues(
+      `testSections.${sectionIndex}.testSectionPartitions.${partitionIndex}.questions.${questionIndex}.questionAnswers`
+    ).length
 
-    const fileReader = new FileReader()
+    for (let i = 0; i < questionAnswersCount; ++i) {
+      console.log(questionAnswerIndex === i)
 
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0]
-
-      if (!file.type.includes("image")) return
-
-      setFile(file)
-
-      fileReader.onload = async (event) => {
-        const imageDataUrl = event.target?.result?.toString() || ""
-        fieldChange(imageDataUrl)
-      }
-
-      fileReader.readAsDataURL(file)
-    }
-  }
-
-  const handleAudioUpload = (
-    e: React.ChangeEvent<HTMLInputElement>,
-    sectionId: string
-  ) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const audioURL = URL.createObjectURL(file)
-
-      const testSectionsClone = structuredClone(form.getValues("testSections"))
-      const section = testSectionsClone.find((ts) => ts.id === sectionId)
-      if (section) {
-        section.audioResource = audioURL
-      }
-
-      form.setValue("testSections", testSectionsClone)
+      form.setValue(
+        `testSections.${sectionIndex}.testSectionPartitions.${partitionIndex}.questions.${questionIndex}.questionAnswers.${i}.isTrue`,
+        questionAnswerIndex === i
+      )
     }
   }
 
@@ -240,7 +183,7 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
               </FormLabel>
               <FormControl>
                 <Input
-                  disabled={disabling}
+                  disabled={pending}
                   placeholder="Example: Listening Test 999..."
                   {...field}
                 />
@@ -264,7 +207,7 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
               <FormControl>
                 <Input
                   type="number"
-                  disabled={disabling}
+                  disabled={pending}
                   placeholder="Example: 40"
                   {...field}
                 />
@@ -288,6 +231,7 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
               <div className="flex flex-wrap items-end gap-8">
                 <FormControl>
                   <RadioGroup
+                    disabled={pending}
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
@@ -306,13 +250,13 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="Speaking" />
+                        <RadioGroupItem disabled value="Speaking" />
                       </FormControl>
                       <FormLabel className="font-normal">Speaking</FormLabel>
                     </FormItem>
                     <FormItem className="flex items-center space-x-3 space-y-0">
                       <FormControl>
-                        <RadioGroupItem value="Writing" />
+                        <RadioGroupItem disabled value="Writing" />
                       </FormControl>
                       <FormLabel className="font-normal">Writing</FormLabel>
                     </FormItem>
@@ -350,10 +294,11 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
+                      disabled={pending}
                       variant="outline"
                       role="combobox"
                       className={cn(
-                        "w-[200px] justify-between bg-transparent",
+                        "w-[200px] justify-between border-border bg-transparent",
                         !field.value && "text-muted-foreground"
                       )}
                     >
@@ -416,6 +361,7 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
                 {form.getValues("tags").map((tagId) => (
                   <TagBadges
                     key={tagId}
+                    disabled={pending}
                     showX
                     onClick={() => handleClickDeleteTestTag(tagId)}
                     tagName={
@@ -427,6 +373,7 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
                   <PopoverTrigger asChild>
                     <FormControl>
                       <Button
+                        disabled={pending}
                         variant="ghost"
                         role="combobox"
                         className={cn(
@@ -479,211 +426,26 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
         <FormField
           control={form.control}
           name="testSections"
-          render={({ field }) => (
+          render={() => (
             <FormItem>
               <FormLabel>Sections (min 1)</FormLabel>
               <FormControl>
-                <div className="flex flex-col gap-y-4">
-                  {field.value.map((s, testSectionIndex) => {
-                    const section = form
-                      .getValues("testSections")
-                      .find((ts) => ts.id === s.id)!
-
-                    return (
-                      <FormItem key={section.id}>
-                        <FormControl>
-                          <div className="flex flex-col rounded-2xl border">
-                            <div className="flex items-center justify-between border-b-[3px] border-background px-4 py-3">
-                              <div className="flex items-center gap-x-3">
-                                <label className="font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                  {`${testTypeToSectionPrefix[testType]} ${testSectionIndex + 1}`}
-                                </label>
-
-                                <ErrorMessage
-                                  name={`section ${testSectionIndex}`}
-                                  message={
-                                    testSectionsErrors[testSectionIndex]
-                                      ?.message
-                                  }
-                                />
-                              </div>
-                              <Button
-                                disabled={field.value.length <= 1}
-                                onClick={() => {
-                                  // ko cần check chỗ này vì đã check disable ở trên, nhưng cứ check cho chắc
-                                  if (field.value.length > 1) {
-                                    form.setValue(
-                                      "testSections",
-                                      field.value.filter(
-                                        (ts) => ts.id !== section.id
-                                      )
-                                    )
-                                  }
-                                }}
-                                variant="ghost"
-                                size="icon"
-                              >
-                                <Trash2Icon className="size-6 text-danger" />
-                              </Button>
-                            </div>
-                            <div className="flex flex-col gap-y-4 p-4 py-2">
-                              {testType === "Listening" && (
-                                <>
-                                  <FormItem>
-                                    <FormLabel className="flex items-center">
-                                      Audio resource
-                                      <span className="text-lg font-bold leading-none text-primary">
-                                        *
-                                      </span>
-                                    </FormLabel>
-                                    <FormControl>
-                                      <>
-                                        <Input
-                                          onChange={(e) =>
-                                            handleAudioUpload(e, section.id)
-                                          }
-                                          type="file"
-                                          accept="audio/*"
-                                          disabled={disabling}
-                                          className="w-fit"
-                                        />
-
-                                        <Recording
-                                          srcUrl={section.audioResource || null}
-                                        />
-                                      </>
-                                    </FormControl>
-
-                                    <ErrorMessage
-                                      name={`section ${testSectionIndex}, audioResource`}
-                                      message={
-                                        testSectionsErrors[testSectionIndex]
-                                          ?.audioResource?.message
-                                      }
-                                    />
-                                  </FormItem>
-                                  {/* TODO:convert to editor */}
-                                  <FormItem>
-                                    <FormLabel className="flex items-center">
-                                      Audio transcript
-                                    </FormLabel>
-                                    <FormControl>
-                                      <Input
-                                        value={section.sectionTranscript}
-                                        onChange={(e) => {
-                                          const cloneTestSections =
-                                            structuredClone(
-                                              form.getValues("testSections")
-                                            )
-                                          const currentSection =
-                                            cloneTestSections.find(
-                                              (ts) => ts.id === section.id
-                                            )
-                                          if (currentSection) {
-                                            currentSection.sectionTranscript =
-                                              e.target.value
-                                          }
-                                          form.setValue(
-                                            "testSections",
-                                            cloneTestSections
-                                          )
-                                        }}
-                                        disabled={disabling}
-                                        placeholder="Audio transcript..."
-                                      />
-                                    </FormControl>
-
-                                    <ErrorMessage
-                                      name={`section ${testSectionIndex}, sectionTranscript`}
-                                      message={
-                                        testSectionsErrors[testSectionIndex]
-                                          ?.sectionTranscript?.message
-                                      }
-                                    />
-                                  </FormItem>
-                                </>
-                              )}
-
-                              {testType === "Reading" && (
-                                <FormItem>
-                                  <FormLabel className="flex items-center">
-                                    Reading passage
-                                    <span className="text-lg font-bold leading-none text-primary">
-                                      *
-                                    </span>
-                                  </FormLabel>
-                                  <FormControl>
-                                    <Input
-                                      value={
-                                        form
-                                          .getValues("testSections")
-                                          .find((ts) => ts.id === section.id)
-                                          ?.readingDesc
-                                      }
-                                      onChange={(e) => {
-                                        const cloneTestSections =
-                                          structuredClone(
-                                            form.getValues("testSections")
-                                          )
-                                        const currentSection =
-                                          cloneTestSections.find(
-                                            (ts) => ts.id === section.id
-                                          )
-                                        if (currentSection) {
-                                          currentSection.readingDesc =
-                                            e.target.value
-                                        }
-                                        form.setValue(
-                                          "testSections",
-                                          cloneTestSections
-                                        )
-                                      }}
-                                      disabled={disabling}
-                                      placeholder="Reading passage..."
-                                    />
-                                  </FormControl>
-
-                                  <ErrorMessage
-                                    name={`section ${testSectionIndex}, readingDesc`}
-                                    message={
-                                      testSectionsErrors[testSectionIndex]
-                                        ?.readingDesc?.message
-                                    }
-                                  />
-                                </FormItem>
-                              )}
-
-                              {/* partitions */}
-                            </div>
-                          </div>
-                        </FormControl>
-                      </FormItem>
-                    )
-                  })}
-                  <div
-                    onClick={() => {
-                      form.setValue("testSections", [
-                        ...field.value,
-                        createSection({
-                          testType: testType,
-                          sectionNumber: form.getValues("totalSection") + 1,
-                        }),
-                      ])
-                    }}
-                    className="group flex cursor-pointer items-center justify-center rounded-2xl bg-muted py-10 text-lg font-bold"
-                  >
-                    <Plus className="mr-1 size-5 font-extrabold group-hover:text-primary" />
-                    <p className="group-hover:text-primary">MORE SECTION</p>
-                  </div>
-                </div>
+                <SectionFields
+                  errors={form.formState.errors}
+                  onChangeCorrectOption={handleChangeCorrectOption}
+                  partitionTagItems={partitionTagItems}
+                  disabled={pending}
+                  testType={form.getValues("testType")}
+                  control={form.control}
+                />
               </FormControl>
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="float-right" disabled={disabling}>
+        <Button type="submit" className="float-right" disabled={pending}>
           {type === "create" ? "Submit" : "Save"}{" "}
-          {disabling && <Icons.Loader className="ml-1 size-4" />}
+          {pending && <Icons.Loader className="ml-1 size-4" />}
         </Button>
       </form>
     </Form>

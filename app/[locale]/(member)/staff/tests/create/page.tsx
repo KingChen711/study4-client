@@ -24,6 +24,7 @@ async function CreateTestPage() {
 
       <TestForm
         categoryItems={items?.testCategories || []}
+        partitionTagItems={items?.partitionTags || []}
         tagItems={items?.tags || []}
         type="create"
       />
