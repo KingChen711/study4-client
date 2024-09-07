@@ -13,7 +13,7 @@ async function CreateTestPage() {
   return (
     <section className="flex flex-col gap-y-4">
       <div className="flex items-center justify-between gap-x-5">
-        <h3 className="text-2xl font-semibold">Create new test</h3>
+        <h3 className="text-2xl font-semibold">Create test</h3>
         <Button asChild>
           <Link href="/staff/tests">
             <ArrowLeftIcon className="mr-1 size-5" />

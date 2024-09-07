@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   type Tag,
@@ -26,6 +26,7 @@ import {
   CommandItem,
   CommandList,
 } from "@/components/ui/command"
+import ErrorMessage from "@/components/ui/error-message"
 import {
   Form,
   FormControl,
@@ -86,6 +87,11 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
       ],
     },
   })
+
+  const testSectionsErrors = useMemo(
+    () => form.formState.errors.testSections || [],
+    [form.formState.errors]
+  )
 
   const testType = form.getValues("testType")
 
@@ -478,78 +484,133 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
               <FormLabel>Sections (min 1)</FormLabel>
               <FormControl>
                 <div className="flex flex-col gap-y-4">
-                  {field.value.map((section, index) => (
-                    <FormItem key={section.id}>
-                      <FormControl>
-                        <div className="flex flex-col rounded-2xl border">
-                          <div className="flex items-center justify-between border-b-[3px] border-background px-4 py-3">
-                            <div className="flex items-center gap-x-3">
-                              <label className="font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                                {`${testTypeToSectionPrefix[testType]} ${index + 1}`}
-                              </label>
-                              {/* {questionsErrors[index]?.message && (
-                                <div className="text-sm font-medium leading-none text-danger">
-                                  {questionsErrors[index]?.message}
-                                </div>
-                              )} */}
-                            </div>
-                            <Button
-                              disabled={field.value.length <= 1}
-                              onClick={() => {
-                                // ko cần check chỗ này vì đã check disable ở trên, nhưng cứ check cho chắc
-                                if (field.value.length > 1) {
-                                  form.setValue(
-                                    "testSections",
-                                    field.value.filter(
-                                      (ts) => ts.id !== section.id
+                  {field.value.map((s, testSectionIndex) => {
+                    const section = form
+                      .getValues("testSections")
+                      .find((ts) => ts.id === s.id)!
+
+                    return (
+                      <FormItem key={section.id}>
+                        <FormControl>
+                          <div className="flex flex-col rounded-2xl border">
+                            <div className="flex items-center justify-between border-b-[3px] border-background px-4 py-3">
+                              <div className="flex items-center gap-x-3">
+                                <label className="font-semibold leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                                  {`${testTypeToSectionPrefix[testType]} ${testSectionIndex + 1}`}
+                                </label>
+
+                                <ErrorMessage
+                                  name={`section ${testSectionIndex}`}
+                                  message={
+                                    testSectionsErrors[testSectionIndex]
+                                      ?.message
+                                  }
+                                />
+                              </div>
+                              <Button
+                                disabled={field.value.length <= 1}
+                                onClick={() => {
+                                  // ko cần check chỗ này vì đã check disable ở trên, nhưng cứ check cho chắc
+                                  if (field.value.length > 1) {
+                                    form.setValue(
+                                      "testSections",
+                                      field.value.filter(
+                                        (ts) => ts.id !== section.id
+                                      )
                                     )
-                                  )
-                                }
-                              }}
-                              variant="ghost"
-                              size="icon"
-                            >
-                              <Trash2Icon className="size-6 text-danger" />
-                            </Button>
-                          </div>
-                          <div className="flex flex-col gap-y-4 p-4 py-2">
-                            {testType === "Listening" && (
-                              <>
+                                  }
+                                }}
+                                variant="ghost"
+                                size="icon"
+                              >
+                                <Trash2Icon className="size-6 text-danger" />
+                              </Button>
+                            </div>
+                            <div className="flex flex-col gap-y-4 p-4 py-2">
+                              {testType === "Listening" && (
+                                <>
+                                  <FormItem>
+                                    <FormLabel className="flex items-center">
+                                      Audio resource
+                                      <span className="text-lg font-bold leading-none text-primary">
+                                        *
+                                      </span>
+                                    </FormLabel>
+                                    <FormControl>
+                                      <>
+                                        <Input
+                                          onChange={(e) =>
+                                            handleAudioUpload(e, section.id)
+                                          }
+                                          type="file"
+                                          accept="audio/*"
+                                          disabled={disabling}
+                                          className="w-fit"
+                                        />
+
+                                        <Recording
+                                          srcUrl={section.audioResource || null}
+                                        />
+                                      </>
+                                    </FormControl>
+
+                                    <ErrorMessage
+                                      name={`section ${testSectionIndex}, audioResource`}
+                                      message={
+                                        testSectionsErrors[testSectionIndex]
+                                          ?.audioResource?.message
+                                      }
+                                    />
+                                  </FormItem>
+                                  {/* TODO:convert to editor */}
+                                  <FormItem>
+                                    <FormLabel className="flex items-center">
+                                      Audio transcript
+                                    </FormLabel>
+                                    <FormControl>
+                                      <Input
+                                        value={section.sectionTranscript}
+                                        onChange={(e) => {
+                                          const cloneTestSections =
+                                            structuredClone(
+                                              form.getValues("testSections")
+                                            )
+                                          const currentSection =
+                                            cloneTestSections.find(
+                                              (ts) => ts.id === section.id
+                                            )
+                                          if (currentSection) {
+                                            currentSection.sectionTranscript =
+                                              e.target.value
+                                          }
+                                          form.setValue(
+                                            "testSections",
+                                            cloneTestSections
+                                          )
+                                        }}
+                                        disabled={disabling}
+                                        placeholder="Audio transcript..."
+                                      />
+                                    </FormControl>
+
+                                    <ErrorMessage
+                                      name={`section ${testSectionIndex}, sectionTranscript`}
+                                      message={
+                                        testSectionsErrors[testSectionIndex]
+                                          ?.sectionTranscript?.message
+                                      }
+                                    />
+                                  </FormItem>
+                                </>
+                              )}
+
+                              {testType === "Reading" && (
                                 <FormItem>
                                   <FormLabel className="flex items-center">
-                                    Audio resource
+                                    Reading passage
                                     <span className="text-lg font-bold leading-none text-primary">
                                       *
                                     </span>
-                                  </FormLabel>
-                                  <FormControl>
-                                    <>
-                                      <Input
-                                        onChange={(e) =>
-                                          handleAudioUpload(e, section.id)
-                                        }
-                                        type="file"
-                                        accept="audio/*"
-                                        disabled={disabling}
-                                        className="w-fit"
-                                      />
-
-                                      <Recording
-                                        srcUrl={
-                                          form
-                                            .getValues("testSections")
-                                            .find((ts) => ts.id === section.id)
-                                            ?.audioResource || null
-                                        }
-                                      />
-                                    </>
-                                  </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                                {/* TODO:convert to editor */}
-                                <FormItem>
-                                  <FormLabel className="flex items-center">
-                                    Audio transcript
                                   </FormLabel>
                                   <FormControl>
                                     <Input
@@ -557,17 +618,19 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
                                         form
                                           .getValues("testSections")
                                           .find((ts) => ts.id === section.id)
-                                          ?.sectionTranscript
+                                          ?.readingDesc
                                       }
                                       onChange={(e) => {
                                         const cloneTestSections =
-                                          form.getValues("testSections")
+                                          structuredClone(
+                                            form.getValues("testSections")
+                                          )
                                         const currentSection =
                                           cloneTestSections.find(
                                             (ts) => ts.id === section.id
                                           )
                                         if (currentSection) {
-                                          currentSection.sectionTranscript =
+                                          currentSection.readingDesc =
                                             e.target.value
                                         }
                                         form.setValue(
@@ -576,105 +639,27 @@ function TestForm({ type, testId, categoryItems, tagItems }: Props) {
                                         )
                                       }}
                                       disabled={disabling}
-                                      placeholder="Audio transcript..."
+                                      placeholder="Reading passage..."
                                     />
                                   </FormControl>
-                                  <FormMessage />
-                                </FormItem>
-                              </>
-                            )}
 
-                            {/* <div>
-                              <FormItem>
-                                <FormControl>
-                                  <Editor
-                                    apiKey={
-                                      import.meta.env.VITE_TINY_EDITOR_API_KEY
+                                  <ErrorMessage
+                                    name={`section ${testSectionIndex}, readingDesc`}
+                                    message={
+                                      testSectionsErrors[testSectionIndex]
+                                        ?.readingDesc?.message
                                     }
-                                    init={{
-                                      ...editorPlugin,
-                                      skin:
-                                        actualTheme === "dark"
-                                          ? "oxide-dark"
-                                          : undefined,
-                                      content_css:
-                                        actualTheme === "dark"
-                                          ? "dark"
-                                          : undefined,
-                                    }}
-                                    onEditorChange={(value) =>
-                                      handleQuestionContentChange(
-                                        value,
-                                        question.id,
-                                        field.onChange
-                                      )
-                                    }
-                                    value={question.content}
                                   />
-                                </FormControl>
-
-                                {questionsErrors[index]?.content?.message && (
-                                  <div className="text-sm font-medium text-danger">
-                                    {questionsErrors[index]?.content?.message}
-                                  </div>
-                                )}
-                              </FormItem>
-                            </div> */}
-                            {/* <RadioGroup
-                              value={String(
-                                question.options.findIndex((o) => o.correct)
-                              )}
-                              onValueChange={(value) =>
-                                handleCorrectRadioChange(
-                                  String(
-                                    question.options.findIndex((o) => o.correct)
-                                  ), // old value
-                                  value,
-                                  question.id,
-                                  field.onChange
-                                )
-                              }
-                              className="flex flex-col gap-y-3"
-                            >
-                              {["A", "B", "C", "D"].map((option, i) => (
-                                <FormItem key={option}>
-                                  <FormControl>
-                                    <div className="flex items-center gap-x-2">
-                                      <label className="flex cursor-pointer items-center gap-x-2">
-                                        <RadioGroupItem value={String(i)} />
-                                        <p className="font-bold">{option}.</p>
-                                      </label>
-                                      <Input
-                                        value={question.options[i].content}
-                                        onChange={(e) =>
-                                          handleOptionChange(
-                                            e,
-                                            question.id,
-                                            i,
-                                            field.onChange
-                                          )
-                                        }
-                                        placeholder={`Option ${option}...`}
-                                      />
-                                    </div>
-                                  </FormControl>
-                                  {questionsErrors[index]?.options?.[i]?.content
-                                    ?.message && (
-                                    <div className="text-sm font-medium text-danger">
-                                      {
-                                        questionsErrors[index]?.options?.[i]
-                                          ?.content?.message
-                                      }
-                                    </div>
-                                  )}
                                 </FormItem>
-                              ))}
-                            </RadioGroup> */}
+                              )}
+
+                              {/* partitions */}
+                            </div>
                           </div>
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  ))}
+                        </FormControl>
+                      </FormItem>
+                    )
+                  })}
                   <div
                     onClick={() => {
                       form.setValue("testSections", [

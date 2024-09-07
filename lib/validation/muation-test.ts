@@ -29,6 +29,8 @@ const questionSchema = z.object({
 // )
 
 const testSectionPartitionSchema = z.object({
+  //TODO: remove on submit
+  id: z.string().min(1),
   partitionDesc: z.string().min(1, "Partition description is require"),
   //TODO: serialize to cloudResource on Submit
   imageResource: z.string().optional(),
@@ -53,7 +55,7 @@ const testSectionSchema = z
     testType: z.enum(["Listening", "Reading", "Speaking", "Writing"]),
     //TODO: serialize to cloudResource on Submit
     audioResource: z.string().optional(),
-    testSectionPartitions: z.array(testSectionPartitionSchema),
+    // testSectionPartitions: z.array(testSectionPartitionSchema),
   })
   .refine(
     (data) => {
@@ -104,11 +106,12 @@ export const createSection = ({
     id: uuidv4(),
     testType,
     totalQuestion: 0,
-    testSectionPartitions: [
-      {
-        partitionDesc: "",
-        questions: [],
-      },
-    ],
+    // testSectionPartitions: [
+    //   {
+    //     id: uuidv4(),
+    //     partitionDesc: "",
+    //     questions: [],
+    //   },
+    // ],
   }
 }

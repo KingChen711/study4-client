@@ -13,7 +13,7 @@ function StaffTestPage() {
         <Button asChild>
           <Link href="/staff/tests/create">
             <Plus className="mr-1 size-5" />
-            Create Job
+            Create test
           </Link>
         </Button>
       </div>
