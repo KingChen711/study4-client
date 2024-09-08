@@ -3,7 +3,7 @@ import { type TestType } from "@/types"
 import { Plus, Trash2Icon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
-import { base64ToFile, cn, fileToBase64 } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   createSection,
   type TMutationTestSchema,
@@ -22,8 +22,9 @@ import Recording from "@/components/ui/recording"
 
 import PartitionsField from "./partitions-field"
 import {
-  type THandleAudioSection,
+  type THandleChangeAudioSection,
   type THandleChangeCorrectOption,
+  type THandleChangeImagePartition,
 } from "./test-form"
 
 export const testTypeToSectionPrefix = {
@@ -40,7 +41,8 @@ type Props = {
   partitionTagItems: PartitionTag[]
   errors: FieldErrors<TMutationTestSchema>
   onChangeCorrectOption: (params: THandleChangeCorrectOption) => void
-  onChangeAudio: (params: THandleAudioSection) => void
+  onChangeAudio: (params: THandleChangeAudioSection) => void
+  onChangeImagePartition: (params: THandleChangeImagePartition) => void
 }
 
 function SectionFields({
@@ -51,6 +53,7 @@ function SectionFields({
   errors,
   onChangeCorrectOption,
   onChangeAudio,
+  onChangeImagePartition,
 }: Props) {
   const { fields, append, remove } = useFieldArray({
     name: "testSections",
@@ -187,6 +190,7 @@ function SectionFields({
                 sectionIndex={index}
                 errors={errors}
                 onChangeCorrectOption={onChangeCorrectOption}
+                onChangeImagePartition={onChangeImagePartition}
               />
             </div>
           </div>

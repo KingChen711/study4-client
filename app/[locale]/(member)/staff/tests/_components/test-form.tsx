@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useTransition } from "react"
+import React, { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import {
@@ -8,20 +8,20 @@ import {
   type Tag,
   type TestCategory,
 } from "@/queries/test/create-test-items/get-create-test-items"
-import { type TCloudResource } from "@/types"
 import { useAuth } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CheckIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-import prep4Api from "@/lib/prep4-api"
-import { base64ToFile, cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
 import {
   createSection,
   mutationTestSchema,
   type TMutationTestSchema,
 } from "@/lib/validation/mutation-test"
+import { assignCloudAudios } from "@/actions/resource/assign-cloud-audios"
+import { assignCloudImages } from "@/actions/resource/assign-cloud-images"
 import { createTest } from "@/actions/test/create-test"
 import { Button } from "@/components/ui/button"
 import {
@@ -66,8 +66,14 @@ export type THandleChangeCorrectOption = {
   questionAnswerIndex: number
 }
 
-export type THandleAudioSection = {
+export type THandleChangeAudioSection = {
   sectionIndex: number
+  file: File
+}
+
+export type THandleChangeImagePartition = {
+  sectionIndex: number
+  partitionIndex: number
   file: File
 }
 
@@ -89,49 +95,33 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
   })
 
   const onSubmit = async (values: TMutationTestSchema) => {
-    // console.log({ values })
-
     startTransition(async () => {
       const token = await getToken()
+
+      if (!token) throw new Error("Forbidden")
+
       try {
-        const audioCloudResource = await Promise.all(
-          values.testSections.map(async (ts) => {
-            if (!ts.audioFile) return undefined
-
-            const formData = new FormData()
-            formData.append("testType", "Listening")
-            formData.append("testTitle", values.testTitle)
-            formData.append("testSectionName", ts.testSectionName!)
-            formData.append("file", ts.audioFile as File)
-
-            const { data } = await prep4Api.post<{ data: TCloudResource }>(
-              "/api/resources/audio/upload",
-              formData,
-              {
-                headers: {
-                  "Content-Type": "multipart/form-data",
-                  Authorization: `Bearer ${token}`,
-                },
-              }
-            )
-
-            return data.data
-          })
-        )
-
-        values.testSections = values.testSections.map((ts, i) => {
-          ts.cloudResource = audioCloudResource[i]
-          ts.audioUrl = undefined
-          ts.audioFile = undefined
-          return ts
+        values.testSections = await assignCloudAudios({
+          testSections: values.testSections,
+          testTitle: values.testTitle,
+          token,
         })
 
-        console.log(values)
+        values.testSections = await assignCloudImages({
+          testSections: values.testSections,
+          testTitle: values.testTitle,
+          testType: values.testType,
+          token,
+        })
 
-        // const res = await createTest(values)
-        // console.log({ res })
+        const res = await createTest(values)
+        if (res.isSuccess) {
+          router.push("/staff/tests")
+          return
+        }
+
+        toast.error(UNKNOWN_ERROR_MESSAGE)
       } catch (error) {
-        console.log(error)
         toast.error(UNKNOWN_ERROR_MESSAGE)
       }
     })
@@ -202,8 +192,22 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
     )
   }
 
-  const handleChangeAudio = ({ file, sectionIndex }: THandleAudioSection) => {
+  const handleChangeAudioSection = ({
+    file,
+    sectionIndex,
+  }: THandleChangeAudioSection) => {
     form.setValue(`testSections.${sectionIndex}.audioFile`, file)
+  }
+
+  const handleChangeImagePartition = ({
+    file,
+    sectionIndex,
+    partitionIndex,
+  }: THandleChangeImagePartition) => {
+    form.setValue(
+      `testSections.${sectionIndex}.testSectionPartitions.${partitionIndex}.imageFile`,
+      file
+    )
   }
 
   const handleChangeCorrectOption = ({
@@ -490,7 +494,8 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
                 <SectionFields
                   errors={form.formState.errors}
                   onChangeCorrectOption={handleChangeCorrectOption}
-                  onChangeAudio={handleChangeAudio}
+                  onChangeAudio={handleChangeAudioSection}
+                  onChangeImagePartition={handleChangeImagePartition}
                   partitionTagItems={partitionTagItems}
                   disabled={pending}
                   testType={form.getValues("testType")}

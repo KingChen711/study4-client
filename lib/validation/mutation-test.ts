@@ -6,17 +6,31 @@ import { testTypeToSectionPrefix } from "@/app/[locale]/(member)/staff/tests/_co
 import { indexToAlphabet } from "../utils"
 
 const questionAnswerSchema = z.object({
-  answerDisplay: z.string().optional(),
+  answerDisplay: z
+    .string()
+    .optional()
+    .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined
   answerText: z.string().min(1, "Require"),
   isTrue: z.boolean(),
 })
 
 const questionSchema = z
   .object({
-    questionDesc: z.string().optional(),
-    questionAnswerExplanation: z.string().optional(),
+    questionDesc: z
+      .string()
+      .min(5, "Question title must be at least 5 characters")
+      .max(255, "Question title must not exceed 255 characters")
+      .optional()
+      .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined
+    questionAnswerExplanation: z
+      .string()
+      .optional()
+      .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined,
     //will be remove on transform
-    answerDisplay: z.string().optional(),
+    answerDisplay: z
+      .string()
+      .optional()
+      .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined,
     //calculate on submit
     questionNumber: z.number().optional(),
     isMultipleChoice: z.boolean(),
@@ -61,8 +75,9 @@ const questionSchema = z
 const testSectionPartitionSchema = z.object({
   partitionDesc: z.string().min(1, "Partition description is require"),
 
-  //TODO: serialize to cloudResource on Submit
-  imageResource: z.string().optional(),
+  //serialize to cloudResource on Submit
+  imageUrl: z.string().optional(),
+  imageFile: z.any().optional(),
   cloudResource: cloudResourceSchema.optional(),
 
   partitionTagId: z
@@ -73,20 +88,26 @@ const testSectionPartitionSchema = z.object({
   questions: z.array(questionSchema),
 })
 
-const testSectionSchema = z
+export const testSectionSchema = z
   .object({
     //add on submit
     testSectionName: z.string().optional(),
-    readingDesc: z.string().optional(),
+    readingDesc: z
+      .string()
+      .optional()
+      .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined,
 
-    //TODO: serialize to cloudResource on Submit
+    //serialize to cloudResource on Submit
     audioUrl: z.string().optional(),
     audioFile: z.any().optional(),
     cloudResource: cloudResourceSchema.optional(),
 
     //calculate on transform
     totalQuestion: z.number().int().nonnegative(),
-    sectionTranscript: z.string().optional(),
+    sectionTranscript: z
+      .string()
+      .optional()
+      .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined,
     //remove on submit
     testType: z
       .enum(["Listening", "Reading", "Speaking", "Writing"])
@@ -111,7 +132,11 @@ const testSectionSchema = z
 
 export const mutationTestSchema = z
   .object({
-    testTitle: z.string().trim().min(1, "Test title is required"),
+    testTitle: z
+      .string()
+      .trim()
+      .min(10, "Test title must be at least 10 characters")
+      .max(155, "Test title must not exceed 155 characters"),
     duration: z.coerce
       .number({ message: "Expected number" })
       .int()

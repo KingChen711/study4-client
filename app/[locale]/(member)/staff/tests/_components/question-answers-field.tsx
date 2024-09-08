@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React from "react"
 import { Plus, Trash2Icon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 

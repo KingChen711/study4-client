@@ -5,7 +5,6 @@ import { format, type Locale } from "date-fns"
 import { StatusCodes } from "http-status-codes"
 import queryString from "query-string"
 import { twMerge } from "tailwind-merge"
-import { v4 as uuidv4 } from "uuid"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))

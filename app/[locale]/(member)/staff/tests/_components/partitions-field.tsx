@@ -32,7 +32,10 @@ import {
 
 import QuestionsField from "./questions-field"
 import { testTypeToSectionPrefix } from "./sections-field"
-import { type THandleChangeCorrectOption } from "./test-form"
+import {
+  type THandleChangeCorrectOption,
+  type THandleChangeImagePartition,
+} from "./test-form"
 
 type Props = {
   control: Control<TMutationTestSchema>
@@ -42,6 +45,7 @@ type Props = {
   testType: TestType
   errors: FieldErrors<TMutationTestSchema>
   onChangeCorrectOption: (params: THandleChangeCorrectOption) => void
+  onChangeImagePartition: (params: THandleChangeImagePartition) => void
 }
 
 function PartitionsField({
@@ -52,6 +56,7 @@ function PartitionsField({
   testType,
   errors,
   onChangeCorrectOption,
+  onChangeImagePartition,
 }: Props) {
   const { fields, append, remove } = useFieldArray({
     name: `testSections.${sectionIndex}.testSectionPartitions`,
@@ -60,7 +65,8 @@ function PartitionsField({
 
   const handleImageChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
+    fieldChange: (value: string) => void,
+    partitionIndex: number
   ) => {
     e.preventDefault()
 
@@ -70,6 +76,12 @@ function PartitionsField({
       const file = e.target.files[0]
 
       if (!file.type.includes("image")) return
+
+      onChangeImagePartition({
+        file,
+        sectionIndex,
+        partitionIndex,
+      })
 
       fileReader.onload = async (event) => {
         const imageDataUrl = event.target?.result?.toString() || ""
@@ -200,7 +212,7 @@ function PartitionsField({
 
             <FormField
               control={control}
-              name={`testSections.${sectionIndex}.testSectionPartitions.${index}.imageResource`}
+              name={`testSections.${sectionIndex}.testSectionPartitions.${index}.imageUrl`}
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>
@@ -252,7 +264,9 @@ function PartitionsField({
                       accept="image/*"
                       placeholder="Add profile photo"
                       className="hidden"
-                      onChange={(e) => handleImageChange(e, field.onChange)}
+                      onChange={(e) =>
+                        handleImageChange(e, field.onChange, index)
+                      }
                     />
                   </FormControl>
                   <FormMessage />
