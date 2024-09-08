@@ -3,7 +3,7 @@ import { type TestType } from "@/types"
 import { Plus, Trash2Icon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
-import { cn } from "@/lib/utils"
+import { base64ToFile, cn, fileToBase64 } from "@/lib/utils"
 import {
   createSection,
   type TMutationTestSchema,
@@ -21,7 +21,10 @@ import { Input } from "@/components/ui/input"
 import Recording from "@/components/ui/recording"
 
 import PartitionsField from "./partitions-field"
-import { type THandleChangeCorrectOption } from "./test-form"
+import {
+  type THandleAudioSection,
+  type THandleChangeCorrectOption,
+} from "./test-form"
 
 export const testTypeToSectionPrefix = {
   Listening: "Recording",
@@ -37,6 +40,7 @@ type Props = {
   partitionTagItems: PartitionTag[]
   errors: FieldErrors<TMutationTestSchema>
   onChangeCorrectOption: (params: THandleChangeCorrectOption) => void
+  onChangeAudio: (params: THandleAudioSection) => void
 }
 
 function SectionFields({
@@ -46,6 +50,7 @@ function SectionFields({
   partitionTagItems,
   errors,
   onChangeCorrectOption,
+  onChangeAudio,
 }: Props) {
   const { fields, append, remove } = useFieldArray({
     name: "testSections",
@@ -54,12 +59,15 @@ function SectionFields({
 
   const handleAudioUpload = (
     e: React.ChangeEvent<HTMLInputElement>,
-    fieldChange: (value: string) => void
+    fieldChange: (value: string) => void,
+    sectionIndex: number
   ) => {
     const file = e.target.files?.[0]
+    if (!file?.type.includes("audio")) return
     if (file) {
       const audioURL = URL.createObjectURL(file)
       fieldChange(audioURL)
+      onChangeAudio({ file, sectionIndex })
     }
   }
 
@@ -95,7 +103,7 @@ function SectionFields({
                 <>
                   <FormField
                     control={control}
-                    name={`testSections.${index}.audioResource`}
+                    name={`testSections.${index}.audioUrl`}
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel className="flex items-center">
@@ -109,7 +117,7 @@ function SectionFields({
                             <Input
                               disabled={disabled}
                               onChange={(e) =>
-                                handleAudioUpload(e, field.onChange)
+                                handleAudioUpload(e, field.onChange, index)
                               }
                               type="file"
                               accept="audio/*"

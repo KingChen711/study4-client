@@ -2,21 +2,27 @@
 
 import React, { useEffect, useTransition } from "react"
 import { useRouter } from "next/navigation"
+import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import {
   type PartitionTag,
   type Tag,
   type TestCategory,
 } from "@/queries/test/create-test-items/get-create-test-items"
+import { type TCloudResource } from "@/types"
+import { useAuth } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CheckIcon } from "lucide-react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
-import { cn } from "@/lib/utils"
+import prep4Api from "@/lib/prep4-api"
+import { base64ToFile, cn } from "@/lib/utils"
 import {
   createSection,
   mutationTestSchema,
   type TMutationTestSchema,
 } from "@/lib/validation/mutation-test"
+import { createTest } from "@/actions/test/create-test"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -60,9 +66,15 @@ export type THandleChangeCorrectOption = {
   questionAnswerIndex: number
 }
 
+export type THandleAudioSection = {
+  sectionIndex: number
+  file: File
+}
+
 function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
+  const { getToken } = useAuth()
 
   const form = useForm<TMutationTestSchema>({
     resolver: zodResolver(mutationTestSchema),
@@ -76,10 +88,53 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
     },
   })
 
-  useEffect(() => console.log(form.formState.errors), [form.formState.errors])
-
   const onSubmit = async (values: TMutationTestSchema) => {
-    console.log({ values })
+    // console.log({ values })
+
+    startTransition(async () => {
+      const token = await getToken()
+      try {
+        const audioCloudResource = await Promise.all(
+          values.testSections.map(async (ts) => {
+            if (!ts.audioFile) return undefined
+
+            const formData = new FormData()
+            formData.append("testType", "Listening")
+            formData.append("testTitle", values.testTitle)
+            formData.append("testSectionName", ts.testSectionName!)
+            formData.append("file", ts.audioFile as File)
+
+            const { data } = await prep4Api.post<{ data: TCloudResource }>(
+              "/api/resources/audio/upload",
+              formData,
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+
+            return data.data
+          })
+        )
+
+        values.testSections = values.testSections.map((ts, i) => {
+          ts.cloudResource = audioCloudResource[i]
+          ts.audioUrl = undefined
+          ts.audioFile = undefined
+          return ts
+        })
+
+        console.log(values)
+
+        // const res = await createTest(values)
+        // console.log({ res })
+      } catch (error) {
+        console.log(error)
+        toast.error(UNKNOWN_ERROR_MESSAGE)
+      }
+    })
 
     // const formData = new FormData()
     // formData.append("code", values.code)
@@ -147,6 +202,10 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
     )
   }
 
+  const handleChangeAudio = ({ file, sectionIndex }: THandleAudioSection) => {
+    form.setValue(`testSections.${sectionIndex}.audioFile`, file)
+  }
+
   const handleChangeCorrectOption = ({
     sectionIndex,
     partitionIndex,
@@ -158,8 +217,6 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
     ).length
 
     for (let i = 0; i < questionAnswersCount; ++i) {
-      console.log(questionAnswerIndex === i)
-
       form.setValue(
         `testSections.${sectionIndex}.testSectionPartitions.${partitionIndex}.questions.${questionIndex}.questionAnswers.${i}.isTrue`,
         questionAnswerIndex === i
@@ -433,6 +490,7 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
                 <SectionFields
                   errors={form.formState.errors}
                   onChangeCorrectOption={handleChangeCorrectOption}
+                  onChangeAudio={handleChangeAudio}
                   partitionTagItems={partitionTagItems}
                   disabled={pending}
                   testType={form.getValues("testType")}

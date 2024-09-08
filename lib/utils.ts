@@ -5,6 +5,7 @@ import { format, type Locale } from "date-fns"
 import { StatusCodes } from "http-status-codes"
 import queryString from "query-string"
 import { twMerge } from "tailwind-merge"
+import { v4 as uuidv4 } from "uuid"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -125,4 +126,123 @@ export function convertSecondToText(seconds: number): string {
   const ss = remainingSeconds.toString().padStart(2, "0")
 
   return `${hh}:${mm}:${ss}`
+}
+
+export function objectToFormData(obj: { [key: string]: unknown }): FormData {
+  const formData = new FormData()
+
+  for (const key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      formData.append(key, JSON.stringify(obj[key]))
+    }
+  }
+
+  return formData
+}
+
+export async function audioBlogUrlToFile(
+  blobUrl: string,
+  fileNameWithoutExt: string
+): Promise<File> {
+  console.log({ blobUrl, fileNameWithoutExt })
+
+  // Fetch the Blob from the Blob URL
+  const response = await fetch(blobUrl)
+  const blob = await response.blob()
+
+  // Extract MIME type to guess the file extension
+  const mimeType = blob.type
+  let extension = ""
+
+  // Determine file extension based on MIME type (only handling common audio types here)
+  switch (mimeType) {
+    case "audio/mpeg":
+      extension = ".mp3"
+      break
+    case "audio/wav":
+      extension = ".wav"
+      break
+    case "audio/ogg":
+      extension = ".ogg"
+      break
+    case "audio/aac":
+      extension = ".aac"
+      break
+    default:
+      extension = "" // If MIME type is unknown, leave it without extension
+  }
+
+  // Construct the final file name with or without an extension
+  const fileName = extension
+    ? `${fileNameWithoutExt}${extension}`
+    : fileNameWithoutExt
+
+  // Create a File from the Blob
+  const file = new File([blob], fileName, {
+    type: blob.type,
+  })
+
+  return file
+}
+
+// export function base64ToFile(base64: string): File {
+//   // Extract the MIME type from the base64 string
+//   const mimeType =
+//     base64.match(/data:(.*?);base64/)?.[1] || "application/octet-stream"
+
+//   // Decode the Base64 string to binary data
+//   const byteString = atob(base64.split(",")[1])
+
+//   // Create an array buffer to hold the binary data
+//   const arrayBuffer = new ArrayBuffer(byteString.length)
+//   const uint8Array = new Uint8Array(arrayBuffer)
+
+//   // Fill the array buffer with binary data
+//   for (let i = 0; i < byteString.length; i++) {
+//     uint8Array[i] = byteString.charCodeAt(i)
+//   }
+
+//   // Create a Blob from the buffer
+//   const blob = new Blob([uint8Array], { type: mimeType })
+
+//   // Convert Blob to a File object (with default name since name is not needed)
+//   return new File([blob], uuidv4(), { type: mimeType })
+// }
+
+export function base64ToFile(base64: string, fileName: string): File {
+  // Split the base64 string into the data and the mime type parts
+  const [header, data] = base64.split(",")
+  const mimeType = header.match(/:(.*?);/)?.[1] || "audio/mpeg" // Default to 'audio/mpeg' if not found
+
+  // Decode the base64 data
+  const byteCharacters = atob(data)
+  const byteNumbers = new Array(byteCharacters.length)
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i)
+  }
+
+  const byteArray = new Uint8Array(byteNumbers)
+
+  // Create a File from the byte array
+  const file = new File([byteArray], fileName, { type: mimeType })
+
+  return file
+}
+
+export function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader()
+
+    reader.onload = () => {
+      const base64String = (reader.result as string).split(",")[1] // Exclude metadata prefix
+      resolve(base64String)
+    }
+
+    reader.onerror = () => {
+      reject(new Error("Error reading file."))
+    }
+
+    reader.readAsDataURL(file) // Read file as data URL
+  })
 }

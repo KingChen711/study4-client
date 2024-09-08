@@ -41,8 +41,6 @@ function AnswerDialog({
     partitionId,
   })
 
-  console.log({ gradeId, partitionId })
-
   const t = useTranslations("TestResultPage")
 
   return (

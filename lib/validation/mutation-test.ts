@@ -1,5 +1,9 @@
-import { type TestType } from "@/types"
+import { cloudResourceSchema, type TestType } from "@/types"
 import z from "zod"
+
+import { testTypeToSectionPrefix } from "@/app/[locale]/(member)/staff/tests/_components/sections-field"
+
+import { indexToAlphabet } from "../utils"
 
 const questionAnswerSchema = z.object({
   answerDisplay: z.string().optional(),
@@ -11,9 +15,9 @@ const questionSchema = z
   .object({
     questionDesc: z.string().optional(),
     questionAnswerExplanation: z.string().optional(),
-    //remove on submit
+    //will be remove on transform
     answerDisplay: z.string().optional(),
-    //define on submit
+    //calculate on submit
     questionNumber: z.number().optional(),
     isMultipleChoice: z.boolean(),
     questionAnswers: z
@@ -26,7 +30,7 @@ const questionSchema = z
   })
   .refine((data) => data.isMultipleChoice || !!data.answerDisplay, {
     message: "Answer display is required",
-    path: ["questionDesc"],
+    path: ["answerDisplay"],
   })
   .refine(
     (data) =>
@@ -36,55 +40,116 @@ const questionSchema = z
       path: ["questionAnswers"],
     }
   )
+  .transform((data) => {
+    if (!data.isMultipleChoice) {
+      data.questionAnswers = data.questionAnswers.map((qa) => {
+        qa.answerDisplay = data.answerDisplay
+        return qa
+      })
+      data.answerDisplay = undefined
+      return data
+    }
+
+    data.questionAnswers = data.questionAnswers.map((qa, i) => {
+      qa.answerDisplay = indexToAlphabet(i)
+      return qa
+    })
+
+    return data
+  })
 
 const testSectionPartitionSchema = z.object({
   partitionDesc: z.string().min(1, "Partition description is require"),
+
   //TODO: serialize to cloudResource on Submit
   imageResource: z.string().optional(),
+  cloudResource: cloudResourceSchema.optional(),
+
   partitionTagId: z
     .number()
     .optional()
-    //problem with initial without parition tag, so check require by refine
+    //problem with initial without partition tag, so check require by refine
     .refine((value) => !!value, "Partition tag is required"),
   questions: z.array(questionSchema),
 })
 
 const testSectionSchema = z
   .object({
-    //TODO: add on submit
-    // testSectionName: z.string().min(1, "Section name is require"),
+    //add on submit
+    testSectionName: z.string().optional(),
+    readingDesc: z.string().optional(),
+
+    //TODO: serialize to cloudResource on Submit
+    audioUrl: z.string().optional(),
+    audioFile: z.any().optional(),
+    cloudResource: cloudResourceSchema.optional(),
+
+    //calculate on transform
     totalQuestion: z.number().int().nonnegative(),
     sectionTranscript: z.string().optional(),
-    readingDesc: z.string().optional(),
-    //TODO: remove on submit
-    testType: z.enum(["Listening", "Reading", "Speaking", "Writing"]),
-    //TODO: serialize to cloudResource on Submit
-    audioResource: z.string().optional(),
+    //remove on submit
+    testType: z
+      .enum(["Listening", "Reading", "Speaking", "Writing"])
+      .optional(),
     testSectionPartitions: z.array(testSectionPartitionSchema),
   })
   .refine((data) => data.testType !== "Reading" || !!data.readingDesc, {
     path: ["readingDesc"],
     message: "Reading passage is require",
   })
-  .refine((data) => data.testType !== "Listening" || !!data.audioResource, {
-    path: ["audioResource"],
+  .refine((data) => data.testType !== "Listening" || !!data.audioUrl, {
+    path: ["audioUrl"],
     message: "Audio resource is require",
   })
+  .transform((data) => {
+    data.testType = undefined
+    data.totalQuestion = data.testSectionPartitions.flatMap(
+      (sp) => sp.questions
+    ).length
+    return data
+  })
 
-export const mutationTestSchema = z.object({
-  testTitle: z.string().trim().min(1, "Test title is required"),
-  duration: z.coerce
-    .number({ message: "Expected number" })
-    .int()
-    .min(1, "Duration is at least 1 minutes")
-    .transform((value) => value * 60),
-  testType: z.enum(["Listening", "Reading", "Speaking", "Writing"]),
-  totalQuestion: z.number().int().nonnegative(),
-  totalSection: z.number().int().nonnegative(),
-  testCategoryId: z.number().int().nonnegative(),
-  tags: z.array(z.number()).catch([]),
-  testSections: z.array(testSectionSchema),
-})
+export const mutationTestSchema = z
+  .object({
+    testTitle: z.string().trim().min(1, "Test title is required"),
+    duration: z.coerce
+      .number({ message: "Expected number" })
+      .int()
+      .min(1, "Duration is at least 1 minutes")
+      .transform((value) => value * 60),
+    testType: z.enum(["Listening", "Reading", "Speaking", "Writing"]),
+    //calculate on transform
+    totalQuestion: z.number().int().nonnegative(),
+    //calculate on transform
+    totalSection: z.number().int().nonnegative(),
+    testCategoryId: z.number().int().nonnegative(),
+    tags: z.array(z.number()).catch([]),
+    testSections: z.array(testSectionSchema),
+  })
+  .transform((data) => {
+    data.testSections = data.testSections.map((ts, i) => {
+      ts.testSectionName = `${testTypeToSectionPrefix[data.testType]} ${i + 1}`
+      return ts
+    })
+
+    data.totalSection = data.testSections.length
+
+    data.totalQuestion = data.testSections.reduce(
+      (cur, ts) => cur + ts.totalQuestion,
+      0
+    )
+
+    let countQuestionNumber = 1
+    data.testSections.forEach((ts) =>
+      ts.testSectionPartitions.forEach((tsp) =>
+        tsp.questions.forEach((q) => {
+          q.questionNumber = countQuestionNumber++
+        })
+      )
+    )
+
+    return data
+  })
 
 export type TMutationTestSchema = z.infer<typeof mutationTestSchema>
 

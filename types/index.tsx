@@ -1,3 +1,5 @@
+import { z } from "zod"
+
 export type UserPayload = {
   id: string
   email: string
@@ -22,3 +24,10 @@ export type PagingMetaData = {
 }
 
 export type TestType = "Listening" | "Reading" | "Speaking" | "Writing"
+
+export const cloudResourceSchema = z.object({
+  publicId: z.string().min(1),
+  url: z.string().min(1),
+})
+
+export type TCloudResource = z.infer<typeof cloudResourceSchema>

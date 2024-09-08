@@ -44,10 +44,6 @@ function QuestionAnswersField({
     control,
   })
 
-  useEffect(() => {
-    console.log({ fields })
-  }, [fields])
-
   const questionAnswerMessage =
     errors?.testSections?.[sectionIndex]?.testSectionPartitions?.[
       partitionIndex

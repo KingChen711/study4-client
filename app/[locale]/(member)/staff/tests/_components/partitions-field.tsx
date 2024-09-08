@@ -69,14 +69,10 @@ function PartitionsField({
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0]
 
-      console.log(file)
-
       if (!file.type.includes("image")) return
 
       fileReader.onload = async (event) => {
         const imageDataUrl = event.target?.result?.toString() || ""
-
-        console.log({ imageDataUrl })
 
         fieldChange(imageDataUrl)
       }
