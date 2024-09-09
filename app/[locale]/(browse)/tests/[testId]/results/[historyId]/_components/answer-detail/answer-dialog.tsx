@@ -14,6 +14,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 import NoResult from "@/components/ui/no-result"
+import ParseHtml from "@/components/ui/parse-html"
 import Recording from "@/components/ui/recording"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -102,8 +103,10 @@ function AnswerDialog({
                     }
                   />
                   {/* <Passage readingDesc={section.readingDesc} /> */}
-                  <div className="rounded-md bg-input p-3">
-                    {answerTranscript.testSectionPart.partitionDesc}
+                  <div className="rounded-md border-2 p-3">
+                    <ParseHtml
+                      data={answerTranscript.testSectionPart.partitionDesc}
+                    />
                   </div>
                 </div>
                 <Separator className="my-2" />

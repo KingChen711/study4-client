@@ -1,5 +1,7 @@
 import React from "react"
+import { editorPlugin } from "@/constants"
 import { type TestType } from "@/types"
+import { Editor } from "@tinymce/tinymce-react"
 import { Plus, Trash2Icon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
@@ -145,12 +147,17 @@ function SectionFields({
                           Transcript
                         </FormLabel>
                         <FormControl>
-                          <Input
+                          <Editor
                             disabled={disabled}
-                            placeholder="Transcript..."
-                            {...field}
+                            apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                            init={{
+                              ...editorPlugin,
+                            }}
+                            onEditorChange={field.onChange}
+                            value={field.value}
                           />
                         </FormControl>
+
                         <FormMessage />
                       </FormItem>
                     )}
@@ -170,12 +177,17 @@ function SectionFields({
                         </span>
                       </FormLabel>
                       <FormControl>
-                        <Input
+                        <Editor
                           disabled={disabled}
-                          placeholder="Reading passage..."
-                          {...field}
+                          apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                          init={{
+                            ...editorPlugin,
+                          }}
+                          onEditorChange={field.onChange}
+                          value={field.value}
                         />
                       </FormControl>
+
                       <FormMessage />
                     </FormItem>
                   )}

@@ -1,7 +1,9 @@
 import React from "react"
 import Image from "next/image"
+import { editorPlugin } from "@/constants"
 import { type PartitionTag } from "@/queries/test/create-test-items/get-create-test-items"
 import { type TestType } from "@/types"
+import { Editor } from "@tinymce/tinymce-react"
 import { CheckIcon, Plus, Trash2Icon, UploadIcon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
@@ -199,12 +201,17 @@ function PartitionsField({
                     </span>
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <Editor
                       disabled={disabled}
-                      placeholder="Partition description..."
-                      {...field}
+                      apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                      init={{
+                        ...editorPlugin,
+                      }}
+                      onEditorChange={field.onChange}
+                      value={field.value}
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}
@@ -232,7 +239,7 @@ function PartitionsField({
                           className="rounded-md object-contain group-hover:opacity-55"
                         />
 
-                        <Button
+                        {/* <Button
                           disabled={disabled}
                           onClick={(e) => {
                             e.preventDefault()
@@ -243,7 +250,7 @@ function PartitionsField({
                           className="absolute right-2 top-2 hidden group-hover:inline-flex"
                         >
                           <Trash2Icon className="size-6 text-danger" />
-                        </Button>
+                        </Button> */}
                       </div>
                     ) : (
                       <div

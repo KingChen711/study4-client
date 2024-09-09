@@ -1,6 +1,7 @@
 import React from "react"
 
 import { cn } from "@/lib/utils"
+import ParseHtml from "@/components/ui/parse-html"
 
 type Props = {
   havePassage: boolean
@@ -16,11 +17,11 @@ function PartitionContent({
   return (
     <div
       className={cn(
-        "col-span-12 rounded-md bg-input p-3 xl:col-span-7",
+        "col-span-12 rounded-md border-2 p-3 xl:col-span-7",
         (havePassage || isVerticalLayout) && "xl:col-span-12"
       )}
     >
-      {partitionDesc}
+      <ParseHtml data={partitionDesc} />
     </div>
   )
 }

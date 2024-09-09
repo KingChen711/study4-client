@@ -1,5 +1,7 @@
 import React from "react"
+import { editorPlugin } from "@/constants"
 import { type TestType } from "@/types"
+import { Editor } from "@tinymce/tinymce-react"
 import { Plus, Trash2Icon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
@@ -101,12 +103,17 @@ function QuestionsField({
                     Question answer explanation
                   </FormLabel>
                   <FormControl>
-                    <Input
+                    <Editor
                       disabled={disabled}
-                      placeholder="Question answer explanation..."
-                      {...field}
+                      apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
+                      init={{
+                        ...editorPlugin,
+                      }}
+                      onEditorChange={field.onChange}
+                      value={field.value}
                     />
                   </FormControl>
+
                   <FormMessage />
                 </FormItem>
               )}

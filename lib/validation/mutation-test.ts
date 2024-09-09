@@ -18,10 +18,16 @@ const questionSchema = z
   .object({
     questionDesc: z
       .string()
-      .min(5, "Question title must be at least 5 characters")
-      .max(255, "Question title must not exceed 255 characters")
       .optional()
-      .transform((data) => (data === "" ? undefined : data)), //if empty -> undefined
+      .transform((data) => (data === "" ? undefined : data)) //if empty -> undefined
+      .refine(
+        (value) => !value || value?.length >= 5,
+        "Question title must be at least 5 characters or empty"
+      )
+      .refine(
+        (value) => !value || value?.length <= 255,
+        "Question title must not exceed 255 characters or empty"
+      ),
     questionAnswerExplanation: z
       .string()
       .optional()
@@ -118,9 +124,24 @@ export const testSectionSchema = z
     path: ["readingDesc"],
     message: "Reading passage is require",
   })
+  .transform((data) => {
+    if (data.testType !== "Reading") {
+      data.readingDesc = undefined
+    }
+    return data
+  })
   .refine((data) => data.testType !== "Listening" || !!data.audioUrl, {
     path: ["audioUrl"],
     message: "Audio resource is require",
+  })
+  .transform((data) => {
+    if (data.testType !== "Listening") {
+      data.audioFile = undefined
+      data.audioUrl = undefined
+      data.cloudResource = undefined
+      data.sectionTranscript = undefined
+    }
+    return data
   })
   .transform((data) => {
     data.testType = undefined

@@ -125,64 +125,6 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
         toast.error(UNKNOWN_ERROR_MESSAGE)
       }
     })
-
-    // const formData = new FormData()
-    // formData.append("code", values.code)
-    // formData.append("name", values.name)
-    // formData.append("description", values.description || "")
-    // formData.append("color", values.color)
-    // formData.append("image", file as any)
-    // if (type === "update") {
-    //   formData.append("id", testId)
-    // }
-    // mutate(formData, {
-    //   onSuccess: () => {
-    //     toast({
-    //       title: `Test has been ${type === "create" ? "created" : "updated"} successfully`,
-    //       variant: "success",
-    //     })
-    //     return navigate({
-    //       to: "/tests",
-    //       search: {
-    //         pageNumber: 1,
-    //         pageSize: 5,
-    //         search: "",
-    //         status: "All",
-    //         sort: "-createdAt",
-    //       },
-    //     })
-    //   },
-    //   onError: (error) => {
-    //     if (
-    //       isFormError<TMutateTestErrors>(error) &&
-    //       error.response?.status === StatusCodes.UNPROCESSABLE_ENTITY
-    //     ) {
-    //       const fieldErrors = error.response?.data.errors
-    //       const keys = Object.keys(fieldErrors) as (keyof TMutateTestErrors)[]
-    //       keys.forEach((key) =>
-    //         form.setError(key, { message: fieldErrors[key] })
-    //       )
-    //       form.setFocus(keys[0])
-    //       return
-    //     }
-    //     if (
-    //       !isBaseError(error) ||
-    //       error.response?.status === StatusCodes.INTERNAL_SERVER_ERROR
-    //     ) {
-    //       toast({
-    //         title: `Test has been ${type === "create" ? "created" : "updated"} failure`,
-    //         description: "Some thing went wrong.",
-    //         variant: "danger",
-    //       })
-    //       return
-    //     }
-    //     toast({
-    //       title: `Test has been ${type === "create" ? "created" : "updated"} failure`,
-    //       description: error.response?.data.message,
-    //       variant: "danger",
-    //     })
-    //   },
-    // })
   }
 
   const handleClickDeleteTestTag = (tagId: number) => {

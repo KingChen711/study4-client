@@ -143,8 +143,6 @@ export async function audioBlogUrlToFile(
   blobUrl: string,
   fileNameWithoutExt: string
 ): Promise<File> {
-  console.log({ blobUrl, fileNameWithoutExt })
-
   // Fetch the Blob from the Blob URL
   const response = await fetch(blobUrl)
   const blob = await response.blob()
