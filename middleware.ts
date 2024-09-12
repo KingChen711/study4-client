@@ -8,6 +8,7 @@ const intlMiddleware = createMiddleware({
   defaultLocale: AppConfig.defaultLocale,
 })
 
+//TODO: add speaking page
 const isProtectedRoute = createRouteMatcher([
   "(.*)/tests/(.*)/practice",
   "(.*)/tests/(.*)/full-test",
