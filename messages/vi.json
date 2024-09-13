@@ -127,6 +127,8 @@
     "AnswerDetail": "Đáp án chi tiết #{questionNumber}",
     "RightAnswer2": "Đáp án đúng: {rightAnswer}",
     "Score": "điểm",
-    "BandScore": "Thang điểm"
+    "BandScore": "Thang điểm",
+    "Answers": "Đáp án",
+    "Retake": "Làm lại các câu sai"
   }
 }

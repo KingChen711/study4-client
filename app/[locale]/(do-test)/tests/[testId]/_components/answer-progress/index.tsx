@@ -131,7 +131,7 @@ function AnswerProgress({
                         variant="outline"
                         size="icon"
                         className={cn(
-                          "size-7 border-2 bg-transparent text-xs",
+                          "size-7 border-[3px] bg-transparent text-xs",
                           testGrade &&
                             testGrade.gradeStatus === "Correct" &&
                             "border-success bg-success-100",

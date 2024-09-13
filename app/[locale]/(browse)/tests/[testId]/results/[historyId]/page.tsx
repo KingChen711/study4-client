@@ -35,6 +35,7 @@ async function HistoryDetailPage({ params: { historyId, testId } }: Props) {
           <DetailResult sectionHistories={testHistoryDetail.sectionHistories} />
         </Suspense>
         <AnswerDetail
+          testHistoryId={testHistoryDetail.testHistory.testHistoryId}
           testId={+testId}
           sections={testHistoryDetail.sectionHistories}
         />

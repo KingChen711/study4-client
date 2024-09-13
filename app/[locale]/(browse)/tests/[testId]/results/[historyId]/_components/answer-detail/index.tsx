@@ -12,30 +12,22 @@ import AnswerDialog from "./answer-dialog"
 type Props = {
   sections: SectionHistory[]
   testId: number
+  testHistoryId: number
 }
 
-const AnswerDetail = async ({ sections }: Props) => {
+const AnswerDetail = async ({ sections, testId, testHistoryId }: Props) => {
   const t = await getTranslations("TestResultPage")
-
-  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-  //   e.preventDefault()
-
-  //   startTransition(() => {
-  //     router.push(
-  //       `/tests/${testId}/practice?` +
-  //         selectedSectionIds.map((id) => `section=${id}&`).join("") +
-  //         `limit=${limitTimeStates.value}`
-  //     )
-  //   })
-  // }
-  // href={`/tests/${testId}/retake?${sections.map((section) => `section=${section.}&`).join("")}`}
 
   return (
     <div className="flex flex-col gap-y-4">
       <div className="flex flex-wrap items-center gap-4">
-        <h3 className="my-2 text-xl font-bold">Đáp án</h3>
+        <h3 className="my-2 text-xl font-bold">{t("Answers")}</h3>
         <Button size="sm" variant="outline" asChild>
-          <Link href="#">Làm lại các câu sai</Link>
+          <Link
+            href={`/tests/${testId}/retake?${sections.map((section) => `section=${section.testSectionId}&`).join("")}&testHistoryId=${testHistoryId}`}
+          >
+            {t("Retake")}
+          </Link>
         </Button>
       </div>
       {sections.map((section) => (

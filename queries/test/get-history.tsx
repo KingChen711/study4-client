@@ -28,6 +28,7 @@ export interface TestHistory {
 }
 
 export interface SectionHistory {
+  testSectionId: number
   sectionName: string
   totalRightAnswer: number
   totalWrongAnswer: number
