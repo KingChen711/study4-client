@@ -21,7 +21,6 @@ async function TestDetailPage({ params }: Props) {
         <Suspense fallback={<TestInfoSkeleton />}>
           <TestInfo testId={testId} locale={locale} />
         </Suspense>
-        <CommentList testId={testId} />
       </div>
       <div className="col-span-12 lg:col-span-3">
         <Suspense fallback={<GoalCardSkeleton className="w-full" />}>
