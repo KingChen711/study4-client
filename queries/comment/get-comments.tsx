@@ -37,7 +37,9 @@ const getComments = cache(
     try {
       const { data } = await prep4Api.get<{
         data: { comments: Comment[]; page: number; totalPage: number }
-      }>(`/api/comments/${params.testId}`)
+      }>(
+        `/api/comments/${params.testId}?page=${params.page}&pageSize=${params.pageSize}`
+      )
 
       return data.data || { comments: [], page: 0, totalPage: 0 }
     } catch (error) {

@@ -12,7 +12,7 @@ type Props = {
 //TODO:i18n
 
 async function CommentList({ testId }: Props) {
-  const { comments, page, totalPage } = await getComments({
+  const { comments, totalPage } = await getComments({
     testId,
     page: 1,
     pageSize: 1,
@@ -28,7 +28,7 @@ async function CommentList({ testId }: Props) {
         <CommentContainer key={comment.commentId} comment={comment} />
       ))}
 
-      <MoreComments totalPage={totalPage} />
+      <MoreComments testId={testId} totalPage={totalPage} />
     </div>
   )
 }
