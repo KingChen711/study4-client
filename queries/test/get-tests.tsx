@@ -29,6 +29,7 @@ type Test = {
   totalQuestion: number
   totalSection: number
   createDate: Date
+  testHistories: unknown[]
   tags: Tag[]
 }
 

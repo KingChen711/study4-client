@@ -27,7 +27,12 @@ async function TestInfo({ testId, locale }: Props) {
           <TagBadges key={tag.tagId} tagName={tag.tagName} />
         ))}
       </div>
-      <h2 className="line-clamp-2 text-3xl font-bold">{test.testTitle}</h2>
+      <h2 className="line-clamp-2 leading-none">
+        <span className="text-3xl font-bold">{test.testTitle}</span>
+        {test.testHistories.length > 0 && (
+          <Icons.Correct className="my-auto mb-3 ml-1 inline-block size-9 font-bold leading-none text-success" />
+        )}
+      </h2>
       <div className="mb-2 flex flex-col gap-y-1">
         <div className="flex items-center gap-x-1">
           <Icons.Time className="size-4" />

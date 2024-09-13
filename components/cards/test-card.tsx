@@ -18,6 +18,7 @@ type Props = {
   totalEngaged: number
   totalSection: number
   totalQuestion: number
+  hasParticipated: boolean
   tags: Tag[]
   className?: string
 }
@@ -31,6 +32,7 @@ async function TestCard({
   totalQuestion,
   totalSection,
   className,
+  hasParticipated,
 }: Props) {
   const t = await getTranslations("Cards.Test")
 
@@ -38,7 +40,12 @@ async function TestCard({
     <Link href={`/tests/${id}`} className={cn(className)}>
       <Card className="h-full transition-all hover:-translate-y-1 hover:shadow-primary">
         <CardHeader className="pb-2">
-          <CardTitle className="text-lg">{testTitle}</CardTitle>
+          <CardTitle>
+            <span className="text-lg">{testTitle}</span>
+            {hasParticipated && (
+              <Icons.Correct className="my-auto ml-1 inline-block size-5 leading-none text-success" />
+            )}
+          </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-2">
           <div className="flex flex-wrap items-center gap-2 text-sm font-medium text-muted-foreground">

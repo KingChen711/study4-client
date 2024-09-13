@@ -18,7 +18,10 @@ type Props = {
 }
 
 const practiceSearchParamsSchema = z.object({
-  section: z.array(z.coerce.number()).catch([]),
+  section: z
+    .union([z.coerce.number(), z.array(z.coerce.number())])
+    .transform((value) => (typeof value === "string" ? [value] : value))
+    .catch([]),
   limit: z
     .string()
     .refine(
@@ -32,7 +35,12 @@ async function PracticePage({ params, searchParams }: Props) {
   const { testId } = params
   const { limit, section } = practiceSearchParamsSchema.parse(searchParams)
 
-  const test = await getPracticeTest({ testId, section })
+  console.log({})
+  console.log({ limit, section })
+
+  const test = await getPracticeTest({ testId, section: section as number[] })
+
+  console.log({ section })
 
   if (!test || test.testSections.length === 0) return notFound()
 

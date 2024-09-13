@@ -24,6 +24,7 @@ async function TestList() {
           totalEngaged={test.totalEngaged}
           totalQuestion={test.totalQuestion}
           totalSection={test.totalSection}
+          hasParticipated={test.testHistories.length > 0}
           className="col-span-12 sm:col-span-6 lg:col-span-3"
         />
       ))}

@@ -5,9 +5,7 @@ type Props = {
 }
 
 function ParseHtml({ data }: Props) {
-  return (
-    <div className="markdown mt-[-21.5px] w-full min-w-full">{parse(data)}</div>
-  )
+  return <div className="markdown w-full min-w-full">{parse(data)}</div>
 }
 
 export default ParseHtml
