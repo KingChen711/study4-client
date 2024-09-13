@@ -11,6 +11,7 @@ import VideoContent from "./video-content"
 function VideoCall() {
   const {
     localStream,
+    peer,
     audioInputDevices,
     audioOutputDevices,
     videoInputDevices,
@@ -36,9 +37,18 @@ function VideoCall() {
 
   return (
     <div>
-      {localStream && (
-        <VideoContent muted stream={localStream} isSearching={false} />
-      )}
+      <div className="flex w-full gap-8">
+        {localStream && (
+          <VideoContent muted stream={localStream} isSearching={false} />
+        )}
+        {peer && (
+          <VideoContent
+            stream={peer.stream || null}
+            muted={false}
+            isSearching={false}
+          />
+        )}
+      </div>
 
       <Button
         onClick={toggleMic}

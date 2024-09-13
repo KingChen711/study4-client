@@ -19,7 +19,7 @@ function VideoContent({ muted, stream, isSearching }: Props) {
   return (
     <video
       ref={videoRef}
-      className="w-full max-w-[800px] rounded border"
+      className="w-full max-w-[800px] flex-1 rounded border"
       autoPlay
       playsInline
       muted={muted}
