@@ -1,21 +1,43 @@
 import React from "react"
+import Link from "next/link"
 import { getTranslations } from "@/queries/i18n/get-translations"
 import { type SectionHistory } from "@/queries/test/get-history"
 
 import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 
 import AnswerDialog from "./answer-dialog"
 
 type Props = {
   sections: SectionHistory[]
+  testId: number
 }
 
 const AnswerDetail = async ({ sections }: Props) => {
   const t = await getTranslations("TestResultPage")
 
+  // const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  //   e.preventDefault()
+
+  //   startTransition(() => {
+  //     router.push(
+  //       `/tests/${testId}/practice?` +
+  //         selectedSectionIds.map((id) => `section=${id}&`).join("") +
+  //         `limit=${limitTimeStates.value}`
+  //     )
+  //   })
+  // }
+  // href={`/tests/${testId}/retake?${sections.map((section) => `section=${section.}&`).join("")}`}
+
   return (
     <div className="flex flex-col gap-y-4">
+      <div className="flex flex-wrap items-center gap-4">
+        <h3 className="my-2 text-xl font-bold">Đáp án</h3>
+        <Button size="sm" variant="outline" asChild>
+          <Link href="#">Làm lại các câu sai</Link>
+        </Button>
+      </div>
       {sections.map((section) => (
         <div key={section.sectionName}>
           <h4 className="mb-2 font-bold">{section.sectionName}</h4>

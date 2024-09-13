@@ -3,6 +3,7 @@
 import React, { useCallback, useEffect, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
+import { type TestGrade } from "@/queries/test/get-retake-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
 import { useTranslations } from "next-intl"
@@ -17,9 +18,15 @@ type Props = {
   limit: string
   testId: number
   isFullTest?: boolean
+  testGrades?: TestGrade[]
 }
 
-function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
+function AnswerProgress({
+  limit,
+  testId,
+  isFullTest = false,
+  testGrades,
+}: Props) {
   const { getAnswersEachSection, answers } = useSubmitAnswers()
   const [time, setTime] = useState<number>(0)
   const t = useTranslations("DoTestPage")
@@ -113,17 +120,35 @@ function AnswerProgress({ limit, testId, isFullTest = false }: Props) {
               <div key={sectionName} className="flex flex-col gap-y-2">
                 <h5 className="font-bold">{sectionName}</h5>
                 <div className="flex flex-wrap gap-2">
-                  {answers.map((answer) => (
-                    <Button
-                      onClick={() => handleNavigateQuestion(answer)}
-                      key={answer.questionId}
-                      variant={answer.selectedAnswer ? "default" : "outline"}
-                      size="icon"
-                      className="size-7 text-xs"
-                    >
-                      {answer.questionNumber}
-                    </Button>
-                  ))}
+                  {answers.map((answer) => {
+                    const testGrade = testGrades?.find(
+                      (tg) => tg.questionNumber === answer.questionNumber
+                    )
+                    return (
+                      <Button
+                        onClick={() => handleNavigateQuestion(answer)}
+                        key={answer.questionId}
+                        variant="outline"
+                        size="icon"
+                        className={cn(
+                          "size-7 border-2 bg-transparent text-xs",
+                          testGrade &&
+                            testGrade.gradeStatus === "Correct" &&
+                            "border-success bg-success-100",
+                          testGrade &&
+                            testGrade.gradeStatus === "Wrong" &&
+                            "border-danger bg-danger-100",
+                          testGrade &&
+                            testGrade.gradeStatus === "Skip" &&
+                            "border-skip bg-skip-100",
+                          answer.selectedAnswer &&
+                            "bg-primary text-primary-foreground"
+                        )}
+                      >
+                        {answer.questionNumber}
+                      </Button>
+                    )
+                  })}
                 </div>
               </div>
             )

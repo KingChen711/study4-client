@@ -34,7 +34,10 @@ async function HistoryDetailPage({ params: { historyId, testId } }: Props) {
         <Suspense fallback={<DetailResultSkeleton />}>
           <DetailResult sectionHistories={testHistoryDetail.sectionHistories} />
         </Suspense>
-        <AnswerDetail sections={testHistoryDetail.sectionHistories} />
+        <AnswerDetail
+          testId={+testId}
+          sections={testHistoryDetail.sectionHistories}
+        />
       </div>
       <CommentList testId={testHistoryDetail.testHistory.test.testId} />
     </div>
