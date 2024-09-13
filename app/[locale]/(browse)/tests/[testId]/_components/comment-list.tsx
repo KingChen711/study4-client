@@ -2,6 +2,7 @@ import React from "react"
 import getComments from "@/queries/comment/get-comments"
 
 import CommentContainer from "./comment-container"
+import MoreComments from "./more-comments"
 import CommentAnswer from "./test-info/comment-answer"
 
 type Props = {
@@ -11,7 +12,11 @@ type Props = {
 //TODO:i18n
 
 async function CommentList({ testId }: Props) {
-  const comments = await getComments({ testId, page: 1, pageSize: 10 })
+  const { comments, page, totalPage } = await getComments({
+    testId,
+    page: 1,
+    pageSize: 1,
+  })
 
   return (
     <div className="flex flex-col rounded-lg border p-6">
@@ -22,6 +27,8 @@ async function CommentList({ testId }: Props) {
       {comments.map((comment) => (
         <CommentContainer key={comment.commentId} comment={comment} />
       ))}
+
+      <MoreComments totalPage={totalPage} />
     </div>
   )
 }

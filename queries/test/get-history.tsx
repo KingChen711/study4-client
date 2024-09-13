@@ -22,6 +22,7 @@ export interface TestHistory {
   testType: string
   bandScore: string
   test: {
+    testId: string
     testTitle: string
   }
 }

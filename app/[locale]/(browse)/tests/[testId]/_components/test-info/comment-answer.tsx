@@ -34,7 +34,7 @@ function CommentAnswer({ root = false }: Props) {
             className="flex-1"
             placeholder="Chia sẻ cảm nghĩ của bạn"
           />
-          <Button size="sm" className="h-full shrink-0 rounded-l-none">
+          <Button size="sm" className="h-10 shrink-0 rounded-l-none">
             Gửi
           </Button>
         </div>

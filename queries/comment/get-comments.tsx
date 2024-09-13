@@ -30,16 +30,20 @@ type Params = {
   pageSize: number
 }
 
-const getComments = cache(async (params: Params): Promise<Comment[]> => {
-  try {
-    const { data } = await prep4Api.get<{ data: { comments: Comment[] } }>(
-      `/api/comments/${params.testId}`
-    )
+const getComments = cache(
+  async (
+    params: Params
+  ): Promise<{ comments: Comment[]; page: number; totalPage: number }> => {
+    try {
+      const { data } = await prep4Api.get<{
+        data: { comments: Comment[]; page: number; totalPage: number }
+      }>(`/api/comments/${params.testId}`)
 
-    return data.data.comments || []
-  } catch (error) {
-    return []
+      return data.data || { comments: [], page: 0, totalPage: 0 }
+    } catch (error) {
+      return { comments: [], page: 0, totalPage: 0 }
+    }
   }
-})
+)
 
 export default getComments

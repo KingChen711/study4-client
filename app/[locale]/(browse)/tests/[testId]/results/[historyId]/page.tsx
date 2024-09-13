@@ -36,7 +36,7 @@ async function HistoryDetailPage({ params: { historyId, testId } }: Props) {
         </Suspense>
         <AnswerDetail sections={testHistoryDetail.sectionHistories} />
       </div>
-      <CommentList testId={testId} />
+      <CommentList testId={testHistoryDetail.testHistory.test.testId} />
     </div>
   )
 }
