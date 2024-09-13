@@ -17,24 +17,24 @@ type Props = {
 }
 
 async function HistoryDetailPage({ params: { historyId, testId } }: Props) {
-  const testHistroyDetail = await getHistory({ historyId })
+  const testHistoryDetail = await getHistory({ historyId })
 
-  if (!testHistroyDetail) return notFound()
+  if (!testHistoryDetail) return notFound()
 
   return (
     <div className="mt-8 flex flex-col gap-y-4">
       <div className="flex flex-col gap-y-2 rounded-lg border p-4">
         <Suspense fallback={<OverallResultSkeleton />}>
           <OverallResult
-            testName={"Listening Test 1"}
+            testName={testHistoryDetail.testHistory.test.testTitle}
             testId={+testId}
-            testHistory={testHistroyDetail.testHistory}
+            testHistory={testHistoryDetail.testHistory}
           />
         </Suspense>
         <Suspense fallback={<DetailResultSkeleton />}>
-          <DetailResult sectionHistories={testHistroyDetail.sectionHistories} />
+          <DetailResult sectionHistories={testHistoryDetail.sectionHistories} />
         </Suspense>
-        <AnswerDetail sections={testHistroyDetail.sectionHistories} />
+        <AnswerDetail sections={testHistoryDetail.sectionHistories} />
       </div>
       <CommentList testId={testId} />
     </div>

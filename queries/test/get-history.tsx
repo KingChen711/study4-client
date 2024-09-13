@@ -21,6 +21,9 @@ export interface TestHistory {
   isFull: boolean
   testType: string
   bandScore: string
+  test: {
+    testTitle: string
+  }
 }
 
 export interface SectionHistory {

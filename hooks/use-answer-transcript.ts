@@ -51,6 +51,11 @@ export type TestSectionPart = {
   partitionTag: PartitionTag
   cloudResource: { url: string } | null
   testSectionId: number
+  testSection: {
+    cloudResource: {
+      url: string | null
+    }
+  }
 }
 
 export type PartitionTag = {

@@ -95,22 +95,25 @@ function AnswerDialog({
                   }
                 />
 
-                <div className="mt-4 flex max-h-[40dvh] flex-col gap-y-4 overflow-y-auto border-b">
-                  <Recording
-                    srcUrl={
-                      answerTranscript.testSectionPart.cloudResource?.url ||
-                      null
-                    }
-                  />
-                  {/* <Passage readingDesc={section.readingDesc} /> */}
+                <div className="mt-4 flex max-h-[50dvh] flex-col gap-y-4 overflow-y-auto border-b">
+                  <div>
+                    <Recording
+                      srcUrl={
+                        answerTranscript?.testSectionPart?.testSection
+                          ?.cloudResource?.url || null
+                      }
+                    />
+                  </div>
                   <div className="rounded-md border-2 p-3">
                     <ParseHtml
                       data={answerTranscript.testSectionPart.partitionDesc}
                     />
                   </div>
+
+                  {/* <Passage readingDesc={section.readingDesc} /> */}
                 </div>
                 <Separator className="my-2" />
-                <div className="max-h-[30dvh] overflow-y-auto">
+                <div className="max-h-[35dvh] overflow-y-auto">
                   <QuestionContent answerTranscript={answerTranscript} />
                 </div>
               </DialogDescription>
