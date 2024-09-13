@@ -125,6 +125,8 @@
     "NotAnswered": "chưa trả lời",
     "Detail": "Chi tiết",
     "AnswerDetail": "Đáp án chi tiết #{questionNumber}",
-    "RightAnswer2": "Đáp án đúng: {rightAnswer}"
+    "RightAnswer2": "Đáp án đúng: {rightAnswer}",
+    "Score": "điểm",
+    "BandScore": "Thang điểm"
   }
 }

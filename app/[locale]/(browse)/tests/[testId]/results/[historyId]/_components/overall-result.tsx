@@ -27,7 +27,7 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
           <Link href={`/tests/${testId}`}>{t("BackToTest")}</Link>
         </Button>
       </div>
-      <div className="grid grid-cols-10 gap-4">
+      <div className="grid grid-cols-12 gap-4">
         <div className="col-span-4 flex flex-col justify-center gap-y-2 rounded-xl border bg-muted p-4 shadow-lg">
           <div className="flex items-center gap-2">
             <Icons.Check className="size-4" />
@@ -70,6 +70,14 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
           </div>
           <div className="text-lg font-bold">{testHistory.totalSkipAnswer}</div>
           <div>{t("Question")}</div>
+        </div>
+        <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+          <Icons.BandScore className="size-6" />
+          <div className="mt-1 font-bold text-neutral-600">
+            {t("BandScore")}
+          </div>
+          <div className="text-lg font-bold">{testHistory.bandScore}</div>
+          <div>{t("Score")}</div>
         </div>
       </div>
     </>

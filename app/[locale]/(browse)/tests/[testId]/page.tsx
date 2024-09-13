@@ -2,7 +2,6 @@ import React, { Suspense } from "react"
 
 import GoalCard, { GoalCardSkeleton } from "@/components/cards/goal-card"
 
-import CommentList from "./_components/comment-list"
 import TestInfo, { TestInfoSkeleton } from "./_components/test-info"
 
 type Props = {
