@@ -6,6 +6,7 @@ import { type TestHistory } from "@/queries/test/get-history"
 import { convertSecondToText } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
+import { Skeleton } from "@/components/ui/skeleton"
 
 type Props = {
   testHistory: TestHistory
@@ -21,6 +22,7 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
       <h2 className="line-clamp-2 text-3xl font-bold">
         {t("TestResult", { testName })}
       </h2>
+
       <div className="flex justify-between">
         <h3 className="mt-2 text-xl font-bold">{t("Overall")}</h3>
         <Button variant="outline" size="sm" asChild>
@@ -28,7 +30,7 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
         </Button>
       </div>
       <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-4 flex flex-col justify-center gap-y-2 rounded-xl border bg-muted p-4 shadow-lg">
+        <div className="col-span-12 flex flex-col justify-center gap-y-2 rounded-xl border bg-muted p-4 shadow-lg xl:col-span-4">
           <div className="flex items-center gap-2">
             <Icons.Check className="size-4" />
             <div>{t("Result")}</div>
@@ -47,7 +49,8 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
             <div>{convertSecondToText(testHistory.totalCompletionTime)}</div>
           </div>
         </div>
-        <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+
+        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
           <Icons.Correct className="size-6 text-success" />
           <div className="mt-1 font-bold text-success">{t("RightAnswer")}</div>
           <div className="text-lg font-bold">
@@ -55,7 +58,7 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
           </div>
           <div>{t("Question")}</div>
         </div>
-        <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
           <Icons.Wrong className="size-6 text-danger" />
           <div className="mt-1 font-bold text-danger">{t("WrongAnswer")}</div>
           <div className="text-lg font-bold">
@@ -63,7 +66,7 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
           </div>
           <div>{t("Question")}</div>
         </div>
-        <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
           <Icons.Skip className="size-6 text-neutral-600" />
           <div className="mt-1 font-bold text-neutral-600">
             {t("SkipAnswer")}
@@ -71,7 +74,7 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
           <div className="text-lg font-bold">{testHistory.totalSkipAnswer}</div>
           <div>{t("Question")}</div>
         </div>
-        <div className="col-span-2 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
           <Icons.BandScore className="size-6" />
           <div className="mt-1 font-bold text-neutral-600">
             {t("BandScore")}
@@ -87,5 +90,24 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
 export default OverallResult
 
 export function OverallResultSkeleton() {
-  return <div>OverallResultSkeleton</div>
+  return (
+    <>
+      <Skeleton className="h-9 w-full max-w-[900px]" />
+      <div className="flex justify-between">
+        <Skeleton className="h-9 w-28" />
+        <Skeleton className="h-9 w-28" />
+      </div>
+      <div className="grid grid-cols-12 gap-4">
+        <div className="col-span-12 flex flex-col justify-center gap-y-2 rounded-xl border bg-muted p-4 shadow-lg xl:col-span-4">
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+          <Skeleton className="h-6 w-full" />
+        </div>
+        <div className="col-span-12 h-[138px] rounded-xl shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2" />
+        <div className="col-span-12 h-[138px] rounded-xl shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2" />
+        <div className="col-span-12 h-[138px] rounded-xl shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2" />
+        <div className="col-span-12 h-[138px] rounded-xl shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2" />
+      </div>
+    </>
+  )
 }

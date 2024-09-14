@@ -1,10 +1,14 @@
 import React from "react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
+import isStaff from "@/queries/users/is-staff"
 import { Plus } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 
-function StaffTestPage() {
+async function StaffTestPage() {
+  if (!(await isStaff())) return redirect("/")
+
   return (
     <section className="flex flex-col">
       <div className="flex items-center justify-between gap-x-5">

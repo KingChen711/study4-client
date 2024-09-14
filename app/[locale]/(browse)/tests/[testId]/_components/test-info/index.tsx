@@ -61,7 +61,7 @@ async function TestInfo({ testId, locale }: Props) {
         <TestTypeTabs testId={test.id} sections={test.testSections} />
       </div>
 
-      <Suspense>
+      <Suspense fallback={null}>
         <CommentList testId={test.testId} />
       </Suspense>
     </>

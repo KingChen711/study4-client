@@ -4,6 +4,8 @@ import React, { useState } from "react"
 import { type SectionHistory } from "@/queries/test/get-history"
 import { useTranslations } from "next-intl"
 
+import { Skeleton } from "@/components/ui/skeleton"
+
 import SectionTabs from "./section-tabs"
 import TableResult from "./table-result"
 
@@ -23,6 +25,7 @@ function DetailResult({ sectionHistories }: Props) {
   return (
     <div className="flex flex-col gap-y-2">
       <h3 className="my-2 text-xl font-bold">{t("Analysis")}</h3>
+
       <SectionTabs
         activeSection={activeSection}
         onClickSection={handleClickSection}
@@ -41,7 +44,19 @@ function DetailResult({ sectionHistories }: Props) {
 
 export default DetailResult
 
-//TODO:
 export function DetailResultSkeleton() {
-  return <div>DetailResultSkeleton</div>
+  return (
+    <div className="flex flex-col gap-y-2">
+      <Skeleton className="my-2 h-7 w-52" />
+
+      <div className="flex flex-wrap items-center gap-3">
+        <Skeleton className="h-[34px] w-36" />
+        <Skeleton className="h-[34px] w-36" />
+        <Skeleton className="h-[34px] w-36" />
+        <Skeleton className="h-[34px] w-36" />
+      </div>
+
+      <Skeleton className="mb-4 mt-1 h-52 w-full rounded-xl" />
+    </div>
+  )
 }

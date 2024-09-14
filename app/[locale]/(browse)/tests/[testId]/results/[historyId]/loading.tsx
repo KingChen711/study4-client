@@ -10,7 +10,6 @@ function ResultPageLoading() {
         <OverallResultSkeleton />
         <DetailResultSkeleton />
       </div>
-      {/* <CommentList testId={testId} /> */}
     </div>
   )
 }

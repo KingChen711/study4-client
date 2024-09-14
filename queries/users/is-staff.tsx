@@ -9,7 +9,10 @@ export type Tag = { tagId: string; tagName: string }
 const isStaff = cache(async (): Promise<boolean> => {
   try {
     const currentUser = await whoAmI()
-    return currentUser?.role.roleName === "Staff"
+
+    console.log({ currentUser })
+
+    return currentUser?.role.roleName === "Stafff"
   } catch (error) {
     return false
   }

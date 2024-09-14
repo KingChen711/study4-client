@@ -3,9 +3,7 @@ import { redirect } from "next/navigation"
 import isStaff from "@/queries/users/is-staff"
 
 async function StaffIndexPage() {
-  //   if (!(await isStaff())) {
-  //     return redirect("/")
-  //   }
+  if (!(await isStaff())) return redirect("/")
 
   return <div>StaffIndexPage</div>
 }

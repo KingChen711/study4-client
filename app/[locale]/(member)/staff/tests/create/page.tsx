@@ -1,6 +1,8 @@
 import React from "react"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 import getCreateTestItem from "@/queries/test/create-test-items/get-create-test-items"
+import isStaff from "@/queries/users/is-staff"
 import { ArrowLeftIcon } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -8,6 +10,8 @@ import { Button } from "@/components/ui/button"
 import TestForm from "../_components/test-form"
 
 async function CreateTestPage() {
+  if (!(await isStaff())) return redirect("/")
+
   const items = await getCreateTestItem()
 
   return (
