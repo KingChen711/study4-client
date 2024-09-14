@@ -9,13 +9,7 @@ import { Icons } from "@/components/ui/icons"
 import VideoContent from "./video-content"
 
 function VideoCall() {
-  const {
-    localStream,
-    peer,
-    audioInputDevices,
-    audioOutputDevices,
-    videoInputDevices,
-  } = useSocket()
+  const { localStream, peer } = useSocket()
   const [isMicOn, setIsMicOn] = useState(true)
   const [isVidOn, setIsVidOn] = useState(true)
 
@@ -73,34 +67,6 @@ function VideoCall() {
           <Icons.CameraOff className="size-4" />
         )}
       </Button>
-
-      <div>
-        <h2 className="text-lg font-bold">Audio Input Devices</h2>
-        <ul>
-          {audioInputDevices.map((device) => (
-            <li key={device.deviceId}>
-              {device.label || `Microphone (${device.deviceId})`}
-            </li>
-          ))}
-        </ul>
-
-        <h2 className="text-lg font-bold">Audio Output Devices</h2>
-        <ul>
-          {audioOutputDevices.map((device) => (
-            <li key={device.deviceId}>
-              {device.label || `Speaker (${device.deviceId})`}
-            </li>
-          ))}
-        </ul>
-        <h2 className="text-lg font-bold">Video Input Devices</h2>
-        <ul>
-          {videoInputDevices.map((device) => (
-            <li key={device.deviceId}>
-              {device.label || `Camera (${device.deviceId})`}
-            </li>
-          ))}
-        </ul>
-      </div>
     </div>
   )
 }

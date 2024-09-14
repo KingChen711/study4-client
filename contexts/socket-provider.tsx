@@ -6,6 +6,7 @@ import React, {
   useCallback,
   useContext,
   useEffect,
+  useMemo,
   useState,
 } from "react"
 import { SERVER_SPEAKING_URL } from "@/constants/env"
@@ -13,39 +14,16 @@ import { useUser } from "@clerk/nextjs"
 import Peer, { type SignalData } from "simple-peer"
 import { io, type Socket } from "socket.io-client"
 
-export type TSendMessage = {
-  receiverId: string
-  senderId: string
-  type: "Text" | "Image" | "Video"
-} & (
-  | {
-      type: "Text"
-      content: string
-    }
-  | {
-      type: "Image"
-      image: string
-    }
-  | {
-      type: "Video"
-      video: string
-    }
-)
-
 type SocketProviderProps = {
   children: React.ReactNode
 }
 
 type SocketContextType = {
   socket: Socket | null
-  hasConnected: boolean
-  partner: SocketUser | null
   peer: PeerData | null
   status: SpeakingStatus
   localStream: MediaStream | null
-  audioInputDevices: MediaDeviceInfo[]
-  audioOutputDevices: MediaDeviceInfo[]
-  videoInputDevices: MediaDeviceInfo[]
+  readyForSearching: boolean
   handleSearchPartner: () => void
 }
 
@@ -69,26 +47,27 @@ type PeerData = {
 export const SocketContext = createContext<SocketContextType | null>(null)
 
 const SocketProvider = ({ children }: SocketProviderProps) => {
+  const { user } = useUser()
   const [socket, setSocket] = useState<Socket | null>(null)
   const [status, setStatus] = useState<SpeakingStatus>("idle")
-
-  //////TODO
-  const [partner, setPartner] = useState<SocketUser | null>(null)
-  //////TODO
-
-  const { user } = useUser()
-  const [peer, setPeer] = useState<PeerData | null>(null)
-  const [audioInputDevices, setAudioInputDevices] = useState<MediaDeviceInfo[]>(
-    []
-  )
-  const [audioOutputDevices, setAudioOutputDevices] = useState<
-    MediaDeviceInfo[]
-  >([])
-  const [videoInputDevices, setVideoInputDevices] = useState<MediaDeviceInfo[]>(
-    []
-  )
-
   const [localStream, setLocalStream] = useState<MediaStream | null>(null)
+  const [peer, setPeer] = useState<PeerData | null>(null)
+
+  const currentUser = useMemo(() => {
+    if (!socket || !user) return null
+    return {
+      clerkId: user.id,
+      socketId: socket.id,
+      profile: {
+        name: user.primaryEmailAddress?.emailAddress,
+        avatar: user.imageUrl,
+      },
+    } as SocketUser
+  }, [user, socket])
+
+  const readyForSearching = useMemo(() => {
+    return !!(currentUser && socket && status === "idle")
+  }, [currentUser, socket, status])
 
   const getMediaSteam = useCallback(
     async (faceMode?: string) => {
@@ -120,15 +99,16 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     [localStream]
   )
 
-  const handleSearchPartner = useCallback(async () => {
-    setStatus("searching")
-    socket!.emit("findPartner", user)
+  const handleSearchPartner = useCallback(() => {
+    if (socket && user) {
+      setStatus("searching")
+      socket.emit("findPartner", user)
+    }
   }, [socket, user])
 
   const handlePartnerDisconnected = useCallback(() => {
     console.log("partnerDisconnected")
-
-    setPartner(null)
+    setPeer(null)
     handleSearchPartner()
   }, [handleSearchPartner])
 
@@ -186,9 +166,8 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     [handlePartnerDisconnected]
   )
 
-  const handleFoundPartner = useCallback(
+  const onPartnerFound = useCallback(
     async (partner: SocketUser) => {
-      setPartner(partner)
       setStatus("connected")
 
       const stream = await getMediaSteam()
@@ -206,34 +185,23 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
           console.log("emit offer")
           socket.emit("webrtcSignal", {
             sdp: data,
-            partnerSocketId: partner.socketId,
-            pair: {
-              currentUser: {
-                clerkId: user?.id,
-                socketId: socket.id,
-                profile: {
-                  name: user?.primaryEmailAddress?.emailAddress,
-                  avatar: user?.imageUrl,
-                },
-              },
-              partner,
-            },
+            from: currentUser,
+            to: partner,
           })
         }
       })
     },
-    [createPeer, getMediaSteam, socket, user]
+    [createPeer, currentUser, getMediaSteam, socket]
   )
 
   const completePeerConnection = useCallback(
     async (connectionData: {
       sdp: SignalData
-      pair: { partner: SocketUser; currentUser: SocketUser }
+      to: SocketUser
+      from: SocketUser
     }) => {
-      if (!localStream) return
-
       if (peer) {
-        peer.peerConnection?.signal(connectionData.sdp)
+        peer.peerConnection.signal(connectionData.sdp)
         return
       }
 
@@ -241,7 +209,7 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
 
       setPeer({
         peerConnection: newPeer,
-        partner: connectionData.pair.currentUser,
+        partner: connectionData.to,
         stream: undefined,
       })
 
@@ -250,11 +218,8 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
           console.log("emit offer")
           socket.emit("webrtcSignal", {
             sdp: data,
-            partnerSocketId: connectionData.pair.currentUser.socketId,
-            pair: {
-              currentUser: connectionData.pair.partner,
-              partner: connectionData.pair.currentUser,
-            },
+            to: connectionData.to,
+            from: connectionData.from,
           })
         }
       })
@@ -263,6 +228,7 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   )
 
   useEffect(() => {
+    console.log("getLocalStream")
     const getLocalStream = async () => {
       const stream = await getMediaSteam()
 
@@ -275,47 +241,9 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     getLocalStream()
   }, [getMediaSteam])
 
-  useEffect(() => {
-    // Fetch media devices
-    const getMediaDevices = async () => {
-      try {
-        // Request permission to access audio and video devices
-        const stream = await navigator.mediaDevices.getUserMedia({
-          audio: true,
-          video: true,
-        })
-        stream.getTracks().forEach((track) => track.stop())
-
-        // Get list of all media devices
-        const devices = await navigator.mediaDevices.enumerateDevices()
-
-        // Filter devices by type
-        const audioInputs = devices.filter(
-          (device) => device.kind === "audioinput"
-        )
-        const audioOutputs = devices.filter(
-          (device) => device.kind === "audiooutput"
-        )
-        const videoInputs = devices.filter(
-          (device) => device.kind === "videoinput"
-        )
-
-        // Update state with filtered devices
-        setAudioInputDevices(audioInputs)
-        setAudioOutputDevices(audioOutputs)
-        setVideoInputDevices(videoInputs)
-      } catch (error) {
-        console.error("Error accessing media devices:", error)
-      }
-    }
-
-    getMediaDevices()
-  }, [])
-
   //connect socket
   useEffect(() => {
     console.log("connect socket")
-
     const socketIo = io(SERVER_SPEAKING_URL)
 
     setSocket(socketIo)
@@ -328,47 +256,52 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   }, [])
 
   useEffect(() => {
+    console.log("onPartnerFound")
     if (!socket) return
 
-    socket.on("partnerFound", handleFoundPartner)
+    socket.on("partnerFound", onPartnerFound)
 
     return () => {
-      socket.off("partnerFound", handleFoundPartner)
+      if (socket) {
+        socket.off("partnerFound", onPartnerFound)
+      }
     }
-  }, [socket, handleFoundPartner])
+  }, [socket, onPartnerFound])
 
   useEffect(() => {
+    console.log("completePeerConnection")
     if (!socket) return
 
     socket.on("webrtcSignal", completePeerConnection)
 
     return () => {
-      socket.off("webrtcSignal", completePeerConnection)
+      if (socket) {
+        socket.off("webrtcSignal", completePeerConnection)
+      }
     }
   }, [socket, completePeerConnection])
 
   useEffect(() => {
+    console.log("partnerDisconnected")
     if (!socket) return
 
     socket.on("partnerDisconnected", handlePartnerDisconnected)
 
     return () => {
-      socket.off("partnerDisconnected", handlePartnerDisconnected)
+      if (socket) {
+        socket.off("partnerDisconnected", handlePartnerDisconnected)
+      }
     }
-  }, [socket, user, handleSearchPartner, handlePartnerDisconnected])
+  }, [socket, handlePartnerDisconnected])
 
   return (
     <SocketContext.Provider
       value={{
         socket,
-        hasConnected: !!socket?.connected,
+        readyForSearching,
         handleSearchPartner,
-        partner,
         status,
         localStream,
-        audioInputDevices,
-        audioOutputDevices,
-        videoInputDevices,
         peer,
       }}
     >
