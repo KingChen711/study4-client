@@ -17,13 +17,15 @@ function VideoContent({ muted, stream, isSearching }: Props) {
   }, [stream])
 
   return (
-    <video
-      ref={videoRef}
-      className="w-full max-w-[800px] flex-1 rounded border"
-      autoPlay
-      playsInline
-      muted={muted}
-    />
+    <div className="aspect-video flex-1 rounded border">
+      <video
+        ref={videoRef}
+        className="size-full"
+        autoPlay
+        playsInline
+        muted={muted}
+      />
+    </div>
   )
 }
 

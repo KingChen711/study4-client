@@ -3,6 +3,7 @@
 import React, { useState } from "react"
 import { useSocket } from "@/contexts/socket-provider"
 
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 

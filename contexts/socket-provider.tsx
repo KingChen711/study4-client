@@ -24,7 +24,11 @@ type SocketContextType = {
   status: SpeakingStatus
   localStream: MediaStream | null
   readyForSearching: boolean
+  videoDevices: MediaDeviceInfo[]
+  selectedVideoDeviceId: string | null
   handleSearchPartner: () => void
+  handleEndCall: () => void
+  setSelectedVideoDeviceId: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 type SpeakingStatus = "idle" | "searching" | "connected"
@@ -47,12 +51,17 @@ type PeerData = {
 export const SocketContext = createContext<SocketContextType | null>(null)
 
 const SocketProvider = ({ children }: SocketProviderProps) => {
-  const { user } = useUser()
   const [socket, setSocket] = useState<Socket | null>(null)
   const [status, setStatus] = useState<SpeakingStatus>("idle")
   const [localStream, setLocalStream] = useState<MediaStream | null>(null)
   const [peer, setPeer] = useState<PeerData | null>(null)
 
+  const [videoDevices, setVideoDevices] = useState<MediaDeviceInfo[]>([])
+  const [selectedVideoDeviceId, setSelectedVideoDeviceId] = useState<
+    string | null
+  >(null)
+
+  const { user } = useUser()
   const currentUser = useMemo(() => {
     if (!socket || !user) return null
     return {
@@ -69,48 +78,73 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     return !!(currentUser && socket && status === "idle")
   }, [currentUser, socket, status])
 
+  const getMediaDevices = useCallback(async () => {
+    try {
+      const devices = await navigator.mediaDevices.enumerateDevices()
+      const videoDevices = devices.filter(
+        (device) => device.kind === "videoinput"
+      )
+      // const audioInputDevices = devices.filter(device => device.kind === 'audioinput');
+      // const audioOutputDevices = devices.filter(device => device.kind === 'audiooutput');
+
+      setVideoDevices(videoDevices)
+      // setAudioInputDevices(audioInputDevices);
+      // setAudioOutputDevices(audioOutputDevices);
+
+      if (videoDevices.length > 0) {
+        setSelectedVideoDeviceId(videoDevices[0].deviceId) // Default to first video device
+      }
+      // if (audioInputDevices.length > 0) {
+      //   setSelectedAudioInputDeviceId(audioInputDevices[0].deviceId); // Default to first audio input
+      // }
+      // if (audioOutputDevices.length > 0) {
+      //   setSelectedAudioOutputDeviceId(audioOutputDevices[0].deviceId); // Default to first audio output
+      // }
+    } catch (error) {
+      console.log("Failed to enumerate devices", error)
+    }
+  }, [])
+
   const getMediaSteam = useCallback(
-    async (faceMode?: string) => {
-      if (localStream) return localStream
-
+    async (videoDeviceId = selectedVideoDeviceId) => {
       try {
-        const devices = await navigator.mediaDevices.enumerateDevices()
-        const videoDevices = devices.filter(
-          (device) => device.kind === "videoinput"
-        )
-
         const stream = await navigator.mediaDevices.getUserMedia({
           audio: true,
           video: {
             width: { min: 640, ideal: 1280, max: 1920 },
             height: { min: 360, ideal: 720, max: 1080 },
             frameRate: { min: 16, ideal: 30, max: 30 },
-            facingMode: videoDevices.length > 0 ? faceMode : undefined,
+            deviceId: videoDeviceId ? { exact: videoDeviceId } : undefined,
           },
         })
-        setLocalStream(stream)
+
         return stream
       } catch (error) {
         console.log("Failed to get the stream", error)
-        setLocalStream(null)
+
         return null
       }
     },
-    [localStream]
+    [selectedVideoDeviceId]
   )
 
   const handleSearchPartner = useCallback(() => {
-    if (socket && user) {
+    if (socket && currentUser) {
       setStatus("searching")
-      socket.emit("findPartner", user)
+      socket.emit("findPartner", currentUser)
     }
-  }, [socket, user])
+  }, [socket, currentUser])
 
-  const handlePartnerDisconnected = useCallback(() => {
-    console.log("partnerDisconnected")
+  const handleEndCall = useCallback(() => {
+    if (peer) {
+      peer.peerConnection.destroy()
+    }
+    if (socket) {
+      socket.emit("endCall")
+    }
     setPeer(null)
-    handleSearchPartner()
-  }, [handleSearchPartner])
+    setStatus("idle")
+  }, [peer, socket])
 
   const createPeer = useCallback(
     async (stream: MediaStream | undefined, initiator: boolean) => {
@@ -147,7 +181,7 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
 
       peer.on("error", (error) => console.log("peer error", error))
 
-      peer.on("close", handlePartnerDisconnected)
+      peer.on("close", handleEndCall)
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const rtcPeerConnection: RTCPeerConnection = (peer as any)._pc
@@ -156,21 +190,20 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
           rtcPeerConnection.iceConnectionState === "disconnected" ||
           rtcPeerConnection.iceConnectionState === "failed"
         ) {
-          handlePartnerDisconnected()
+          handleEndCall()
         }
       }
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-return
       return peer
     },
-    [handlePartnerDisconnected]
+    [handleEndCall]
   )
 
   const onPartnerFound = useCallback(
     async (partner: SocketUser) => {
-      setStatus("connected")
-
       const stream = await getMediaSteam()
+      setLocalStream(stream)
 
       const newPeer = await createPeer(stream || undefined, true)
 
@@ -227,10 +260,34 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
     [localStream, peer, createPeer, socket]
   )
 
+  const updateStream = useCallback(
+    async (selectedVideoDeviceId: string | null) => {
+      if (!localStream || !peer) return
+
+      const newStream = await getMediaSteam(selectedVideoDeviceId)
+      if (!newStream) return
+      if (
+        localStream.getVideoTracks()[0].id === newStream.getVideoTracks()[0].id
+      )
+        return
+
+      peer.peerConnection.replaceTrack(
+        localStream.getVideoTracks()[0],
+        newStream.getVideoTracks()[0],
+        localStream
+      )
+
+      setLocalStream(newStream)
+    },
+
+    [getMediaSteam, localStream, peer]
+  )
+
   useEffect(() => {
     console.log("getLocalStream")
     const getLocalStream = async () => {
       const stream = await getMediaSteam()
+      setLocalStream(stream)
 
       if (!stream) {
         console.log("No stream found")
@@ -240,6 +297,17 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
 
     getLocalStream()
   }, [getMediaSteam])
+
+  useEffect(() => {
+    getMediaDevices()
+  }, [getMediaDevices])
+
+  // useEffect(() => {
+  //   if (localStream && peer) {
+  //     const newVideoTrack = localStream.getVideoTracks()[0]
+  //     peer
+  //   }
+  // }, [localStream])
 
   //connect socket
   useEffect(() => {
@@ -282,27 +350,36 @@ const SocketProvider = ({ children }: SocketProviderProps) => {
   }, [socket, completePeerConnection])
 
   useEffect(() => {
-    console.log("partnerDisconnected")
-    if (!socket) return
-
-    socket.on("partnerDisconnected", handlePartnerDisconnected)
-
-    return () => {
-      if (socket) {
-        socket.off("partnerDisconnected", handlePartnerDisconnected)
-      }
+    if (peer) {
+      setStatus("connected")
     }
-  }, [socket, handlePartnerDisconnected])
+  }, [peer])
+
+  // useEffect(()=>{
+
+  //     const newTrack = localStream?.getAudioTracks()[0]
+  //     const oldTrack = peer?.peerConnection.replaceTrack()
+
+  // },[localStream])
+
+  useEffect(() => {
+    updateStream(selectedVideoDeviceId)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedVideoDeviceId])
 
   return (
     <SocketContext.Provider
       value={{
         socket,
+        videoDevices,
         readyForSearching,
+        selectedVideoDeviceId,
         handleSearchPartner,
+        handleEndCall,
         status,
         localStream,
         peer,
+        setSelectedVideoDeviceId,
       }}
     >
       {children}
