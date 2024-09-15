@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useTransition } from "react"
+import React, { useEffect, useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import {
@@ -8,6 +8,7 @@ import {
   type Tag,
   type TestCategory,
 } from "@/queries/test/create-test-items/get-create-test-items"
+import { type TestType } from "@/types"
 import { useAuth } from "@clerk/nextjs"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CheckIcon } from "lucide-react"
@@ -170,6 +171,10 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
     }
   }
 
+  useEffect(() => {
+    console.log(form.formState.errors)
+  }, [form.formState.errors])
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -235,7 +240,13 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
                 <FormControl>
                   <RadioGroup
                     disabled={pending}
-                    onValueChange={field.onChange}
+                    onValueChange={(value: TestType) => {
+                      form.getValues("testSections").forEach((_, i) => {
+                        form.setValue(`testSections.${i}.testType`, value)
+                      })
+
+                      field.onChange(value)
+                    }}
                     defaultValue={field.value}
                     className="flex flex-col space-y-1"
                   >

@@ -12,7 +12,7 @@ const isStaff = cache(async (): Promise<boolean> => {
 
     console.log({ currentUser })
 
-    return currentUser?.role.roleName === "Stafff"
+    return currentUser?.role.roleName === "Staff"
   } catch (error) {
     return false
   }

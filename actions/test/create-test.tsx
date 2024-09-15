@@ -14,6 +14,8 @@ export const createTest = async (
   try {
     const { getToken } = auth()
 
+    console.log(body.testSections)
+
     await prep4Api.post("/api/tests/create", body, {
       headers: {
         Authorization: `Bearer ${await getToken()}`,
@@ -24,7 +26,7 @@ export const createTest = async (
     revalidatePath("/tests")
     return { isSuccess: true }
   } catch (error) {
-    console.log({ error })
+    // console.log(error.response.data)
     return getErrorResult(error)
   }
 }
