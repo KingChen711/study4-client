@@ -10,6 +10,7 @@ import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 
 import { cn, convertSecondToText } from "@/lib/utils"
+import { resubmitTest } from "@/actions/do-test/resubmit-test"
 import { submitTest } from "@/actions/do-test/submit-test"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
@@ -19,6 +20,8 @@ type Props = {
   testId: number
   isFullTest?: boolean
   testGrades?: TestGrade[]
+  retake?: boolean
+  testHistoryId?: number
 }
 
 function AnswerProgress({
@@ -26,6 +29,8 @@ function AnswerProgress({
   testId,
   isFullTest = false,
   testGrades,
+  retake = false,
+  testHistoryId,
 }: Props) {
   const { getAnswersEachSection, answers } = useSubmitAnswers()
   const [time, setTime] = useState<number>(0)
@@ -42,16 +47,27 @@ function AnswerProgress({
 
   const handleSubmit = useCallback(() => {
     startTransition(async () => {
-      const res = await submitTest({
-        isFull: isFullTest,
-        testId,
-        totalCompletionTime: time,
-        takenDateTime: new Date(),
-        questionAnswers: Object.values(answers).map((a) => ({
-          questionId: a.questionId,
-          selectedAnswer: a.selectedAnswer,
-        })),
-      })
+      const res = !retake
+        ? await submitTest({
+            isFull: isFullTest,
+            testId,
+            totalCompletionTime: time,
+            takenDateTime: new Date(),
+            questionAnswers: Object.values(answers).map((a) => ({
+              questionId: a.questionId,
+              selectedAnswer: a.selectedAnswer,
+            })),
+          })
+        : await resubmitTest({
+            testId,
+            testHistoryId: testHistoryId!,
+            totalCompletionTime: time,
+            takenDateTime: new Date(),
+            testGrades: Object.values(answers).map((a) => ({
+              questionId: a.questionId,
+              inputedAnswer: a.selectedAnswer,
+            })),
+          })
 
       if (res.isSuccess) {
         router.push(`/tests/${testId}`)
@@ -61,7 +77,7 @@ function AnswerProgress({
       //i18n
       toast.error(UNKNOWN_ERROR_MESSAGE)
     })
-  }, [answers, isFullTest, router, testId, time])
+  }, [answers, isFullTest, router, testId, time, retake, testHistoryId])
 
   useEffect(() => {
     function updateTime() {

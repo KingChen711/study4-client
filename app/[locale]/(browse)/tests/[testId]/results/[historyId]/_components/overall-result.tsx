@@ -3,7 +3,7 @@ import Link from "next/link"
 import { getTranslations } from "@/queries/i18n/get-translations"
 import { type TestHistory } from "@/queries/test/get-history"
 
-import { convertSecondToText } from "@/lib/utils"
+import { cn, convertSecondToText } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -12,9 +12,15 @@ type Props = {
   testHistory: TestHistory
   testId: number
   testName: string
+  isResubmitted: boolean
 }
 
-async function OverallResult({ testHistory, testId, testName }: Props) {
+async function OverallResult({
+  testHistory,
+  testId,
+  testName,
+  isResubmitted,
+}: Props) {
   const t = await getTranslations("TestResultPage")
 
   return (
@@ -50,37 +56,61 @@ async function OverallResult({ testHistory, testId, testName }: Props) {
           </div>
         </div>
 
-        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
-          <Icons.Correct className="size-6 text-success" />
-          <div className="mt-1 font-bold text-success">{t("RightAnswer")}</div>
-          <div className="text-lg font-bold">
-            {testHistory.totalRightAnswer}
+        <div className="col-span-12 grid grid-cols-12 gap-4 xl:col-span-8">
+          <div
+            className={cn(
+              "col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3",
+              isResubmitted && "sm:col-span-12 md:col-span-4 lg:col-span-4"
+            )}
+          >
+            <Icons.Correct className="size-6 text-success" />
+            <div className="mt-1 font-bold text-success">
+              {t("RightAnswer")}
+            </div>
+            <div className="text-lg font-bold">
+              {testHistory.totalRightAnswer}
+            </div>
+            <div>{t("Question")}</div>
           </div>
-          <div>{t("Question")}</div>
-        </div>
-        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
-          <Icons.Wrong className="size-6 text-danger" />
-          <div className="mt-1 font-bold text-danger">{t("WrongAnswer")}</div>
-          <div className="text-lg font-bold">
-            {testHistory.totalWrongAnswer}
+          <div
+            className={cn(
+              "col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3",
+              isResubmitted && "sm:col-span-12 md:col-span-4 lg:col-span-4"
+            )}
+          >
+            <Icons.Wrong className="size-6 text-danger" />
+            <div className="mt-1 font-bold text-danger">{t("WrongAnswer")}</div>
+            <div className="text-lg font-bold">
+              {testHistory.totalWrongAnswer}
+            </div>
+            <div>{t("Question")}</div>
           </div>
-          <div>{t("Question")}</div>
-        </div>
-        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
-          <Icons.Skip className="size-6 text-neutral-600" />
-          <div className="mt-1 font-bold text-neutral-600">
-            {t("SkipAnswer")}
+          <div
+            className={cn(
+              "col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3",
+              isResubmitted && "sm:col-span-12 md:col-span-4 lg:col-span-4"
+            )}
+          >
+            <Icons.Skip className="size-6 text-neutral-600" />
+            <div className="mt-1 font-bold text-neutral-600">
+              {t("SkipAnswer")}
+            </div>
+            <div className="text-lg font-bold">
+              {testHistory.totalSkipAnswer}
+            </div>
+            <div>{t("Question")}</div>
           </div>
-          <div className="text-lg font-bold">{testHistory.totalSkipAnswer}</div>
-          <div>{t("Question")}</div>
-        </div>
-        <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3 xl:col-span-2">
-          <Icons.BandScore className="size-6" />
-          <div className="mt-1 font-bold text-neutral-600">
-            {t("BandScore")}
-          </div>
-          <div className="text-lg font-bold">{testHistory.bandScore}</div>
-          <div>{t("Score")}</div>
+
+          {!isResubmitted && (
+            <div className="col-span-12 flex flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg sm:col-span-6 lg:col-span-3">
+              <Icons.BandScore className="size-6" />
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("BandScore")}
+              </div>
+              <div className="text-lg font-bold">{testHistory.bandScore}</div>
+              <div>{t("Score")}</div>
+            </div>
+          )}
         </div>
       </div>
     </>

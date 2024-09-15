@@ -58,6 +58,8 @@ async function RetakePage({ params, searchParams }: Props) {
       <div className="flex flex-1 gap-4">
         <TestPaper test={test} />
         <AnswerProgress
+          testHistoryId={+testHistoryId}
+          retake
           testGrades={testGrades}
           testId={test.id}
           limit={limit}

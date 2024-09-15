@@ -21,6 +21,7 @@ export interface TestHistory {
   isFull: boolean
   testType: string
   bandScore: string
+  isResubmitted: boolean | null
   test: {
     testId: string
     testTitle: string

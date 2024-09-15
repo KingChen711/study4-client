@@ -14,3 +14,18 @@ export const submitTestSchema = z.object({
 })
 
 export type TSubmitTestSchema = z.infer<typeof submitTestSchema>
+
+export const resubmitTestSchema = z.object({
+  testId: z.number().int(),
+  testHistoryId: z.number().int(),
+  totalCompletionTime: z.number().int(),
+  takenDateTime: z.date(),
+  testGrades: z.array(
+    z.object({
+      questionId: z.number(),
+      inputedAnswer: z.string().trim().catch(""),
+    })
+  ),
+})
+
+export type TResubmitTestSchema = z.infer<typeof resubmitTestSchema>
