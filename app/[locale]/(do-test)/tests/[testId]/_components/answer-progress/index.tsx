@@ -149,14 +149,8 @@ function AnswerProgress({
                         className={cn(
                           "size-7 border-[3px] bg-transparent text-xs",
                           testGrade &&
-                            testGrade.gradeStatus === "Correct" &&
-                            "border-success bg-success-100",
-                          testGrade &&
                             testGrade.gradeStatus === "Wrong" &&
                             "border-danger bg-danger-100",
-                          testGrade &&
-                            testGrade.gradeStatus === "Skip" &&
-                            "border-skip bg-skip-100",
                           answer.selectedAnswer &&
                             "bg-primary text-primary-foreground"
                         )}
