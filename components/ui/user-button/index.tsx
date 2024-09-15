@@ -1,12 +1,14 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
+import Link from "next/link"
 import { useUser } from "@clerk/nextjs"
 import { useTranslations } from "next-intl"
 
 import { cn } from "@/lib/utils"
 
 import { Card } from "../card"
+import { Icons } from "../icons"
 import { Separator } from "../separator"
 import { Skeleton } from "../skeleton"
 import LanguageButton from "./language-button"
@@ -65,6 +67,16 @@ export const UserButton = () => {
         <MenuHeader user={user} />
 
         <Separator />
+
+        <Link
+          className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
+          href="/analytics"
+        >
+          <div className="flex items-center justify-center px-3">
+            <Icons.Analysis className="size-5" />
+          </div>
+          Kết quả luyện thi
+        </Link>
 
         <LanguageButton
           setOpenMainMenu={setOpen}

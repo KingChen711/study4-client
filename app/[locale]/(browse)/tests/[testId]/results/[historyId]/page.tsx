@@ -26,6 +26,7 @@ async function HistoryDetailPage({ params: { historyId, testId } }: Props) {
       <div className="flex flex-col gap-y-2 rounded-lg border p-4">
         <Suspense fallback={<OverallResultSkeleton />}>
           <OverallResult
+            isResubmitted={!!testHistoryDetail.testHistory.isResubmitted}
             testName={testHistoryDetail.testHistory.test.testTitle}
             testId={+testId}
             testHistory={testHistoryDetail.testHistory}
