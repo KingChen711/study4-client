@@ -55,6 +55,7 @@ export type TestSectionPart = {
     cloudResource: {
       url: string | null
     }
+    readingDesc: string | null
   }
 }
 

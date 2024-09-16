@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/dialog"
 import NoResult from "@/components/ui/no-result"
 import ParseHtml from "@/components/ui/parse-html"
+import Passage from "@/components/ui/passage"
 import Recording from "@/components/ui/recording"
 import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -104,13 +105,16 @@ function AnswerDialog({
                       }
                     />
                   </div>
+                  <Passage
+                    readingDesc={
+                      answerTranscript.testSectionPart.testSection.readingDesc
+                    }
+                  />
                   <div className="rounded-md border-2 p-3">
                     <ParseHtml
                       data={answerTranscript.testSectionPart.partitionDesc}
                     />
                   </div>
-
-                  {/* <Passage readingDesc={section.readingDesc} /> */}
                 </div>
                 <Separator className="my-2" />
                 <div className="max-h-[35dvh] overflow-y-auto">
