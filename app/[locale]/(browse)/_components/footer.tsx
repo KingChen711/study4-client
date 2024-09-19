@@ -11,7 +11,7 @@ async function Footer() {
       style={{
         backgroundImage: "url(/footer.webp)",
       }}
-      className="z-20 flex flex-col border bg-auto bg-bottom bg-no-repeat px-6 py-8 max-md:pb-14 sm:px-14"
+      className="flex flex-col border bg-auto bg-bottom bg-no-repeat px-6 py-8 max-md:pb-14 sm:px-14"
     >
       <div className="mx-auto size-full max-w-6xl">
         <div className="flex flex-col gap-6 lg:flex-row">

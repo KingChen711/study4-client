@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useTransition } from "react"
+import React, { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import {
@@ -170,10 +170,6 @@ function TestForm({ type, categoryItems, tagItems, partitionTagItems }: Props) {
       )
     }
   }
-
-  useEffect(() => {
-    console.log(form.formState.errors)
-  }, [form.formState.errors])
 
   return (
     <Form {...form}>

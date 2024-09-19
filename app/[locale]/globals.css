@@ -1,3 +1,5 @@
+@import "@stream-io/video-react-sdk/dist/css/styles.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -169,4 +171,68 @@ code {
   overflow-x: auto;
 
   color: inherit !important;
+}
+
+.str-video .meeting-setup {
+  --str-video__text-color1: #000000;
+  --str-video__button-default-hover: #cbd5e1;
+  --str-video__base-color6: #f1f5f9;
+  --str-video__background-color4: #e2e8f0;
+  --str-video__button-primary-base: #e2e8f0;
+  --str-video__primary-color: #22c55e;
+  --str-video__composite-button__button-group-active-primary--background-color: #22c55e;
+  --str-video__secondary-color: #dce775;
+  --str-video__text-color1: #ffffff;
+}
+
+.str-video .meeting-setup .str-video__device-settings {
+  font-family: inherit !important;
+}
+.str-video .meeting-setup .str-video__icon {
+  background-color: black;
+}
+.str-video .meeting-setup .str-video__call-controls__button:hover {
+  background-color: #cbd5e1;
+}
+
+/*
+.str-video__participant-details__name--audio-muted,
+.str-video__participant-details__name--video-muted {
+  background-color: #09090b !important;
+}
+
+.str-video__icon {
+  background-color: #09090b !important;
+}
+
+.str-video__generic-menu {
+  color: #09090b !important;
+} */
+
+.str-video input[type="radio"]:after {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  top: -4px;
+  left: 0px;
+  position: relative;
+  background-color: white;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid #22c55e;
+}
+
+.str-video input[type="radio"]:checked:after {
+  width: 16px;
+  height: 16px;
+  border-radius: 16px;
+  top: -4px;
+  left: 0px;
+  position: relative;
+  background-color: #22c55e;
+  content: "";
+  display: inline-block;
+  visibility: visible;
+  border: 2px solid white;
 }

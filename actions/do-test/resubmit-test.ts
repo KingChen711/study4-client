@@ -17,16 +17,12 @@ export const resubmitTest = async (
 
     if (!currentUser) throw Error(UNKNOWN_ERROR_MESSAGE)
 
-    console.log(body)
-
     await prep4Api.put(`/api/tests/${body.testId}/re-submit`, body)
 
     revalidatePath(`/tests/${body.testId}`)
 
     return { isSuccess: true }
   } catch (error) {
-    // console.log(error.response.data)
-
     return getErrorResult(error)
   }
 }

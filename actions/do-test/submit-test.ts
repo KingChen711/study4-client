@@ -27,8 +27,6 @@ export const submitTest = async (
 
     return { isSuccess: true }
   } catch (error) {
-    console.log(error)
-
     return getErrorResult(error)
   }
 }

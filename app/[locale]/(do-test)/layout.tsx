@@ -11,7 +11,7 @@ function DoTestLayout({ children }: Props) {
     <main className="relative">
       <Header />
       <div className="flex">
-        <section className="z-20 flex min-h-screen flex-1 flex-col">
+        <section className="flex min-h-screen flex-1 flex-col">
           <div className="flex-1 px-4 pb-6 pt-20">
             <div className="mx-auto size-full">{children}</div>
           </div>
