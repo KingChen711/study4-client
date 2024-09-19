@@ -1,13 +1,9 @@
 "use client"
 
-import React, { useState, useTransition } from "react"
+import React, { useTransition } from "react"
 import { useRouter } from "next/navigation"
 import { useUser } from "@clerk/nextjs"
-import {
-  useStreamVideoClient,
-  VideoPreview,
-  type Call,
-} from "@stream-io/video-react-sdk"
+import { useStreamVideoClient } from "@stream-io/video-react-sdk"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
@@ -15,7 +11,6 @@ import { Button } from "@/components/ui/button"
 function SpeakingPage() {
   const router = useRouter()
   const client = useStreamVideoClient()
-  // const [callDetail, setCallDetail] = useState<Call>()
   const { user } = useUser()
   const [pending, startTransition] = useTransition()
 
@@ -39,7 +34,6 @@ function SpeakingPage() {
             },
           },
         })
-        // setCallDetail(call)
         router.push(`/speaking/${call.id}`)
 
         toast("Meeting Created")

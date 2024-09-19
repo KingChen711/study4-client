@@ -39,7 +39,12 @@ export const StreamVideoProvider = ({
     setVideoClient(client)
   }, [isLoaded, user])
 
-  if (!videoClient) return <Icons.Loader className="size-12" />
+  if (!videoClient)
+    return (
+      <div className="mt-8 flex justify-center">
+        <Icons.Loader className="size-12" />
+      </div>
+    )
 
   return <StreamVideo client={videoClient}>{children}</StreamVideo>
 }

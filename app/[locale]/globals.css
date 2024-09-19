@@ -1,3 +1,5 @@
+@import "@stream-io/video-react-sdk/dist/css/styles.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -169,4 +171,10 @@ code {
   overflow-x: auto;
 
   color: inherit !important;
+}
+
+.str-video {
+  /* --str-video__primary-color: #22c55e; */
+  --str-video__primary-color: #009688;
+  --str-video__secondary-color: #dce775;
 }
