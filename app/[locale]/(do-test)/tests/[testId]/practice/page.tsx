@@ -35,12 +35,7 @@ async function PracticePage({ params, searchParams }: Props) {
   const { testId } = params
   const { limit, section } = practiceSearchParamsSchema.parse(searchParams)
 
-  console.log({})
-  console.log({ limit, section })
-
   const test = await getPracticeTest({ testId, section: section })
-
-  console.log({ section })
 
   if (!test || test.testSections.length === 0) return notFound()
 

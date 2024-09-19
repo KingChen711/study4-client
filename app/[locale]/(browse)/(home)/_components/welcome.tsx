@@ -15,7 +15,7 @@ async function Welcome() {
         <h2 className="text-lg font-bold md:text-2xl">
           {t("Greeting", {
             username: getUsernameFromEmail(
-              user?.primaryEmailAddress?.emailAddress!
+              user?.primaryEmailAddress?.emailAddress
             ),
           })}
         </h2>

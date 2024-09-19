@@ -45,8 +45,6 @@ async function RetakePage({ params, searchParams }: Props) {
     testHistoryId,
   })
 
-  console.log({ section })
-
   if (!test || test.testSections.length === 0) return notFound()
 
   return (

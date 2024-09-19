@@ -20,11 +20,11 @@ function MenuHeader({ user }: Props) {
         <div className="line-clamp-1 text-sm font-medium">
           {user.firstName && user.lastName
             ? `${user.firstName} ${user.lastName}`
-            : getUsernameFromEmail(user?.primaryEmailAddress?.emailAddress!)}
+            : getUsernameFromEmail(user?.primaryEmailAddress?.emailAddress)}
         </div>
         <div className="line-clamp-1 text-sm text-muted-foreground">
           {user.username ||
-            getUsernameFromEmail(user?.primaryEmailAddress?.emailAddress!)}
+            getUsernameFromEmail(user?.primaryEmailAddress?.emailAddress)}
         </div>
       </div>
     </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import {
   CallControls,
   CallingState,
@@ -17,13 +17,10 @@ import { cn } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
 
 import ChangeLayoutDropdown from "./change-layout-dropdown"
-import EndCallButton from "./end-call-button"
 
 export type CallLayoutType = "grid" | "speaker-left" | "speaker-right"
 
 const MeetingRoom = () => {
-  const searchParams = useSearchParams()
-  const isPersonalRoom = !!searchParams.get("personal")
   const router = useRouter()
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left")
   const [showParticipants, setShowParticipants] = useState(false)
@@ -49,24 +46,26 @@ const MeetingRoom = () => {
     }
   }
 
+  const handleLeaveRoom = async () => {
+    router.push("/speaking")
+  }
+
   return (
     <div className="fixed inset-0 z-[999] bg-neutral-900 text-white">
-      <section className="relative size-full overflow-hidden">
-        <div className="relative flex size-full items-center justify-center">
-          <div className="flex size-full max-w-[1000px] items-center">
+      <section className="relative flex h-screen flex-col overflow-hidden p-4 sm:p-8">
+        <div className="flex w-full flex-1 items-center justify-center">
+          <div className="flex size-full max-w-[1200px] items-center">
             <CallLayout />
           </div>
           <div
-            className={cn("ml-2 hidden h-[calc(100vh-86px)]", {
-              "show-block": showParticipants,
-            })}
+            className={cn("ml-4 hidden h-full", showParticipants && "block")}
           >
             <CallParticipantsList onClose={() => setShowParticipants(false)} />
           </div>
         </div>
         {/* video layout and call controls */}
-        <div className="fixed bottom-0 flex w-full items-center justify-center gap-5">
-          <CallControls onLeave={() => router.push(`/`)} />
+        <div className="flex w-full shrink-0 items-center justify-center gap-5">
+          <CallControls onLeave={handleLeaveRoom} />
 
           <ChangeLayoutDropdown layout={layout} setLayout={setLayout} />
 
@@ -76,7 +75,6 @@ const MeetingRoom = () => {
               <Users size={20} className="text-white" />
             </div>
           </button>
-          {!isPersonalRoom && <EndCallButton />}
         </div>
       </section>
     </div>

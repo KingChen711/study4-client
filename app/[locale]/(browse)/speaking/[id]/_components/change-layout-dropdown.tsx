@@ -65,7 +65,7 @@ function ChangeLayoutDropdown({ setLayout, layout }: Props) {
             <input
               type="radio"
               checked={layout === item.toLowerCase()}
-              className="size-4"
+              className="left-0 top-0 mt-[5px]"
             />
             {item}
           </div>
