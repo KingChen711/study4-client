@@ -9,7 +9,9 @@
     "lint": "next lint",
     "lint:fix": "eslint . --fix",
     "prettier": "prettier --check .",
-    "prettier:fix": "prettier --write ."
+    "prettier:fix": "prettier --write .",
+    "postinstall": "prisma generate",
+    "vercel-build": "prisma generate"
   },
   "dependencies": {
     "@clerk/localizations": "^2.6.0",
