@@ -5,6 +5,8 @@ export type UserPayload = {
   email: string
 }
 
+export type PaymentStatus = "PAID" | "EXPIRED" | "PENDING" | "CANCELLED"
+
 export type ActionResponse<TFormSchema = undefined, TData = undefined> =
   | (TData extends undefined
       ? { isSuccess: true }
@@ -31,3 +33,37 @@ export const cloudResourceSchema = z.object({
 })
 
 export type TCloudResource = z.infer<typeof cloudResourceSchema>
+
+export type TransactionInfo = {
+  code: string
+  desc: string
+  data: Data
+  signature: string
+}
+
+type Data = {
+  id: string
+  orderCode: string
+  amount: number
+  amountPaid: number
+  amountRemaining: number
+  status: string
+  createdAt: string
+  transactions: Transaction[]
+  cancellationReason: null
+  canceledAt: null
+}
+
+type Transaction = {
+  reference: null
+  amount: number
+  accountNumber: string
+  description: string
+  transactionDateTime: string
+  virtualAccountName: null
+  virtualAccountNumber: null
+  counterAccountBankId: null
+  counterAccountBankName: null
+  counterAccountName: null
+  counterAccountNumber: null
+}
