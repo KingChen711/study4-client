@@ -22,7 +22,7 @@ const routes = [
     tText: "Header.Flashcards",
   },
   {
-    route: "/active",
+    route: "/premium",
     tText: "Header.ActivePremium",
   },
 ] as const

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Suspense } from "react"
 import Link from "next/link"
 import { getTranslations } from "@/queries/i18n/get-translations"
 import {
@@ -13,10 +13,12 @@ import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { UserButton } from "@/components/ui/user-button"
 
+import ActivePremiumButton from "./active-premium-button"
 import MobileNavbar from "./mobile-navbar"
 
 async function Actions() {
   const t = await getTranslations("Layout")
+
   return (
     <div className="flex items-center">
       <Button variant="link">
@@ -35,14 +37,9 @@ async function Actions() {
           {t("Header.Flashcards")}
         </Link>
       </Button>
-      <Button variant="link">
-        <Link
-          className="text-muted-foreground hover:text-primary max-sm:hidden"
-          href="/active"
-        >
-          {t("Header.ActivePremium")}
-        </Link>
-      </Button>
+      <Suspense fallback={null}>
+        <ActivePremiumButton />
+      </Suspense>
       <ClerkLoading>
         <Icons.Loader className="size-[30px]" />
       </ClerkLoading>

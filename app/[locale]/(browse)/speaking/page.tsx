@@ -9,6 +9,7 @@ import { toast } from "sonner"
 import { findPartner } from "@/actions/speaking/find-partner"
 import { joinRoom } from "@/actions/speaking/join-room"
 import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
 
 //TODO:i18n
 
@@ -66,7 +67,7 @@ function SpeakingPage() {
     <div>
       SpeakingPage
       <Button disabled={pending} onClick={createMeeting}>
-        Tìm partner
+        Tìm partner {pending && <Icons.Loader className="ml-1 size-4" />}
       </Button>
     </div>
   )
