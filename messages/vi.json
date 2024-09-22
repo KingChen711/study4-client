@@ -1,4 +1,20 @@
 {
+  "SpeakingPage": {
+    "PracticeSpeaking": "Luyện speaking",
+    "CreateRoom": "Tạo phòng",
+    "RandomRoom": "Phòng ngẫu nhiên",
+    "CreateRoomMessage": "Bạn sẽ được lựa chọn band điểm và đề thi và các phần thi mà bạn mong muốn.",
+    "RandomRoomMessage": "Bạn sẽ tìm phòng ngẫu nhiên dựa trên band điểm mà bạn chọn.",
+    "FindRandomRoom": "Tìm phòng ngẫu nhiên",
+    "SelectBandScore": "Chọn band điểm:",
+    "Search": "Tìm",
+    "NotSelectSample": "Chưa chọn bài mẫu",
+    "NotSelectParts": "Chưa chọn phần thi",
+    "FailedCreateMeeting": "Tạo phòng thất bại",
+    "SelectSpeakingSample": "Mẫu bài thi",
+    "SelectParts": "Các phần thi (có thể chọn nhiều)",
+    "SelectSampleBefore": "Chọn mẫu bài thi trước"
+  },
   "HomePage": {
     "Greeting": "Chào mừng {username} trở lại!",
     "NewestTestTitle": "Đề thi mới nhất"
@@ -56,7 +72,9 @@
     "Theme": "Giao diện",
     "Light": "Sáng",
     "Dark": "Tối",
-    "System": "Thiết bị"
+    "System": "Thiết bị",
+    "StaffSite": "Trang nhân viên",
+    "ResultAnalysis": "Kết quả luyện thi"
   },
   "TestsPage": {
     "Title": "Thư viện đề thi",

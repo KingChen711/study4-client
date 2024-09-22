@@ -1,4 +1,20 @@
 {
+  "SpeakingPage": {
+    "PracticeSpeaking": "Practice speaking",
+    "CreateRoom": "Create room",
+    "RandomRoom": "Random room",
+    "CreateRoomMessage": "You will be able to choose the score band and the exam and the sections you want.",
+    "RandomRoomMessage": "You will find random rooms based on the score band you choose.",
+    "FindRandomRoom": "Find random room",
+    "SelectBandScore": "Select band score:",
+    "Search": "Search",
+    "NotSelectSample": "Not select speaking sample yet",
+    "NotSelectParts": "Not select speaking parts yet",
+    "FailedCreateMeeting": "Failed to create meeting",
+    "SelectSpeakingSample": "Speaking sample",
+    "SelectParts": "Sample parts (can select multiple)",
+    "SelectSampleBefore": "Select speaking sample before"
+  },
   "HomePage": {
     "Greeting": "Welcome {username} back!",
     "NewestTestTitle": "Newest tests"
@@ -56,7 +72,9 @@
     "Theme": "Theme",
     "Light": "Light",
     "Dark": "Light",
-    "System": "System"
+    "System": "System",
+    "StaffSite": "Staff site",
+    "ResultAnalysis": "Practice result analysis"
   },
   "TestsPage": {
     "Title": "Test bank",

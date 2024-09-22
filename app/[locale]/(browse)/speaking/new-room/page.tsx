@@ -6,6 +6,7 @@ import { bands } from "@/constants"
 import { useUser } from "@clerk/nextjs"
 import { useStreamVideoClient } from "@stream-io/video-react-sdk"
 import { CheckIcon, ChevronsUpDown } from "lucide-react"
+import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { z } from "zod"
 
@@ -53,25 +54,26 @@ function NewRoom() {
     page: searchParams.get("page"),
   })
   const { data } = useSpeakingSamples({ page })
+  const t = useTranslations("SpeakingPage")
 
   const handleCreateRoom = () => {
     if (!client || !user) return
 
     startTransition(async () => {
       if (!selectedSpeakingSample) {
-        toast("Chưa chọn mẫu bài nói")
+        toast(t("NotSelectSample"))
         return
       }
 
       if (selectedParts.length <= 0) {
-        toast("Chưa chọn phần nói")
+        toast(t("NotSelectParts"))
         return
       }
 
       const dateTime = new Date()
       const id = crypto.randomUUID()
       const call = client.call("default", id)
-      if (!call) throw new Error("Failed to create meeting")
+      if (!call) throw new Error(t("FailedCreateMeeting"))
       const startsAt =
         dateTime.toISOString() || new Date(Date.now()).toISOString()
 
@@ -115,10 +117,10 @@ function NewRoom() {
 
   return (
     <div className="mt-8">
-      <div className="text-3xl font-bold">Tạo phòng speaking</div>
+      <div className="text-3xl font-bold">{t("CreateRoom")}</div>
 
       <div className="mt-4 flex flex-col gap-y-2">
-        <Label>Chọn band điểm:</Label>
+        <Label className="text-base">{t("SelectBandScore")}</Label>
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -168,14 +170,14 @@ function NewRoom() {
         </Popover>
       </div>
 
-      <div className="mt-4 flex flex-col gap-y-2">
-        <Label>Chọn mẫu bài nói:</Label>
+      <div className="mt-6 flex flex-col gap-y-2">
+        <Label className="text-base">{t("SelectSpeakingSample")}</Label>
         <div className="grid grid-cols-12 gap-4">
           {data?.users.map((test) => {
             return (
               <div
                 className={cn(
-                  "col-span-12 cursor-pointer rounded-md border p-4 sm:col-span-6 lg:col-span-3",
+                  "col-span-12 cursor-pointer rounded-md border p-4 font-medium sm:col-span-6 lg:col-span-3",
                   test.speakingSampleId === selectedSpeakingSample &&
                     "border-primary"
                 )}
@@ -200,31 +202,35 @@ function NewRoom() {
       </div>
 
       <div className="mt-4 flex flex-col gap-y-2">
-        <Label>Chọn phần nói: (có thể chọn nhiều)</Label>
+        <Label className="text-base">{t("SelectParts")}</Label>
         {!selectedSpeakingSample ? (
-          <div className="text-sm">Chọn mẫu bài nói trước</div>
+          <div className="text-sm">{t("SelectSampleBefore")}</div>
         ) : (
           <div className="flex flex-col gap-y-4">
             {data?.users
               .find((t) => t.speakingSampleId === selectedSpeakingSample)
               ?.speakingParts.map((tp) => (
-                <div key={tp.speakingPartId} className="str-video flex gap-x-4">
-                  <input
-                    type="checkbox"
-                    checked={selectedParts.includes(tp.speakingPartId)}
-                    onChange={(e) => {
-                      const isChecked = e.target.checked
-                      if (isChecked) {
-                        setSelectedParts((prev) => [...prev, tp.speakingPartId])
-                      } else {
-                        setSelectedParts((prev) =>
-                          prev.filter((p) => p !== tp.speakingPartId)
-                        )
-                      }
-                    }}
-                  />
-
-                  <div>{tp.speakingPartNumber}</div>
+                <div
+                  key={tp.speakingPartId}
+                  className={cn(
+                    "str-video flex cursor-pointer flex-col rounded-xl border-2 p-4",
+                    selectedParts.includes(tp.speakingPartId) &&
+                      "border-primary"
+                  )}
+                  onClick={() => {
+                    const isChecked = selectedParts.includes(tp.speakingPartId)
+                    if (!isChecked) {
+                      setSelectedParts((prev) => [...prev, tp.speakingPartId])
+                    } else {
+                      setSelectedParts((prev) =>
+                        prev.filter((p) => p !== tp.speakingPartId)
+                      )
+                    }
+                  }}
+                >
+                  <div className="text-lg font-bold">
+                    Part {tp.speakingPartNumber}
+                  </div>
                   <ParseHtml data={tp.speakingPartDescription} />
                 </div>
               ))}
@@ -233,11 +239,11 @@ function NewRoom() {
       </div>
 
       <Button
-        className="mt-6"
+        className="float-right ml-auto mt-6"
         onClick={handleCreateRoom}
         disabled={pending || !client || !user}
       >
-        Tạo phòng {pending && <Icons.Loader className="ml-1 size-4" />}
+        {t("CreateRoom")} {pending && <Icons.Loader className="ml-1 size-4" />}
       </Button>
     </div>
   )

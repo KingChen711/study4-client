@@ -34,7 +34,8 @@ function RandomRoom() {
   const client = useStreamVideoClient()
   const { user } = useUser()
   const router = useRouter()
-  const t = useTranslations("Errors")
+  const tErrors = useTranslations("Errors")
+  const t = useTranslations("SpeakingPage")
 
   const handleFindRandomRoom = () => {
     if (!client || !user) return
@@ -50,7 +51,7 @@ function RandomRoom() {
           return
         }
 
-        toast(t(res.messageError))
+        toast(tErrors(res.messageError))
       } catch (error) {
         console.error(error)
         toast("Failed to create Meeting")
@@ -67,57 +68,60 @@ function RandomRoom() {
 
   return (
     <div className="mt-8">
-      <div className="text-3xl font-bold">Tìm phòng ngẫu nhiên</div>
+      <div className="text-3xl font-bold">{t("FindRandomRoom")}</div>
 
       <div className="mt-4 flex flex-col gap-y-2">
-        <Label>Chọn band điểm:</Label>
-        <Popover open={open} onOpenChange={setOpen}>
-          <PopoverTrigger asChild>
-            <Button
-              variant="outline"
-              role="combobox"
-              aria-expanded={open}
-              className="w-[200px] justify-between"
-            >
-              {value ? bands.find((band) => band === value) : "Select band..."}
-              <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[200px] p-0">
-            <Command>
-              <CommandList>
-                <CommandGroup>
-                  {bands.map((band) => (
-                    <CommandItem
-                      key={band}
-                      value={band}
-                      onSelect={(currentValue) => {
-                        setValue(currentValue === value ? "" : currentValue)
-                        setOpen(false)
-                      }}
-                    >
-                      {band}
-                      <CheckIcon
-                        className={cn(
-                          "ml-auto size-4",
-                          value === band ? "opacity-100" : "opacity-0"
-                        )}
-                      />
-                    </CommandItem>
-                  ))}
-                </CommandGroup>
-              </CommandList>
-            </Command>
-          </PopoverContent>
-        </Popover>
+        <Label className="text-base">{t("SelectBandScore")}</Label>
+        <div className="flex gap-x-4">
+          <Popover open={open} onOpenChange={setOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                role="combobox"
+                aria-expanded={open}
+                className="w-[200px] justify-between"
+              >
+                {value
+                  ? bands.find((band) => band === value)
+                  : "Select band..."}
+                <ChevronsUpDown className="ml-2 size-4 shrink-0 opacity-50" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-[200px] p-0">
+              <Command>
+                <CommandList>
+                  <CommandGroup>
+                    {bands.map((band) => (
+                      <CommandItem
+                        key={band}
+                        value={band}
+                        onSelect={(currentValue) => {
+                          setValue(currentValue === value ? "" : currentValue)
+                          setOpen(false)
+                        }}
+                      >
+                        {band}
+                        <CheckIcon
+                          className={cn(
+                            "ml-auto size-4",
+                            value === band ? "opacity-100" : "opacity-0"
+                          )}
+                        />
+                      </CommandItem>
+                    ))}
+                  </CommandGroup>
+                </CommandList>
+              </Command>
+            </PopoverContent>
+          </Popover>
+          <Button
+            onClick={handleFindRandomRoom}
+            disabled={pending || !client || !user}
+          >
+            {t("Search")} {pending && <Icons.Loader className="ml-1 size-4" />}
+          </Button>
+        </div>
       </div>
-
-      <Button
-        onClick={handleFindRandomRoom}
-        disabled={pending || !client || !user}
-      >
-        Tìm {pending && <Icons.Loader className="ml-1 size-4" />}
-      </Button>
     </div>
   )
 }

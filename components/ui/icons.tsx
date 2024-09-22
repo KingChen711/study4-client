@@ -35,10 +35,55 @@ export const Icons = {
       />
     </svg>
   ),
+  Random: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 8 8"
+      {...props}
+      className={cn(className)}
+    >
+      <path
+        fill="currentColor"
+        d="M6 0v1h-.5c-.35 0-.56.1-.78.38L3.31 3.16L1.78 1.38C1.56 1.12 1.34 1 1 1H0v1h1c-.05 0 .01.04.03.03l1.63 1.91L1 6H0v1h1c.35 0 .56-.1.78-.38l1.53-1.91l1.66 1.91c.22.26.44.38.78.38H6v1l2-1.5L6 5v1h-.22c-.01-.01-.05-.04-.06-.03L3.97 3.91L5.5 2H6v1l2-1.5L6 0z"
+      ></path>
+    </svg>
+  ),
+  Plus: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 42 42"
+      {...props}
+      className={cn(className)}
+    >
+      <path
+        fill="currentColor"
+        d="M39.5 22.5v-3c0-1.48-.43-2-2-2h-13v-13c0-1.48-.49-2-2-2h-3c-1.55 0-2 .52-2 2v13h-14c-1.48 0-2 .49-2 2v3c0 1.55.52 2 2 2h14v14c0 1.51.48 2 2 2h3c1.48 0 2-.43 2-2v-14h13c1.51 0 2-.48 2-2z"
+      ></path>
+    </svg>
+  ),
+  Staff: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 36 36"
+      {...props}
+      className={cn(className)}
+    >
+      <g id="clarityEmployeeSolid0" fill="currentColor">
+        <circle cx="16.86" cy="9.73" r="6.46"></circle>
+        <path d="M21 28h7v1.4h-7z"></path>
+        <path d="M15 30v3a1 1 0 0 0 1 1h17a1 1 0 0 0 1-1V23a1 1 0 0 0-1-1h-7v-1.47a1 1 0 0 0-2 0V22h-2v-3.58a32.12 32.12 0 0 0-5.14-.42a26 26 0 0 0-11 2.39a3.28 3.28 0 0 0-1.88 3V30Zm17 2H17v-8h7v.42a1 1 0 0 0 2 0V24h6Z"></path>
+      </g>
+    </svg>
+  ),
   Target: ({ className, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(className)}
       style={{
         width: "1em",
         height: "1em",
@@ -49,6 +94,7 @@ export const Icons = {
       viewBox="0 0 1024 1024"
       version="1.1"
       {...props}
+      className={cn(className)}
     >
       <path
         d="M511.392721 512.607279m-415.506586 0a415.506586 415.506586 0 1 0 831.013172 0 415.506586 415.506586 0 1 0-831.013172 0Z"
