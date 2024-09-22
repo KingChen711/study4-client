@@ -10,11 +10,17 @@ import { initHeartBeat } from "./init-heart-beat"
 type JoinRoomParams = {
   roomId: string
   userId: string
+  band?: string
+  speakingSampleId?: number
+  speakingParts?: number[]
 }
 
 export const joinRoom = async ({
   roomId,
   userId,
+  band,
+  speakingParts,
+  speakingSampleId,
 }: JoinRoomParams): Promise<ActionResponse> => {
   try {
     const room = await prisma.room.findFirst({
@@ -30,6 +36,9 @@ export const joinRoom = async ({
           roomId,
           users: [userId],
           lastHeartBeat: Date.now(),
+          band: band!,
+          speakingSampleId: speakingSampleId!,
+          speakingParts: speakingParts!,
         },
       })
       await initHeartBeat(room.roomId)

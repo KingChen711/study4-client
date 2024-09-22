@@ -7,3 +7,12 @@ export const editorPlugin = {
   toolbar:
     "undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat",
 }
+
+export const bands = [
+  "All",
+  "4.5 - 5.5",
+  "5.5 - 6.5",
+  "6.5 - 7.5",
+  "7.5 - 8.5",
+  "8.5+",
+] as const

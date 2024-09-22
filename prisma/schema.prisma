@@ -14,12 +14,15 @@ datasource db {
 }
 
 model Room {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  roomId        String   @unique
-  quantity      Int
-  users         String[]
-  createdDate   DateTime @default(now())
-  lastHeartBeat Int
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  roomId           String   @unique
+  quantity         Int
+  users            String[]
+  createdDate      DateTime @default(now())
+  lastHeartBeat    Int
+  band             String
+  speakingSampleId Int
+  speakingParts    Int[]
 
   @@index([createdDate(sort: Desc)])
 }
