@@ -1,13 +1,13 @@
 import React from "react"
 import Link from "next/link"
-import whoAmI from "@/queries/users/who-am-i"
+import getUserPremium from "@/queries/users/get-user-premium"
 import { getTranslations } from "next-intl/server"
 
 import { Button } from "@/components/ui/button"
 
 async function ActivePremiumButton() {
   const t = await getTranslations("Layout")
-  const currentUser = await whoAmI()
+  const premium = await getUserPremium()
 
   return (
     <Button variant="link">
@@ -15,7 +15,7 @@ async function ActivePremiumButton() {
         className="text-muted-foreground hover:text-primary max-sm:hidden"
         href="/premium"
       >
-        {currentUser?.isActive
+        {premium?.isPremiumActive
           ? t("Header.YourPremium")
           : t("Header.ActivePremium")}
       </Link>

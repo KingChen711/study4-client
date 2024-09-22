@@ -1,14 +1,23 @@
 import React from "react"
 import getPackages from "@/queries/premium/get-packages"
-import whoAmI from "@/queries/users/who-am-i"
+import getUserPremium from "@/queries/users/get-user-premium"
+
+import { toDateTime2 } from "@/lib/utils"
 
 import ActiveButton from "./_components/active-button"
 
 async function PremiumPage() {
-  const currentUser = await whoAmI()
+  const premium = await getUserPremium()
 
-  if (currentUser?.isActive) {
-    return <div>Bạn đã đăng một gói nào đó rồi</div>
+  console.log({ premium })
+
+  if (premium?.isPremiumActive) {
+    return (
+      <div>
+        <div>Bạn đã đăng một gói {premium.premiumPackageName}</div>
+        <div>Hết hạn {toDateTime2(premium.expireDate)}</div>
+      </div>
+    )
   }
 
   const packages = await getPackages()

@@ -13,7 +13,6 @@ type Role = {
 export type User = {
   userId: string
   role: Role
-  isActive: boolean
 }
 
 export type Tag = { tagId: string; tagName: string }
