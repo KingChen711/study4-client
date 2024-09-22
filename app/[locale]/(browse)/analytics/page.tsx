@@ -1,8 +1,11 @@
-import React from "react"
+"use client"
+
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { Check, ChevronsUpDown, LightbulbIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
+import useAnalytics from "@/hooks/use-analytics"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import {
@@ -57,12 +60,45 @@ type Props = {
 
 function AnalyticsPage({ searchParams }: Props) {
   const { qDays = "3D" } = searchParams
+  const { data: analytics, isPending } = useAnalytics(qDays)
+  const [categoryAnalyticIndex, setCategoryAnalyticIndex] = useState(0)
+
+  useEffect(() => {
+    console.log({ analytics })
+  }, [analytics])
+
+  if (isPending)
+    return (
+      <div className="mt-8 flex justify-center">
+        <Icons.Loader className="size-12" />
+      </div>
+    )
+
+  const overallAnalytics =
+    analytics?.testCategoryAnalytics[categoryAnalyticIndex].testAnalytics
+
+  console.log(overallAnalytics)
 
   return (
     <div>
       <h2 className="mb-4 mt-8 text-3xl font-bold">
         Thống kê kết quả luyện thi
       </h2>
+
+      <div className="flex">
+        {analytics?.testCategoryAnalytics.map((tca, i) => (
+          <div
+            key={tca.testCategoryName}
+            className={cn("p-4")}
+            onClick={() => {
+              setCategoryAnalyticIndex(i)
+            }}
+          >
+            {tca.testCategoryName}
+          </div>
+        ))}
+      </div>
+
       <Alert className="h-fit w-full border-success">
         <LightbulbIcon className="size-4 stroke-success" />
         <AlertTitle className="font-semibold text-success">

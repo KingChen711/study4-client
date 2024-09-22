@@ -11,7 +11,7 @@
     "NotSelectSample": "Not select speaking sample yet",
     "NotSelectParts": "Not select speaking parts yet",
     "FailedCreateMeeting": "Failed to create meeting",
-    "SelectSpeakingSample": "Speaking sample",
+    "SelectSpeakingSample": "Speaking sample (select one)",
     "SelectParts": "Sample parts (can select multiple)",
     "SelectSampleBefore": "Select speaking sample before"
   },
