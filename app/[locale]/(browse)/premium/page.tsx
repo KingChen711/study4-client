@@ -2,7 +2,9 @@ import React from "react"
 import getPackages from "@/queries/premium/get-packages"
 import getUserPremium from "@/queries/users/get-user-premium"
 
-import { toDateTime2 } from "@/lib/utils"
+import { cn, formatePrice, toDateTime2 } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
 
 import ActiveButton from "./_components/active-button"
 
@@ -14,7 +16,7 @@ async function PremiumPage() {
   if (premium?.isPremiumActive) {
     return (
       <div>
-        <div>Bạn đã đăng một gói {premium.premiumPackageName}</div>
+        <div>Bạn đã đăng ký một gói {premium.premiumPackageName}</div>
         <div>Hết hạn {toDateTime2(premium.expireDate)}</div>
       </div>
     )
@@ -23,19 +25,100 @@ async function PremiumPage() {
   const packages = await getPackages()
 
   return (
-    <div className="flex flex-col">
-      <div>Premium Page</div>
+    <div className="mt-8 flex flex-col">
+      <div className="mb-6 text-3xl font-bold">Premium</div>
 
-      <div className="flex flex-wrap gap-8">
-        {packages.map((_package) => (
+      <div className="grid grid-cols-12 gap-6">
+        <div className="col-span-12 flex flex-col rounded-3xl border border-success px-6 py-10 shadow shadow-success sm:col-span-6 xl:col-span-3">
+          <div className="flex items-end gap-x-2">
+            <div className="text-2xl font-bold">FREE</div>
+          </div>
+          <p className="mb-2 mt-4 text-xl font-semibold">Gói miễn phí</p>
+          <div className="mb-4 flex flex-1 flex-col gap-y-2">
+            <div className="flex items-center gap-x-2">
+              <Icons.Check className="size-4 text-success" />
+              Luyện tập làm test online
+            </div>
+            <div className="flex items-center gap-x-2">
+              <Icons.Check className="size-4 text-success" />
+              Xem đáp án
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <Icons.X className="size-4 text-danger" />
+              Xem giải thích đáp án
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <Icons.X className="size-4 text-danger" />
+              Luyện tập speaking
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <Icons.X className="size-4 text-danger" />
+              Tạo flashcards cá nhân
+            </div>
+          </div>
+          <Button variant="outline" className="hover:cursor-default">
+            Gói hiện tại của bạn
+          </Button>
+        </div>
+        {packages.map((_package, i) => (
           <div
-            className="flex flex-col items-center gap-y-4 rounded-xl border p-6 shadow"
+            className={cn(
+              "col-span-12 flex flex-col rounded-3xl border px-6 py-10 shadow sm:col-span-6 xl:col-span-3",
+              i === 0 && "border-info shadow-info",
+              i === 1 && "border-warning shadow-warning",
+              i === 2 && "border-danger shadow-danger"
+            )}
             key={_package.premiumPackageId}
           >
-            <p className="font-bold"> {_package.premiumPackageName}</p>
-            <p>
-              đ{_package.price}/{_package.durationInMonths} tháng
+            <div className="flex items-end gap-x-2">
+              <div className="text-2xl font-bold">
+                đ{formatePrice(_package.price)}
+              </div>{" "}
+              <div className="text-base">/tháng</div>
+            </div>
+            <p className="mb-2 mt-4 text-xl font-semibold">
+              {_package.premiumPackageName}
             </p>
+            <div className="mb-4 flex flex-1 flex-col gap-y-2">
+              <div className="flex items-center gap-x-2">
+                <Icons.Check className="size-4 text-success" />
+                Luyện tập làm test online
+              </div>
+              <div className="flex items-center gap-x-2">
+                <Icons.Check className="size-4 text-success" />
+                Xem đáp án
+              </div>
+
+              <div className="flex items-center gap-x-2">
+                <Icons.Check className="size-4 text-success" />
+                Xem giải thích đáp án
+              </div>
+              {i >= 1 ? (
+                <div className="flex items-center gap-x-2">
+                  <Icons.Check className="size-4 text-success" />
+                  Luyện tập speaking
+                </div>
+              ) : (
+                <div className="flex items-center gap-x-2">
+                  <Icons.X className="size-4 text-danger" />
+                  Luyện tập speaking
+                </div>
+              )}
+              {i >= 2 ? (
+                <div className="flex items-center gap-x-2">
+                  <Icons.Check className="size-4 text-success" />
+                  Tạo flashcards cá nhân
+                </div>
+              ) : (
+                <div className="flex items-center gap-x-2">
+                  <Icons.X className="size-4 text-danger" />
+                  Tạo flashcards cá nhân
+                </div>
+              )}
+            </div>
             <ActiveButton packageId={_package.premiumPackageId} />
           </div>
         ))}

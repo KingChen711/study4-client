@@ -31,7 +31,7 @@ function ActiveButton({ packageId }: Props) {
 
   return (
     <Button onClick={handleCreatePayment} disabled={pending}>
-      Nâng cấp ngay {pending && <Icons.Loader className="ml-1 size-4" />}
+      Nâng cấp ngay {pending && <Icons.Loader className="ml-1 mt-4 size-4" />}
     </Button>
   )
 }

@@ -6,6 +6,17 @@ import { StatusCodes } from "http-status-codes"
 import queryString from "query-string"
 import { twMerge } from "tailwind-merge"
 
+export function formatePrice(num: number): string {
+  // Convert number to string and reverse it for easier grouping
+  const reversedNumStr = num.toString().split("").reverse().join("")
+
+  // Add dots every three digits
+  const groupedStr = reversedNumStr.replace(/\d{3}(?=\d)/g, "$&.")
+
+  // Reverse the string back to its original order and return
+  return groupedStr.split("").reverse().join("")
+}
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
