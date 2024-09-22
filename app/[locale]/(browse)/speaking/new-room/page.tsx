@@ -211,17 +211,14 @@ function NewRoom() {
                 <div key={tp.speakingPartId} className="str-video flex gap-x-4">
                   <input
                     type="checkbox"
-                    checked={selectedParts.includes(tp.speakingPartNumber)}
+                    checked={selectedParts.includes(tp.speakingPartId)}
                     onChange={(e) => {
                       const isChecked = e.target.checked
                       if (isChecked) {
-                        setSelectedParts((prev) => [
-                          ...prev,
-                          tp.speakingPartNumber,
-                        ])
+                        setSelectedParts((prev) => [...prev, tp.speakingPartId])
                       } else {
                         setSelectedParts((prev) =>
-                          prev.filter((p) => p !== tp.speakingPartNumber)
+                          prev.filter((p) => p !== tp.speakingPartId)
                         )
                       }
                     }}

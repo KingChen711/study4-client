@@ -11,8 +11,6 @@ import { Icons } from "@/components/ui/icons"
 import MeetingRoom from "./_components/meeting-room"
 import MeetingSetup from "./_components/meting-setup"
 
-//TODO:i18n
-
 function SpeakingPageRoom() {
   const { id } = useParams()
   const { call, isCallLoading } = useGetCallById(id)
@@ -45,7 +43,7 @@ function SpeakingPageRoom() {
           {!hasSetUpComplete ? (
             <MeetingSetup setHasSetUpComplete={setHasSetUpComplete} />
           ) : (
-            <MeetingRoom />
+            <MeetingRoom id={id as string} />
           )}
         </StreamTheme>
       </StreamCall>
