@@ -43,6 +43,8 @@ function AnswerDialog({
     partitionId,
   })
 
+  console.log({ answerTranscript })
+
   const t = useTranslations("TestResultPage")
 
   return (

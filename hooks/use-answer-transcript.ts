@@ -1,5 +1,6 @@
 "use client"
 
+import { useAuth } from "@clerk/nextjs"
 import { keepPreviousData, useQuery } from "@tanstack/react-query"
 
 import prep4Api from "@/lib/prep4-api"
@@ -70,6 +71,7 @@ type Params = {
 }
 
 function useAnswerTranscript({ gradeId, partitionId }: Params) {
+  const { getToken } = useAuth()
   return useQuery({
     queryKey: [
       "test-histories",
@@ -81,7 +83,12 @@ function useAnswerTranscript({ gradeId, partitionId }: Params) {
     queryFn: async () => {
       return prep4Api
         .get<{ data: AnswerTranscript | null }>(
-          `/api/test-histories/partitions/${partitionId}/test-grades/${gradeId}`
+          `/api/test-histories/partitions/${partitionId}/test-grades/${gradeId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${await getToken()}`,
+            },
+          }
         )
         .then((res) => res.data.data || null)
         .catch((_: Error) => {
