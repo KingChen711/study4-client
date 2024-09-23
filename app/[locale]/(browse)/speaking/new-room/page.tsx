@@ -173,7 +173,7 @@ function NewRoom() {
       <div className="mt-6 flex flex-col gap-y-2">
         <Label className="text-base">{t("SelectSpeakingSample")}</Label>
         <div className="grid grid-cols-12 gap-4">
-          {data?.users.map((test) => {
+          {data?.speakingSamples.map((test) => {
             return (
               <div
                 className={cn(
@@ -191,7 +191,7 @@ function NewRoom() {
             )
           })}
         </div>
-        {data && data.users.length > 0 && (
+        {data && data.speakingSamples.length > 0 && (
           <Paginator
             metadata={{
               pageNumber: page,
@@ -207,7 +207,7 @@ function NewRoom() {
           <div className="text-sm">{t("SelectSampleBefore")}</div>
         ) : (
           <div className="flex flex-col gap-y-4">
-            {data?.users
+            {data?.speakingSamples
               .find((t) => t.speakingSampleId === selectedSpeakingSample)
               ?.speakingParts.map((tp) => (
                 <div

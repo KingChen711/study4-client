@@ -32,7 +32,7 @@ function useSpeakingSamples({ page }: Params) {
       return prep4Api
         .get<{
           data: {
-            users: SpeakingSample[]
+            speakingSamples: SpeakingSample[]
             page: number
             totalPage: number
           }
@@ -41,9 +41,12 @@ function useSpeakingSamples({ page }: Params) {
             Authorization: `Bearer ${await getToken()}`,
           },
         })
-        .then((res) => res.data.data || { page: 0, totalPage: 0, users: [] })
+        .then(
+          (res) =>
+            res.data.data || { page: 0, totalPage: 0, speakingSamples: [] }
+        )
         .catch((_: Error) => {
-          return { page: 0, totalPage: 0, users: [] }
+          return { page: 0, totalPage: 0, speakingSamples: [] }
         })
     },
 
