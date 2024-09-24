@@ -148,7 +148,8 @@
     "Score": "điểm",
     "BandScore": "Thang điểm",
     "Answers": "Đáp án",
-    "Retake": "Làm lại các câu sai"
+    "Retake": "Làm lại các câu sai",
+    "ViewAnswerDetail": "Xem đáp án chi tiết"
   },
   "Errors": {
     "NotFoundRoom": "Không tìm thấy phòng phù hợp"

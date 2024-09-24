@@ -148,7 +148,8 @@
     "Score": "score",
     "BandScore": "Band score",
     "Answers": "Answers",
-    "Retake": "Retake the wrong answers"
+    "Retake": "Retake the wrong answers",
+    "ViewAnswerDetail": "View answer detail"
   },
   "Errors": {
     "NotFoundRoom": "Not found any room match condition"

@@ -24,6 +24,13 @@ const AnswerDetail = async ({ sections, testId, testHistoryId }: Props) => {
         <h3 className="my-2 text-xl font-bold">{t("Answers")}</h3>
         <Button size="sm" variant="outline" asChild>
           <Link
+            href={`/tests/${testId}/results/${testHistoryId}/answer-detail`}
+          >
+            {t("ViewAnswerDetail")}
+          </Link>
+        </Button>
+        <Button size="sm" variant="outline" asChild>
+          <Link
             href={`/tests/${testId}/retake?${sections.map((section) => `section=${section.testSectionId}&`).join("")}&testHistoryId=${testHistoryId}`}
           >
             {t("Retake")}

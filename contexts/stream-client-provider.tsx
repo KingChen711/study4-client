@@ -41,7 +41,7 @@ export const StreamVideoProvider = ({
 
   if (!videoClient)
     return (
-      <div className="mt-8 flex justify-center">
+      <div className="mt-8 flex w-full justify-center">
         <Icons.Loader className="size-12" />
       </div>
     )

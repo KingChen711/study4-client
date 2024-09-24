@@ -1,4 +1,5 @@
 import React from "react"
+import { type TestGrade } from "@/queries/test/get-history"
 
 import { type Partition } from "@/types/do-test"
 import { cn } from "@/lib/utils"
@@ -9,9 +10,16 @@ import QuestionContent from "./question-content"
 type Props = {
   havePassage: boolean
   partitions: Partition[]
+  showAnswer?: boolean
+  testGrades?: TestGrade[]
 }
 
-function Partitions({ havePassage, partitions }: Props) {
+function Partitions({
+  havePassage,
+  partitions,
+  showAnswer,
+  testGrades,
+}: Props) {
   return (
     <div
       className={cn(
@@ -36,7 +44,14 @@ function Partitions({ havePassage, partitions }: Props) {
             )}
           >
             {partition.questions.map((question) => (
-              <QuestionContent key={question.questionId} question={question} />
+              <QuestionContent
+                showAnswer={showAnswer}
+                testGrade={testGrades?.find(
+                  (tg) => tg.questionId === question.questionId
+                )}
+                key={question.questionId}
+                question={question}
+              />
             ))}
           </div>
         </div>
