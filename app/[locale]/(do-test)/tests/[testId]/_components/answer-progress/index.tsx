@@ -22,6 +22,7 @@ type Props = {
   testGrades?: TestGrade[]
   retake?: boolean
   testHistoryId?: number
+  showAnswer?: boolean
 }
 
 function AnswerProgress({
@@ -31,6 +32,7 @@ function AnswerProgress({
   testGrades,
   retake = false,
   testHistoryId,
+  showAnswer = false,
 }: Props) {
   const { getAnswersEachSection, answers } = useSubmitAnswers()
   const [time, setTime] = useState<number>(0)
@@ -100,34 +102,39 @@ function AnswerProgress({
   return (
     <div className="relative w-52">
       <div className="sticky top-24 rounded-lg border p-4">
-        <h4 className="font-medium">{t("CompleteTime")}</h4>
-        <p
-          className={cn(
-            "mb-2 mt-1 line-clamp-1 text-xl font-bold",
-            limit !== "no-limit" && +limit * 60 <= time && "text-danger"
-          )}
-        >
-          {convertSecondToText(
-            limit === "no-limit" ? time : Math.max(0, +limit * 60 - time)
-          )}
-        </p>
+        {!showAnswer && (
+          <>
+            <h4 className="font-medium">{t("CompleteTime")}</h4>
+            <p
+              className={cn(
+                "mb-2 mt-1 line-clamp-1 text-xl font-bold",
+                limit !== "no-limit" && +limit * 60 <= time && "text-danger"
+              )}
+            >
+              {convertSecondToText(
+                limit === "no-limit" ? time : Math.max(0, +limit * 60 - time)
+              )}
+            </p>
 
-        {!isFullTest && limit !== "no-limit" && +limit * 60 <= time && (
-          <p className="mb-2 text-balance rounded-lg border bg-muted p-2 text-sm font-medium text-danger">
-            {t("OverTimeMessage")}
-          </p>
+            {!isFullTest && limit !== "no-limit" && +limit * 60 <= time && (
+              <p className="mb-2 text-balance rounded-lg border bg-muted p-2 text-sm font-medium text-danger">
+                {t("OverTimeMessage")}
+              </p>
+            )}
+
+            <Button
+              onClick={handleSubmit}
+              variant="outline"
+              className="w-full uppercase"
+              disabled={pending}
+            >
+              {t("Submit")}{" "}
+              {pending && <Icons.Loader className="ml-1 size-4" />}
+            </Button>
+          </>
         )}
 
-        <Button
-          onClick={handleSubmit}
-          variant="outline"
-          className="w-full uppercase"
-          disabled={pending}
-        >
-          {t("Submit")} {pending && <Icons.Loader className="ml-1 size-4" />}
-        </Button>
-
-        <div className="mt-6 flex flex-col gap-y-4">
+        <div className={cn("mt-6 flex flex-col gap-y-4", showAnswer && "mt-0")}>
           {Object.entries(getAnswersEachSection()).map((e) => {
             const sectionName = e[0]
             const answers = e[1]

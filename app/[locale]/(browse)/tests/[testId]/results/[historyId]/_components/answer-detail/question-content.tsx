@@ -12,7 +12,7 @@ type Props = { answerTranscript: AnswerTranscript }
 
 function QuestionContent({ answerTranscript }: Props) {
   const testGrade = answerTranscript.testGrades[0]
-  const isMultipleChoice = !!testGrade.question //TODO: fix this on api fixed
+  const isMultipleChoice = !!testGrade.question.isMultipleChoice //TODO: fix this on api fixed
   const t = useTranslations("TestResultPage")
 
   if (isMultipleChoice)

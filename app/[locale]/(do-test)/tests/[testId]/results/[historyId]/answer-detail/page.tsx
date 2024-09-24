@@ -4,6 +4,7 @@ import getFullTest from "@/queries/test/get-full-test"
 import getHistory from "@/queries/test/get-history"
 import getPracticeTest from "@/queries/test/get-practice-test"
 
+import AnswerProgress from "../../../_components/answer-progress"
 import TestPaper from "../../../_components/test-paper"
 
 type Props = {
@@ -44,11 +45,11 @@ async function AnswerDetailPage({ params: { historyId, testId } }: Props) {
             sh.partitionHistories.flatMap((ph) => ph.testGrades)
           )}
         />
-        {/* <AnswerProgress
-          isFullTest
+        <AnswerProgress
+          showAnswer
           testId={test.id}
           limit={Math.round(test.duration / 60).toString()}
-        /> */}
+        />
       </div>
     </div>
   )

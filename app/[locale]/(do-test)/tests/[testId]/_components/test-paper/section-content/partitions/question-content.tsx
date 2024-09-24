@@ -5,6 +5,7 @@ import { useSubmitAnswers } from "@/stores/use-submit-answers"
 
 import { type Question } from "@/types/do-test"
 import { cn, indexToAlphabet } from "@/lib/utils"
+import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
@@ -65,6 +66,18 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
                     <Label htmlFor={a.questionAnswerId.toString()}>
                       {indexToAlphabet(i)}. {a.answerText}
                     </Label>
+
+                    {showAnswer &&
+                      testGrade?.inputedAnswer === indexToAlphabet(i) &&
+                      testGrade.gradeStatus === "Correct" && (
+                        <Icons.Check className="size-4 text-success" />
+                      )}
+
+                    {showAnswer &&
+                      testGrade?.inputedAnswer === indexToAlphabet(i) &&
+                      testGrade.gradeStatus === "Wrong" && (
+                        <Icons.X className="size-4 text-danger" />
+                      )}
                   </div>
                 )
               })}
@@ -97,27 +110,41 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
             <p className="font-medium">{question.questionDesc}</p>
           )}
 
-          <Input
-            disabled={showAnswer}
-            value={
-              showAnswer
-                ? testGrade?.inputedAnswer
-                : answers[question.questionId]?.selectedAnswer || ""
-            }
-            onChange={(e) =>
-              handleChangeAnswer(e.target.value, question.questionId)
-            }
-            className={cn(
-              "w-full",
-              showAnswer &&
-                testGrade?.gradeStatus === "Correct" &&
-                "border-success",
-              showAnswer &&
-                testGrade?.gradeStatus === "Wrong" &&
-                "border-danger",
-              showAnswer && testGrade?.gradeStatus === "Skip" && "border-skip"
+          <div className="flex items-center gap-3">
+            <Input
+              disabled={showAnswer}
+              value={
+                showAnswer
+                  ? testGrade?.inputedAnswer
+                  : answers[question.questionId]?.selectedAnswer || ""
+              }
+              onChange={(e) =>
+                handleChangeAnswer(e.target.value, question.questionId)
+              }
+              className={cn(
+                "w-full",
+                showAnswer &&
+                  testGrade?.gradeStatus === "Correct" &&
+                  "border-success",
+                showAnswer &&
+                  testGrade?.gradeStatus === "Wrong" &&
+                  "border-danger",
+                showAnswer && testGrade?.gradeStatus === "Skip" && "border-skip"
+              )}
+            />
+
+            {showAnswer && testGrade?.gradeStatus === "Correct" && (
+              <Icons.Check className="size-4 text-success" />
             )}
-          />
+
+            {showAnswer && testGrade?.gradeStatus === "Wrong" && (
+              <Icons.X className="size-4 text-danger" />
+            )}
+
+            {showAnswer && testGrade?.gradeStatus === "Skip" && (
+              <Icons.Slash className="size-4 text-skip" />
+            )}
+          </div>
         </div>
       </div>
       {showAnswer && testGrade && (
