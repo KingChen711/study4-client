@@ -12,7 +12,7 @@ import { z } from "zod"
 
 import { cn } from "@/lib/utils"
 import { joinRoom } from "@/actions/speaking/join-room"
-import useSpeakingSamples from "@/hooks/use-speaking-samples"
+import useSpeakspeakingSamples from "@/hooks/use-speaking-samples"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -53,7 +53,7 @@ function NewRoom() {
   const { page } = testSearchParamsSchema.parse({
     page: searchParams.get("page"),
   })
-  const { data } = useSpeakingSamples({ page })
+  const { data } = useSpeakspeakingSamples({ page })
   const t = useTranslations("SpeakingPage")
 
   const handleCreateRoom = () => {

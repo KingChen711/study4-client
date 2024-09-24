@@ -5,8 +5,6 @@ import { type ActionResponse } from "@/types"
 import prisma from "@/lib/prisma"
 import { getErrorResult } from "@/lib/utils"
 
-import { initHeartBeat } from "./init-heart-beat"
-
 type JoinRoomParams = {
   roomId: string
   userId: string
@@ -30,7 +28,7 @@ export const joinRoom = async ({
     })
 
     if (!room) {
-      const room = await prisma.room.create({
+      await prisma.room.create({
         data: {
           quantity: 1,
           roomId,
@@ -41,7 +39,7 @@ export const joinRoom = async ({
           speakingParts: speakingParts!,
         },
       })
-      await initHeartBeat(room.roomId)
+
       return { isSuccess: true }
     }
 

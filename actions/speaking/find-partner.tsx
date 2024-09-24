@@ -11,8 +11,11 @@ export const findPartner = async (
 ): Promise<ActionResponse<undefined, { roomId: string }>> => {
   const AND: Prisma.RoomWhereInput[] = [
     {
-      quantity: {
-        lt: 2,
+      quantity: 1,
+    },
+    {
+      lastHeartBeat: {
+        gte: Date.now() - 30 * 1000,
       },
     },
   ]
