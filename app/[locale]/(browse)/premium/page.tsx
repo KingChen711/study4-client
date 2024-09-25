@@ -15,9 +15,62 @@ async function PremiumPage() {
 
   if (premium?.isPremiumActive) {
     return (
-      <div>
+      <div className="mt-8 flex flex-col">
+        <div className="mb-6 text-3xl font-bold">Premium</div>
         <div>Bạn đã đăng ký một gói {premium.premiumPackageName}</div>
         <div>Hết hạn {toDateTime2(premium.expireDate)}</div>
+        <div
+          className={cn(
+            "col-span-12 flex flex-col rounded-3xl border px-6 py-10 shadow sm:col-span-6 xl:col-span-3",
+            premium.premiumPackageId === 1 && "border-info shadow-info",
+            premium.premiumPackageId === 2 && "border-warning shadow-warning",
+            premium.premiumPackageId === 3 && "border-danger shadow-danger"
+          )}
+        >
+          <p className="mb-2 mt-4 text-xl font-semibold">
+            {premium.premiumPackageName}
+          </p>
+          <div className="mb-4 flex flex-1 flex-col gap-y-2">
+            <div className="flex items-center gap-x-2">
+              <Icons.Check className="size-4 text-success" />
+              Luyện tập làm test online
+            </div>
+            <div className="flex items-center gap-x-2">
+              <Icons.Check className="size-4 text-success" />
+              Xem đáp án
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <Icons.Check className="size-4 text-success" />
+              Xem giải thích đáp án
+            </div>
+            {premium.premiumPackageId >= 2 ? (
+              <div className="flex items-center gap-x-2">
+                <Icons.Check className="size-4 text-success" />
+                Luyện tập speaking
+              </div>
+            ) : (
+              <div className="flex items-center gap-x-2">
+                <Icons.X className="size-4 text-danger" />
+                Luyện tập speaking
+              </div>
+            )}
+            {premium.premiumPackageId >= 3 ? (
+              <div className="flex items-center gap-x-2">
+                <Icons.Check className="size-4 text-success" />
+                Tạo flashcards cá nhân
+              </div>
+            ) : (
+              <div className="flex items-center gap-x-2">
+                <Icons.X className="size-4 text-danger" />
+                Tạo flashcards cá nhân
+              </div>
+            )}
+          </div>
+          <Button variant="outline" className="hover:cursor-default">
+            Gói hiện tại của bạn
+          </Button>
+        </div>
       </div>
     )
   }

@@ -32,6 +32,14 @@ async function Actions() {
       <Button variant="link">
         <Link
           className="text-muted-foreground hover:text-primary max-sm:hidden"
+          href="/speaking"
+        >
+          {t("Header.RoomSpeaking")}
+        </Link>
+      </Button>
+      <Button variant="link">
+        <Link
+          className="text-muted-foreground hover:text-primary max-sm:hidden"
           href="/flashcards"
         >
           {t("Header.Flashcards")}

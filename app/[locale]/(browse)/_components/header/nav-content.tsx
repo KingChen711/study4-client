@@ -18,12 +18,16 @@ const routes = [
     tText: "Header.OnlineTests",
   },
   {
+    route: "/speaking",
+    tText: "Header.RoomSpeaking",
+  },
+  {
     route: "/flashcards",
     tText: "Header.Flashcards",
   },
   {
     route: "/premium",
-    tText: "Header.ActivePremium",
+    tText: "Header.Premium",
   },
 ] as const
 
