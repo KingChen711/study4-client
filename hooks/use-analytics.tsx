@@ -1,5 +1,6 @@
 "use client"
 
+import { type TestHistory } from "@/queries/test/get-test"
 import { type TestType } from "@/types"
 import { useAuth } from "@clerk/nextjs"
 import { useQuery } from "@tanstack/react-query"
@@ -8,6 +9,7 @@ import prep4Api from "@/lib/prep4-api"
 
 type Analytics = {
   testCategoryAnalytics: TestCategoryAnalytic[]
+  testHistories: (TestHistory & { test: { id: number } })[]
 }
 
 type TestCategoryAnalytic = {

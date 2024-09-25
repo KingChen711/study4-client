@@ -153,5 +153,31 @@
   },
   "Errors": {
     "NotFoundRoom": "Not found any room match condition"
+  },
+  "AnalyticsPage": {
+    "PracticeResultAnalytics": "Practice result analytics",
+    "ProTips": "By default, the statistics page will display the assignments within the last 30 days. To see the results within a longer period, select the dropdown below.",
+    "FilterByDays": "Filter by days:",
+    "TotalPracticeTests": "Total practice tests",
+    "tests": "tests",
+    "TotalPracticeTime": "Total practice time",
+    "minutes": "minutes",
+    "TakenTestDate": "Taken test date",
+    "ToTheTestDate": "To the test date",
+    "days": "days",
+    "TargetScore": "Target score",
+    "scores": "scores",
+    "Accuracy": "Accuracy",
+    "AverageTime": "Average time",
+    "AverageScore": "Average scores",
+    "HighestScore": "Highest score",
+    "PracticeTestsList": "Practice tests list:",
+    "YourTestResults": "Your test results:",
+    "TakenDate": "Taken date",
+    "Sections": "Sections",
+    "Result": "Result",
+    "CompletionTime": "Completion time",
+    "Action": "Action",
+    "ViewDetail": "View detail"
   }
 }

@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
 import { Check, ChevronsUpDown, LightbulbIcon } from "lucide-react"
+import { useTranslations } from "next-intl"
 
-import { cn } from "@/lib/utils"
+import { cn, convertSecondToText, toDate } from "@/lib/utils"
 import useAnalytics from "@/hooks/use-analytics"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
@@ -15,11 +16,20 @@ import {
   CommandList,
 } from "@/components/ui/command"
 import { Icons } from "@/components/ui/icons"
+import NoResult from "@/components/ui/no-result"
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
 
 const timeItems = [
   {
@@ -62,6 +72,8 @@ function AnalyticsPage({ searchParams }: Props) {
   const { qDays = "3D" } = searchParams
   const { data: analytics, isPending } = useAnalytics(qDays)
   const [categoryAnalyticIndex, setCategoryAnalyticIndex] = useState(0)
+  const t = useTranslations("AnalyticsPage")
+  const [testTypeAnalyticIndex, setTestTypeAnalyticIndex] = useState(0)
 
   useEffect(() => {
     console.log({ analytics })
@@ -82,7 +94,7 @@ function AnalyticsPage({ searchParams }: Props) {
   return (
     <div>
       <h2 className="mb-4 mt-8 text-3xl font-bold">
-        Thống kê kết quả luyện thi
+        {t("PracticeResultAnalytics")}
       </h2>
 
       <div className="flex">
@@ -92,6 +104,7 @@ function AnalyticsPage({ searchParams }: Props) {
             className={cn("p-4")}
             onClick={() => {
               setCategoryAnalyticIndex(i)
+              setTestTypeAnalyticIndex(0)
             }}
           >
             {tca.testCategoryName}
@@ -105,15 +118,11 @@ function AnalyticsPage({ searchParams }: Props) {
           Pro tips:
         </AlertTitle>
         <AlertDescription className="font-medium text-success">
-          Mặc định trang thống kê sẽ hiển thị các bài làm trong khoảng thời gian
-          30 ngày gần nhất, để xem kết quả trong khoảng thời gian xa hơn bạn
-          chọn ở phần dropdown dưới đây.
+          {t("ProTips")}
         </AlertDescription>
       </Alert>
 
-      <h2 className="mb-2 mt-4">
-        Lọc kết quả theo ngày (tính từ bài thi cuối):
-      </h2>
+      <h2 className="mb-2 mt-4">{t("FilterByDays")}</h2>
 
       <Popover>
         <PopoverTrigger asChild>
@@ -151,40 +160,266 @@ function AnalyticsPage({ searchParams }: Props) {
         </PopoverContent>
       </Popover>
 
-      <div className="mt-4 flex flex-wrap gap-4">
-        <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.Test className="size-6" />
-          <div className="mt-1 font-bold text-neutral-600">Số đề đã làm</div>
-          <div className="text-lg font-bold">3</div>
-          <div>đề thi</div>
-        </div>
-        <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.Time className="size-6" />
-          <div className="mt-1 font-bold text-neutral-600">
-            Thời gian luyện thi
+      {!analytics && <NoResult title="Not found any " />}
+
+      {analytics && (
+        <>
+          <div className="mt-4 flex flex-wrap gap-4">
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <Icons.Test className="size-6" />
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("TotalPracticeTests")}
+              </div>
+              <div className="text-lg font-bold">
+                {
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.totalTestEngaged
+                }
+              </div>
+              <div>{t("tests")}</div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <Icons.Time className="size-6" />
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("TotalPracticeTime")}
+              </div>
+              <div className="text-lg font-bold">
+                {Math.round(
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.totalPracticeTime / 60
+                )}
+              </div>
+              <div>{t("minutes")}</div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <Icons.Calendar className="size-6" />
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("TakenTestDate")}
+              </div>
+              <div className="text-lg font-bold">
+                {analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                  .testAnalytics.testTakenDate &&
+                  toDate(
+                    analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                      .testAnalytics.testTakenDate
+                  )}
+              </div>
+              <div></div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <Icons.ToTestDate className="size-6" />
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("ToTheTestDate")}
+              </div>
+              <div className="text-lg font-bold">
+                {analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                  .testAnalytics.testTakenDate &&
+                  Math.max(
+                    0,
+                    Math.round(
+                      (new Date(
+                        analytics.testCategoryAnalytics[
+                          categoryAnalyticIndex
+                        ].testAnalytics.testTakenDate
+                      ).getTime() -
+                        Date.now()) /
+                        (1000 * 60 * 60 * 24)
+                    )
+                  )}
+              </div>
+              <div>{t("days")}</div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <Icons.Target2 className="size-6" />
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("TargetScore")}
+              </div>
+              <div className="text-lg font-bold">
+                {
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.targetScore
+                }
+              </div>
+              <div>{t("scores")}</div>
+            </div>
           </div>
-          <div className="text-lg font-bold">179</div>
-          <div>phút</div>
-        </div>
-        <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.Calendar className="size-6" />
-          <div className="mt-1 font-bold text-neutral-600">Ngày dự thi</div>
-          <div className="text-lg font-bold">20/09/2024</div>
-          <div></div>
-        </div>
-        <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.ToTestDate className="size-6" />
-          <div className="mt-1 font-bold text-neutral-600">Tới kỳ thi</div>
-          <div className="text-lg font-bold">4</div>
-          <div>ngày</div>
-        </div>
-        <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
-          <Icons.Target2 className="size-6" />
-          <div className="mt-1 font-bold text-neutral-600">Điểm mục tiêu</div>
-          <div className="text-lg font-bold">7.5</div>
-          <div>điểm</div>
-        </div>
-      </div>
+
+          <div className="mt-6 flex items-center gap-x-4">
+            {analytics.testCategoryAnalytics[
+              categoryAnalyticIndex
+            ].testAnalytics.testTypeAnalytics.map((ta, i) => (
+              <div
+                key={ta.testType}
+                className={cn(
+                  "rounded-xl border bg-muted px-4 py-1",
+                  i === testTypeAnalyticIndex &&
+                    "border-none bg-primary/10 font-medium text-primary"
+                )}
+                onClick={() => {
+                  setTestTypeAnalyticIndex(i)
+                }}
+              >
+                {ta.testType}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-4">
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("TotalPracticeTests")}
+              </div>
+              <div className="text-lg font-bold">
+                {
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.testTypeAnalytics[testTypeAnalyticIndex]
+                    .totalTestEngaged
+                }
+              </div>
+              <div>{t("tests")}</div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("Accuracy")}
+              </div>
+              <div className="text-lg font-bold">
+                {`${
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.testTypeAnalytics[testTypeAnalyticIndex]
+                    .averageAccuracyRate
+                }%`}
+              </div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("AverageTime")}
+              </div>
+              <div className="text-lg font-bold">
+                {convertSecondToText(
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.testTypeAnalytics[testTypeAnalyticIndex]
+                    .averagePracticeTime
+                )}
+              </div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("AverageScore")}
+              </div>
+              <div className="text-lg font-bold">
+                {`${
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.testTypeAnalytics[testTypeAnalyticIndex]
+                    .averageScore
+                }/9.0
+                `}
+              </div>
+            </div>
+            <div className="flex min-w-48 flex-1 flex-col items-center justify-center rounded-xl border bg-card p-4 shadow-lg">
+              <div className="mt-1 font-bold text-neutral-600">
+                {t("HighestScore")}
+              </div>
+              <div className="text-lg font-bold">
+                {`${
+                  analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                    .testAnalytics.testTypeAnalytics[testTypeAnalyticIndex]
+                    .highestScore
+                }/9.0
+                `}
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex flex-col">
+            <h2 className="mb-2 text-xl font-bold">{t("PracticeTestsList")}</h2>
+            <div className="mb-4 mt-1 grid w-full rounded-xl border bg-muted">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead className="text-nowrap">
+                        {t("TakenDate")}
+                      </TableHead>
+                      <TableHead className="text-nowrap">
+                        {t("Sections")}
+                      </TableHead>
+                      <TableHead className="text-nowrap text-center">
+                        {t("Result")}
+                      </TableHead>
+                      <TableHead className="text-nowrap text-center">
+                        {t("CompletionTime")}
+                      </TableHead>
+                      <TableHead className="text-nowrap text-right">
+                        {t("Action")}
+                      </TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {analytics.testHistories
+                      .filter(
+                        (th) =>
+                          th.testType ===
+                          analytics.testCategoryAnalytics[categoryAnalyticIndex]
+                            .testAnalytics.testTypeAnalytics[
+                            testTypeAnalyticIndex
+                          ].testType
+                      )
+                      .map((test) => (
+                        <TableRow key={test.testHistoryId}>
+                          <TableCell>
+                            <div className="text-nowrap font-medium">
+                              {toDate(test.takenDate)}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="flex flex-wrap gap-2">
+                              {test.isFull ? (
+                                <div className="rounded-lg bg-success px-2 py-1 text-xs font-bold text-success-foreground">
+                                  Full test
+                                </div>
+                              ) : (
+                                Array.from(
+                                  new Set(
+                                    test.partitionHistories.map(
+                                      (ph) => ph.testSectionName
+                                    )
+                                  )
+                                ).map((section) => (
+                                  <div
+                                    key={section}
+                                    className="rounded-lg bg-warning px-2 py-1 text-xs font-bold text-warning-foreground"
+                                  >
+                                    {section}
+                                  </div>
+                                ))
+                              )}
+                            </div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-nowrap text-center">{`${test.totalRightAnswer}/${test.totalQuestion}`}</div>
+                          </TableCell>
+                          <TableCell>
+                            <div className="text-nowrap text-center">
+                              {convertSecondToText(test.totalCompletionTime)}
+                            </div>
+                          </TableCell>
+                          <TableCell className="text-right">
+                            <Link
+                              href={`/tests/${test.test.id}/results/${test.testHistoryId}`}
+                              className="cursor-pointer text-nowrap text-right text-primary hover:underline"
+                            >
+                              {t("ViewDetail")}
+                            </Link>
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                  </TableBody>
+                </Table>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

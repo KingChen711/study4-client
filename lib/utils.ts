@@ -25,7 +25,7 @@ export function toDateTime2(isoString: Date): string {
   return format(isoString, "PPP p")
 }
 
-export function toDate(isoString: Date, locale: Locale): string {
+export function toDate(isoString: Date, locale?: Locale): string {
   return format(isoString, "dd/MM/yyyy", { locale })
 }
 

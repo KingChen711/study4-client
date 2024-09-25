@@ -153,5 +153,31 @@
   },
   "Errors": {
     "NotFoundRoom": "Không tìm thấy phòng phù hợp"
+  },
+  "AnalyticsPage": {
+    "PracticeResultAnalytics": "Thống kê kết quả luyện thi",
+    "ProTips": "Mặc định trang thống kê sẽ hiển thị các bài làm trong khoảng thời gian 30 ngày gần nhất, để xem kết quả trong khoảng thời gian xa hơn bạn chọn ở phần dropdown dưới đây.",
+    "FilterByDays": "Lọc kết quả theo ngày:",
+    "TotalPracticeTests": "Số đề đã làm",
+    "tests": "đề thi",
+    "TotalPracticeTime": "Thời gian luyện thi",
+    "minutes": "phút",
+    "TakenTestDate": "Ngày dự thi",
+    "ToTheTestDate": "Tới kỳ thi",
+    "days": "ngày",
+    "TargetScore": "Điểm mục tiêu",
+    "scores": "điểm",
+    "Accuracy": "Độ chính xác",
+    "AverageTime": "Thời gian trung bình",
+    "AverageScore": "Điểm trung bình",
+    "HighestScore": "Điểm cao nhất",
+    "PracticeTestsList": "Danh sách đề thi đã làm:",
+    "YourTestResults": "Kết quả làm bài của bạn:",
+    "TakenDate": "Ngày làm",
+    "Sections": "Phần thi",
+    "Result": "Kết quả",
+    "CompletionTime": "Thời gian làm bài",
+    "Action": "Hành động",
+    "ViewDetail": "Xem chi tiết"
   }
 }
