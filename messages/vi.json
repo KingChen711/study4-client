@@ -15,7 +15,11 @@
     "SelectParts": "Các phần thi (có thể chọn nhiều)",
     "SelectSampleBefore": "Chọn mẫu bài thi trước",
     "PrivateRoomDesc": "Phòng riêng tư - Chỉ có partner nào có mã phòng mới có thể vào phòng của bạn.",
-    "PrivateRoom": "Phòng riêng tư"
+    "PrivateRoom": "Phòng riêng tư",
+    "Title": "Luyện nói IELTS với bạn học của bạn.",
+    "Description": "Mời bạn học cùng, thay phiên nhau luyện nói và nâng cao kỹ năng IELTS mọi lúc, mọi nơi. Không ngần ngại, chỉ học hiệu quả và vui vẻ!",
+    "EnterRoomCode": "Nhập mã phòng ở đây...",
+    "Join": "Tham gia"
   },
   "HomePage": {
     "Greeting": "Chào mừng {username} trở lại!",

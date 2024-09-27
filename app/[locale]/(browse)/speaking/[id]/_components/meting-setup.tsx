@@ -34,7 +34,8 @@ const MeetingSetup = ({
 
   return (
     <div className="meeting-setup mt-8 flex w-full flex-col items-center justify-center gap-3">
-      <h1 className="text-center text-2xl font-bold">Setup</h1>
+      <h1 className="text-center text-2xl font-bold">Setup devices</h1>
+      <h1 className="text-center text-lg font-medium">Room code: {call.id}</h1>
 
       <VideoPreview className="font-medium text-background" />
 

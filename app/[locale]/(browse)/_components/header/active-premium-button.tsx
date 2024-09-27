@@ -1,7 +1,7 @@
 import React from "react"
 import Link from "next/link"
+import { getTranslations } from "@/queries/i18n/get-translations"
 import getUserPremium from "@/queries/users/get-user-premium"
-import { getTranslations } from "next-intl/server"
 
 import { Button } from "@/components/ui/button"
 

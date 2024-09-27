@@ -286,5 +286,5 @@ export function generateRoomId() {
     }
   }
 
-  return roomId
+  return roomId.toLowerCase()
 }

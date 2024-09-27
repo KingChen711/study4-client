@@ -12,6 +12,7 @@ type JoinRoomParams = {
   speakingSampleId?: number
   speakingParts?: number[]
   isPrivate?: boolean
+  createIfNotExist?: boolean
 }
 
 export const joinRoom = async ({
@@ -21,6 +22,7 @@ export const joinRoom = async ({
   speakingParts,
   speakingSampleId,
   isPrivate,
+  createIfNotExist = true,
 }: JoinRoomParams): Promise<ActionResponse> => {
   try {
     const room = await prisma.room.findFirst({
@@ -30,6 +32,14 @@ export const joinRoom = async ({
     })
 
     if (!room) {
+      if (!createIfNotExist) {
+        return {
+          isSuccess: false,
+          typeError: "base",
+          messageError: "Not found room",
+        }
+      }
+
       await prisma.room.create({
         data: {
           quantity: 1,

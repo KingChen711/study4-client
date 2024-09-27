@@ -15,7 +15,11 @@
     "SelectParts": "Sample parts (can select multiple)",
     "SelectSampleBefore": "Select speaking sample before",
     "PrivateRoomDesc": "Private room - Only partners with the room code can enter your room.",
-    "PrivateRoom": "Private room"
+    "PrivateRoom": "Private room",
+    "Title": "Practice IELTS Speaking with your Partners.",
+    "Description": "Invite your partners, take turns practicing speaking, and boost your IELTS skills anytime, anywhere. No fees, just effective learning and fun!",
+    "EnterRoomCode": "Enter room code here...",
+    "Join": "Join"
   },
   "HomePage": {
     "Greeting": "Welcome {username} back!",
