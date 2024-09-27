@@ -9,7 +9,7 @@ import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
 import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 
-import { cn, convertSecondToText } from "@/lib/utils"
+import { cn, convertSecondToText, newDate } from "@/lib/utils"
 import { resubmitTest } from "@/actions/do-test/resubmit-test"
 import { submitTest } from "@/actions/do-test/submit-test"
 import { Button } from "@/components/ui/button"
@@ -54,7 +54,7 @@ function AnswerProgress({
             isFull: isFullTest,
             testId,
             totalCompletionTime: time,
-            takenDateTime: new Date(),
+            takenDateTime: newDate(),
             questionAnswers: Object.values(answers).map((a) => ({
               questionId: a.questionId,
               selectedAnswer: a.selectedAnswer,
@@ -64,7 +64,7 @@ function AnswerProgress({
             testId,
             testHistoryId: testHistoryId!,
             totalCompletionTime: time,
-            takenDateTime: new Date(),
+            takenDateTime: newDate(),
             testGrades: Object.values(answers).map((a) => ({
               questionId: a.questionId,
               inputedAnswer: a.selectedAnswer,

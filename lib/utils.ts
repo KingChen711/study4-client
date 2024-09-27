@@ -260,3 +260,15 @@ export function fileToBase64(file: File): Promise<string> {
     reader.readAsDataURL(file) // Read file as data URL
   })
 }
+
+export function newDate() {
+  // Lấy timezone offset (phút) và chuyển đổi sang giờ
+  const date = new Date()
+  const timezoneOffsetInMinutes = date.getTimezoneOffset()
+
+  // Trừ đi offset (vì getTimezoneOffset trả về giá trị âm khi timezone trước UTC)
+  date.setMinutes(date.getMinutes() - timezoneOffsetInMinutes)
+
+  // Trả về chuỗi ISO với timezone đã cộng
+  return new Date(date.toISOString())
+}
