@@ -27,9 +27,7 @@ function useSpeakingRoom(id: string) {
   return useQuery({
     queryKey: ["speaking-rooms", id],
     queryFn: async () => {
-      const { data: room } = await axios.get<Room | null>(
-        `${process.env.NEXT_PUBLIC_FE_URL}/api/rooms/${id}`
-      )
+      const { data: room } = await axios.get<Room | null>(`/api/rooms/${id}`)
 
       console.log({ room })
 
