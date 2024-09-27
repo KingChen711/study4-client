@@ -157,6 +157,10 @@
     "NotFoundRoom": "Not found any room match condition"
   },
   "AnalyticsPage": {
+    "TypeQuestion": "Type question",
+    "Accurate2": "Accurate",
+    "RightAnswer": "Right answer",
+    "WrongAnswer": "Wrong answer",
     "PracticeResultAnalytics": "Practice result analytics",
     "ProTips": "By default, the statistics page will display the assignments within the last 30 days. To see the results within a longer period, select the dropdown below.",
     "FilterByDays": "Filter by days:",

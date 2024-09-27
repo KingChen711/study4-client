@@ -27,10 +27,20 @@ type TestCategoryAnalytic = {
         averagePracticeTime: number
         averageScore: string
         highestScore: string
-        sectionsAnalytics: []
+        sectionsAnalytics: SectionsAnalytic[]
       },
     ]
   }
+}
+
+type SectionsAnalytic = {
+  sectionName: string
+  testSectionPartitionAnalytics: {
+    partitionTagDesc: string
+    totalRight: number
+    totalWrong: number
+    accuracyRate: number
+  }[]
 }
 
 function useAnalytics(qDays: string) {

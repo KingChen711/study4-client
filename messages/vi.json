@@ -157,6 +157,10 @@
     "NotFoundRoom": "Không tìm thấy phòng phù hợp"
   },
   "AnalyticsPage": {
+    "TypeQuestion": "Loại câu hỏi",
+    "Accurate2": "Độ chính xác",
+    "RightAnswer": "Số câu đúng",
+    "WrongAnswer": "Số câu sai",
     "PracticeResultAnalytics": "Thống kê kết quả luyện thi",
     "ProTips": "Mặc định trang thống kê sẽ hiển thị các bài làm trong khoảng thời gian 30 ngày gần nhất, để xem kết quả trong khoảng thời gian xa hơn bạn chọn ở phần dropdown dưới đây.",
     "FilterByDays": "Lọc kết quả theo ngày:",

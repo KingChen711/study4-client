@@ -74,6 +74,7 @@ function AnalyticsPage({ searchParams }: Props) {
   const [categoryAnalyticIndex, setCategoryAnalyticIndex] = useState(0)
   const t = useTranslations("AnalyticsPage")
   const [testTypeAnalyticIndex, setTestTypeAnalyticIndex] = useState(0)
+  const [sectionIndex, setSectionIndex] = useState(0)
 
   useEffect(() => {
     console.log({ analytics })
@@ -97,14 +98,19 @@ function AnalyticsPage({ searchParams }: Props) {
         {t("PracticeResultAnalytics")}
       </h2>
 
-      <div className="flex">
+      <div className="mb-6 flex">
         {analytics?.testCategoryAnalytics.map((tca, i) => (
           <div
             key={tca.testCategoryName}
-            className={cn("p-4")}
+            className={cn(
+              "border-b-2 border-transparent p-4 font-medium",
+              i === categoryAnalyticIndex &&
+                "border-primary font-bold text-primary"
+            )}
             onClick={() => {
               setCategoryAnalyticIndex(i)
               setTestTypeAnalyticIndex(0)
+              setSectionIndex(0)
             }}
           >
             {tca.testCategoryName}
@@ -244,19 +250,20 @@ function AnalyticsPage({ searchParams }: Props) {
             </div>
           </div>
 
-          <div className="mt-6 flex items-center gap-x-4">
+          <div className="mt-8 flex items-center gap-x-4">
             {analytics.testCategoryAnalytics[
               categoryAnalyticIndex
             ].testAnalytics.testTypeAnalytics.map((ta, i) => (
               <div
                 key={ta.testType}
                 className={cn(
-                  "rounded-xl border bg-muted px-4 py-1",
+                  "cursor-pointer rounded-xl border bg-muted px-4 py-1",
                   i === testTypeAnalyticIndex &&
                     "border-none bg-primary/10 font-medium text-primary"
                 )}
                 onClick={() => {
                   setTestTypeAnalyticIndex(i)
+                  setSectionIndex(0)
                 }}
               >
                 {ta.testType}
@@ -327,6 +334,84 @@ function AnalyticsPage({ searchParams }: Props) {
                 }/9.0
                 `}
               </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex items-center gap-x-4">
+            {analytics.testCategoryAnalytics[
+              categoryAnalyticIndex
+            ].testAnalytics.testTypeAnalytics[
+              testTypeAnalyticIndex
+            ].sectionsAnalytics.map((sa, i) => (
+              <div
+                key={sa.sectionName}
+                className={cn(
+                  "cursor-pointer rounded-xl border bg-muted px-4 py-1",
+                  i === sectionIndex &&
+                    "border-none bg-primary/10 font-medium text-primary"
+                )}
+                onClick={() => {
+                  setSectionIndex(i)
+                }}
+              >
+                {sa.sectionName}
+              </div>
+            ))}
+          </div>
+
+          <div className="mb-4 mt-6 grid w-full rounded-xl border bg-muted">
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="text-nowrap text-black">
+                      {t("TypeQuestion")}
+                    </TableHead>
+                    <TableHead className="text-nowrap text-center text-black">
+                      {t("RightAnswer")}
+                    </TableHead>
+                    <TableHead className="text-nowrap text-center text-black">
+                      {t("WrongAnswer")}
+                    </TableHead>
+                    <TableHead className="text-nowrap text-center text-black">
+                      {t("Accurate2")}
+                    </TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {analytics.testCategoryAnalytics[
+                    categoryAnalyticIndex
+                  ].testAnalytics.testTypeAnalytics[
+                    testTypeAnalyticIndex
+                  ].sectionsAnalytics[
+                    sectionIndex
+                  ].testSectionPartitionAnalytics.map((item) => (
+                    <TableRow key={item.partitionTagDesc}>
+                      <TableCell>
+                        <div className="text-nowrap text-sm">
+                          {item.partitionTagDesc}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-nowrap text-center">
+                          {item.totalRight}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="text-nowrap text-center">
+                          {item.totalWrong}
+                        </div>
+                      </TableCell>
+
+                      <TableCell>
+                        <div className="text-nowrap text-center">
+                          {(item.accuracyRate * 100).toFixed(1)}%
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </div>
 
