@@ -99,6 +99,28 @@ function AnswerProgress({
     handleSubmit()
   }, [pending, isFullTest, time, limit, handleSubmit])
 
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      // Tin nhắn này có thể không hiển thị trên tất cả trình duyệt, nhưng vẫn sẽ kích hoạt xác nhận rời khỏi.
+
+      const confirm = window.confirm(
+        "Nếu bạn rời đi, tiến trình làm bài của bạn sẽ không được lưu"
+      )
+
+      if (!confirm) {
+        event.preventDefault()
+      }
+    }
+
+    // Thêm sự kiện khi component được mount
+    window.addEventListener("beforeunload", handleBeforeUnload)
+
+    // Xóa sự kiện khi component unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload)
+    }
+  }, [])
+
   return (
     <div className="relative w-52">
       <div className="sticky top-24 rounded-lg border p-4">
