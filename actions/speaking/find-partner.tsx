@@ -18,6 +18,9 @@ export const findPartner = async (
         gte: Date.now() - 30 * 1000,
       },
     },
+    {
+      isPrivate: false, //find public room
+    },
   ]
 
   if (band !== "All") {

@@ -10,10 +10,11 @@ import { useTranslations } from "next-intl"
 import { toast } from "sonner"
 import { z } from "zod"
 
-import { cn } from "@/lib/utils"
+import { cn, generateRoomId } from "@/lib/utils"
 import { joinRoom } from "@/actions/speaking/join-room"
-import useSpeakspeakingSamples from "@/hooks/use-speaking-samples"
+import useUsers from "@/hooks/use-speaking-samples"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import {
   Command,
   CommandGroup,
@@ -48,12 +49,13 @@ function NewRoom() {
     number | null
   >()
   const [selectedParts, setSelectedParts] = useState<number[]>([])
+  const [isPrivate, setIsPrivate] = useState(false)
 
   const searchParams = useSearchParams()
   const { page } = testSearchParamsSchema.parse({
     page: searchParams.get("page"),
   })
-  const { data } = useSpeakspeakingSamples({ page })
+  const { data } = useUsers({ page })
   const t = useTranslations("SpeakingPage")
 
   const handleCreateRoom = () => {
@@ -71,7 +73,7 @@ function NewRoom() {
       }
 
       const dateTime = new Date()
-      const id = crypto.randomUUID()
+      const id = generateRoomId()
       const call = client.call("default", id)
       if (!call) throw new Error(t("FailedCreateMeeting"))
       const startsAt =
@@ -92,6 +94,7 @@ function NewRoom() {
         band: selectedBand,
         speakingSampleId: selectedSpeakingSample,
         speakingParts: selectedParts,
+        isPrivate,
       })
 
       router.push(`/speaking/${call.id}`)
@@ -168,6 +171,25 @@ function NewRoom() {
             </Command>
           </PopoverContent>
         </Popover>
+      </div>
+
+      <div className="mt-6 flex flex-col">
+        <Label className="text-base">{t("PrivateRoom")}</Label>
+        <div className="mt-2 flex items-center gap-x-2">
+          <Checkbox
+            id="private"
+            checked={isPrivate}
+            onCheckedChange={(value) => {
+              setIsPrivate(value as boolean)
+            }}
+          />
+          <label
+            htmlFor="private"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            {t("PrivateRoomDesc")}
+          </label>
+        </div>
       </div>
 
       <div className="mt-6 flex flex-col gap-y-2">

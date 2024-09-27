@@ -13,7 +13,9 @@
     "FailedCreateMeeting": "Tạo phòng thất bại",
     "SelectSpeakingSample": "Mẫu bài thi (chọn 1)",
     "SelectParts": "Các phần thi (có thể chọn nhiều)",
-    "SelectSampleBefore": "Chọn mẫu bài thi trước"
+    "SelectSampleBefore": "Chọn mẫu bài thi trước",
+    "PrivateRoomDesc": "Phòng riêng tư - Chỉ có partner nào có mã phòng mới có thể vào phòng của bạn.",
+    "PrivateRoom": "Phòng riêng tư"
   },
   "HomePage": {
     "Greeting": "Chào mừng {username} trở lại!",

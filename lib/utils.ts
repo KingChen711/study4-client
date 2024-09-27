@@ -272,3 +272,19 @@ export function newDate() {
   // Trả về chuỗi ISO với timezone đã cộng
   return new Date(date.toISOString())
 }
+
+export function generateRoomId() {
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  let roomId = ""
+
+  for (let i = 0; i < 3; i++) {
+    if (i > 0) roomId += "-" // Thêm dấu '-' giữa các phần
+    for (let j = 0; j < 4; j++) {
+      const randomIndex = Math.floor(Math.random() * characters.length)
+      roomId += characters[randomIndex]
+    }
+  }
+
+  return roomId
+}

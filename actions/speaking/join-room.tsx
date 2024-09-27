@@ -11,6 +11,7 @@ type JoinRoomParams = {
   band?: string
   speakingSampleId?: number
   speakingParts?: number[]
+  isPrivate?: boolean
 }
 
 export const joinRoom = async ({
@@ -19,6 +20,7 @@ export const joinRoom = async ({
   band,
   speakingParts,
   speakingSampleId,
+  isPrivate,
 }: JoinRoomParams): Promise<ActionResponse> => {
   try {
     const room = await prisma.room.findFirst({
@@ -37,6 +39,7 @@ export const joinRoom = async ({
           band: band!,
           speakingSampleId: speakingSampleId!,
           speakingParts: speakingParts!,
+          isPrivate: isPrivate!,
         },
       })
 
