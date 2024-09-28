@@ -57,11 +57,8 @@ export const joinRoom = async ({
     }
 
     if (room.users.includes(userId)) {
-      return {
-        isSuccess: false,
-        typeError: "base",
-        messageError: "You are already in the room",
-      }
+      //*Already in the room? It's okay, return right there, no toast any error
+      return { isSuccess: true }
     }
 
     await prisma.room.update({
