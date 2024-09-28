@@ -47,7 +47,7 @@ async function SpeakingPage() {
               </div>
               <div className="flex max-w-96 flex-1 flex-col gap-y-2">
                 <h4 className="text-xl font-bold">{t("RandomRoom")}</h4>
-                <p className="text-lg">{t("CreateRoomMessage")}</p>
+                <p className="text-lg">{t("RandomRoomMessage")}</p>
               </div>
             </Link>
           </div>
