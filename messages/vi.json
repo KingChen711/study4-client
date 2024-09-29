@@ -7,7 +7,7 @@
     "RandomRoomMessage": "Bạn sẽ tìm phòng ngẫu nhiên dựa trên band điểm mà bạn chọn.",
     "FindRandomRoom": "Tìm phòng ngẫu nhiên",
     "SelectBandScore": "Chọn band điểm:",
-    "Search": "Tìm",
+    "Search": "Tìm ngẫu nhiên",
     "NotSelectSample": "Chưa chọn bài mẫu",
     "NotSelectParts": "Chưa chọn phần thi",
     "FailedCreateMeeting": "Tạo phòng thất bại",
@@ -19,7 +19,8 @@
     "Title": "Luyện nói IELTS với bạn học của bạn.",
     "Description": "Mời bạn học cùng, thay phiên nhau luyện nói và nâng cao kỹ năng IELTS mọi lúc, mọi nơi. Không ngần ngại, chỉ học hiệu quả và vui vẻ!",
     "EnterRoomCode": "Nhập mã phòng ở đây...",
-    "Join": "Tham gia"
+    "Join": "Tham gia",
+    "RoomsAvailable": "Các phòng có sẵn"
   },
   "HomePage": {
     "Greeting": "Chào mừng {username} trở lại!",

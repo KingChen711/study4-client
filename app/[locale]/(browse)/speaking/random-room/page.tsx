@@ -27,6 +27,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import SpeakingSampleButton from "./_components/speaking-sample-button"
+
 function RandomRoom() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("All")
@@ -70,7 +72,7 @@ function RandomRoom() {
     <div className="mt-8">
       <div className="text-3xl font-bold">{t("FindRandomRoom")}</div>
 
-      <div className="mt-4 flex flex-col gap-y-2">
+      <div className="mt-4 flex flex-col gap-y-2 border-b-2 pb-8">
         <Label className="text-base">{t("SelectBandScore")}</Label>
         <div className="flex gap-x-4">
           <Popover open={open} onOpenChange={setOpen}>
@@ -120,6 +122,20 @@ function RandomRoom() {
           >
             {t("Search")} {pending && <Icons.Loader className="ml-1 size-4" />}
           </Button>
+        </div>
+      </div>
+
+      <div className="mt-6 text-2xl font-medium">{t("RoomsAvailable")}</div>
+      <div className="mt-4 flex flex-wrap items-center gap-4">
+        <div className="flex flex-col gap-y-1 rounded-xl border bg-card p-5">
+          <div className="flex items-center gap-x-2">
+            <p className="font-medium">Room code:</p> hgtd-fhgn-jngd
+          </div>
+          <div className="flex items-center gap-x-2">
+            <p className="font-medium">Band:</p> 5.5 - 6.5
+          </div>
+          <SpeakingSampleButton />
+          <Button className="mt-2">Join</Button>
         </div>
       </div>
     </div>

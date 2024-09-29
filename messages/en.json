@@ -7,7 +7,7 @@
     "RandomRoomMessage": "You will find random rooms based on the score band you choose.",
     "FindRandomRoom": "Find random room",
     "SelectBandScore": "Select band score:",
-    "Search": "Search",
+    "Search": "Search random",
     "NotSelectSample": "Not select speaking sample yet",
     "NotSelectParts": "Not select speaking parts yet",
     "FailedCreateMeeting": "Failed to create meeting",
@@ -19,7 +19,8 @@
     "Title": "Practice IELTS Speaking with your Partners.",
     "Description": "Invite your partners, take turns practicing speaking, and boost your IELTS skills anytime, anywhere. No fees, just effective learning and fun!",
     "EnterRoomCode": "Enter room code here...",
-    "Join": "Join"
+    "Join": "Join",
+    "RoomsAvailable": "Rooms available"
   },
   "HomePage": {
     "Greeting": "Welcome {username} back!",
