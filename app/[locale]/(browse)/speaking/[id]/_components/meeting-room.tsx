@@ -6,7 +6,6 @@ import {
   CallControls,
   CallingState,
   CallParticipantsList,
-  CallStatsButton,
   PaginatedGridLayout,
   SpeakerLayout,
   useCallStateHooks,
@@ -94,22 +93,26 @@ const MeetingRoom = ({ id }: Props) => {
           </div>
         </div>
         {/* video layout and call controls */}
-        <div className="flex w-full shrink-0 items-center justify-center gap-5">
+        <div className="flex w-full shrink-0 items-center justify-between gap-3">
+          <div className="line-clamp-1 flex-1 text-nowrap font-medium">
+            Room code: {id}
+          </div>
+
           <CallControls onLeave={handleLeaveRoom} />
 
-          <ChangeLayoutDropdown layout={layout} setLayout={setLayout} />
-
-          <CallStatsButton />
-          <button onClick={() => setShowParticipants((prev) => !prev)}>
-            <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
-              <Users size={20} className="text-white" />
-            </div>
-          </button>
-          <button onClick={() => setShowSpeakingSample((prev) => !prev)}>
-            <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
-              <Icons.Test className="size-5 text-white" />
-            </div>
-          </button>
+          <div className="flex flex-1 items-center justify-end gap-5">
+            <ChangeLayoutDropdown layout={layout} setLayout={setLayout} />
+            <button onClick={() => setShowParticipants((prev) => !prev)}>
+              <div className="cursor-pointer rounded-2xl px-4 py-2 hover:bg-[#4c535b]">
+                <Users size={20} className="text-white" />
+              </div>
+            </button>
+            <button onClick={() => setShowSpeakingSample((prev) => !prev)}>
+              <div className="cursor-pointer rounded-2xl px-4 py-2 hover:bg-[#4c535b]">
+                <Icons.Test className="size-5 text-white" />
+              </div>
+            </button>
+          </div>
         </div>
       </section>
     </div>
