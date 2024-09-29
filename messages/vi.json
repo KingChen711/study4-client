@@ -1,4 +1,16 @@
 {
+  "HistoryPage": {
+    "Title": "Kết quả luyện thi",
+    "History": {
+      "YourTestResults": "Kết quả làm bài của bạn:",
+      "TakenDate": "Ngày làm",
+      "Sections": "Phần thi",
+      "Result": "Kết quả",
+      "CompletionTime": "Thời gian làm bài",
+      "Action": "Hành động",
+      "ViewDetail": "Xem chi tiết"
+    }
+  },
   "SpeakingPage": {
     "PracticeSpeaking": "Luyện speaking",
     "CreateRoom": "Tạo phòng",
@@ -87,7 +99,8 @@
     "Dark": "Tối",
     "System": "Thiết bị",
     "StaffSite": "Trang nhân viên",
-    "ResultAnalysis": "Kết quả luyện thi"
+    "ResultAnalysis": "Thống kê kết quả luyện thi",
+    "HistoryPractice": "Lịch sử luyện thi"
   },
   "TestsPage": {
     "Title": "Thư viện đề thi",

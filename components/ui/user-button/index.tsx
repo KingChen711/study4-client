@@ -85,6 +85,16 @@ export const UserButton = () => {
 
         <Link
           className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
+          href="/histories"
+        >
+          <div className="flex items-center justify-center px-3">
+            <Icons.History className="size-5" />
+          </div>
+          {t("HistoryPractice")}
+        </Link>
+
+        <Link
+          className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
           href="/analytics"
         >
           <div className="flex items-center justify-center px-3">

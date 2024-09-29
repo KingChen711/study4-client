@@ -1,4 +1,16 @@
 {
+  "HistoryPage": {
+    "Title": "History practice",
+    "History": {
+      "YourTestResults": "Your test results:",
+      "TakenDate": "Taken date",
+      "Sections": "Sections",
+      "Result": "Result",
+      "CompletionTime": "Completion time",
+      "Action": "Action",
+      "ViewDetail": "View detail"
+    }
+  },
   "SpeakingPage": {
     "PracticeSpeaking": "Practice speaking",
     "CreateRoom": "Create room",
@@ -87,7 +99,8 @@
     "Dark": "Light",
     "System": "System",
     "StaffSite": "Staff site",
-    "ResultAnalysis": "Practice result analysis"
+    "ResultAnalysis": "Practice result analysis",
+    "HistoryPractice": "History practice"
   },
   "TestsPage": {
     "Title": "Test bank",
