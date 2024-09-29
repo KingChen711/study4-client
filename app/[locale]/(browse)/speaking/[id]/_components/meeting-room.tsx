@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useRouter } from "next/navigation"
 import {
   CallControls,
@@ -34,10 +34,6 @@ const MeetingRoom = ({ id }: Props) => {
   const { data } = useSpeakingRoom(id)
 
   const callingState = useCallCallingState()
-
-  useEffect(() => {
-    console.log({ data })
-  }, [data])
 
   if (callingState !== CallingState.JOINED)
     return (

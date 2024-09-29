@@ -20,7 +20,11 @@
     "Description": "Mời bạn học cùng, thay phiên nhau luyện nói và nâng cao kỹ năng IELTS mọi lúc, mọi nơi. Không ngần ngại, chỉ học hiệu quả và vui vẻ!",
     "EnterRoomCode": "Nhập mã phòng ở đây...",
     "Join": "Tham gia",
-    "RoomsAvailable": "Các phòng có sẵn"
+    "RoomsAvailable": "Các phòng có sẵn",
+    "RoomCode": "Mã phòng:",
+    "SpeakingSample": "Bài nói:",
+    "View": "Xem",
+    "NotFoundRooms": "Không tìm thấy phòng nào có sẵn."
   },
   "HomePage": {
     "Greeting": "Chào mừng {username} trở lại!",

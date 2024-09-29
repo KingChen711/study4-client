@@ -12,6 +12,7 @@ import { toast } from "sonner"
 import { cn } from "@/lib/utils"
 import { findPartner } from "@/actions/speaking/find-partner"
 import { joinRoom } from "@/actions/speaking/join-room"
+import useRooms from "@/hooks/use-rooms"
 import { Button } from "@/components/ui/button"
 import {
   Command,
@@ -26,6 +27,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+import { Skeleton } from "@/components/ui/skeleton"
 
 import SpeakingSampleButton from "./_components/speaking-sample-button"
 
@@ -33,11 +35,13 @@ function RandomRoom() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState("All")
   const [pending, startTransition] = useTransition()
+  const [pending2, startTransition2] = useTransition()
   const client = useStreamVideoClient()
   const { user } = useUser()
   const router = useRouter()
   const tErrors = useTranslations("Errors")
   const t = useTranslations("SpeakingPage")
+  const { data: rooms, isPending } = useRooms()
 
   const handleFindRandomRoom = () => {
     if (!client || !user) return
@@ -58,6 +62,24 @@ function RandomRoom() {
         console.error(error)
         toast("Failed to create Meeting")
       }
+    })
+  }
+
+  const handleJoinRoom = (roomId: string) => {
+    if (!user || pending2) return
+
+    startTransition2(async () => {
+      const res = await joinRoom({
+        roomId,
+        userId: user.id,
+      })
+
+      if (res.isSuccess) {
+        router.push(`/speaking/${roomId}`)
+        return
+      }
+
+      toast.error(res.messageError)
     })
   }
 
@@ -127,16 +149,38 @@ function RandomRoom() {
 
       <div className="mt-6 text-2xl font-medium">{t("RoomsAvailable")}</div>
       <div className="mt-4 flex flex-wrap items-center gap-4">
-        <div className="flex flex-col gap-y-1 rounded-xl border bg-card p-5">
-          <div className="flex items-center gap-x-2">
-            <p className="font-medium">Room code:</p> hgtd-fhgn-jngd
+        {isPending && (
+          <>
+            <Skeleton className="h-[186px] w-[266px]" />
+            <Skeleton className="h-[186px] w-[266px]" />
+            <Skeleton className="h-[186px] w-[266px]" />
+            <Skeleton className="h-[186px] w-[266px]" />
+          </>
+        )}
+
+        {rooms?.map((room) => (
+          <div
+            key={room.id}
+            className="flex w-fit flex-col gap-y-1 rounded-xl border bg-card p-5"
+          >
+            <div className="flex items-center gap-x-2">
+              <p className="font-medium">{t("RoomCode")}</p> {room.roomId}
+            </div>
+            <div className="flex items-center gap-x-2">
+              <p className="font-medium">Band:</p> {room.band}
+            </div>
+            <SpeakingSampleButton roomId={room.roomId} />
+            <Button
+              onClick={() => handleJoinRoom(room.roomId)}
+              className="mt-2"
+              disabled={pending2}
+            >
+              {t("Join")}
+            </Button>
           </div>
-          <div className="flex items-center gap-x-2">
-            <p className="font-medium">Band:</p> 5.5 - 6.5
-          </div>
-          <SpeakingSampleButton />
-          <Button className="mt-2">Join</Button>
-        </div>
+        ))}
+
+        {!isPending && rooms?.length === 0 && <div>{t("NotFoundRooms")}</div>}
       </div>
     </div>
   )

@@ -20,7 +20,11 @@
     "Description": "Invite your partners, take turns practicing speaking, and boost your IELTS skills anytime, anywhere. No fees, just effective learning and fun!",
     "EnterRoomCode": "Enter room code here...",
     "Join": "Join",
-    "RoomsAvailable": "Rooms available"
+    "RoomsAvailable": "Rooms available",
+    "RoomCode": "Room code:",
+    "SpeakingSample": "Speaking Sample:",
+    "View": "View",
+    "NotFoundRooms": "Not found any room available."
   },
   "HomePage": {
     "Greeting": "Welcome {username} back!",
