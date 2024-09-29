@@ -14,7 +14,7 @@ function Passage({ readingDesc }: Props) {
   return (
     <div
       className={cn(
-        "col-span-12 rounded-md border-2 p-3 xl:col-span-7",
+        "col-span-12 rounded-md bg-neutral-100 p-3 xl:col-span-7",
         !readingDesc && "hidden"
       )}
     >

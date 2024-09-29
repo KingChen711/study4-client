@@ -115,7 +115,7 @@ async function HistoriesPage({ searchParams, params }: Props) {
                         </TableCell>
                         <TableCell className="text-right">
                           <Link
-                            href={`/tests/${test.testId}/results/${testHistory.testHistoryId}`}
+                            href={`/tests/${test.id}/results/${testHistory.testHistoryId}`}
                             className="cursor-pointer text-nowrap text-right text-primary hover:underline"
                           >
                             {t("History.ViewDetail")}

@@ -112,7 +112,7 @@ function AnswerDialog({
                       answerTranscript.testSectionPart.testSection.readingDesc
                     }
                   />
-                  <div className="rounded-md border-2 p-3">
+                  <div className="rounded-md bg-neutral-100 p-3">
                     <ParseHtml
                       data={answerTranscript.testSectionPart.partitionDesc}
                     />

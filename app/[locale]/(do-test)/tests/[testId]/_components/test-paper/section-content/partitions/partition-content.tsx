@@ -17,8 +17,9 @@ function PartitionContent({
   return (
     <div
       className={cn(
-        "col-span-12 rounded-md border-2 p-3 xl:col-span-7",
-        (havePassage || isVerticalLayout) && "xl:col-span-12"
+        "col-span-12 rounded-md p-3 xl:col-span-7",
+        (havePassage || isVerticalLayout) && "xl:col-span-12",
+        !isVerticalLayout && "bg-neutral-100"
       )}
     >
       <ParseHtml data={partitionDesc} />

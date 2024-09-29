@@ -1,4 +1,4 @@
-import React, { useTransition } from "react"
+import React from "react"
 import { useTranslations } from "next-intl"
 
 import useSpeakingRoom from "@/hooks/use-speaking-room"
