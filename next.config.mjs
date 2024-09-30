@@ -6,10 +6,14 @@ const withNextIntl = createNextIntlPlugin()
 const nextConfig = {
   images: {
     remotePatterns: [
+      // {
+      //   protocol: "https",
+      //   hostname: "img.clerk.com",
+      //   pathname: "**",
+      // },
       {
         protocol: "https",
-        hostname: "img.clerk.com",
-        pathname: "**",
+        hostname: "**",
       },
     ],
   },
