@@ -12,6 +12,7 @@ import { z } from "zod"
 
 import { cn, generateRoomId } from "@/lib/utils"
 import { joinRoom } from "@/actions/speaking/join-room"
+import usePremium from "@/hooks/use-premium"
 import useUsers from "@/hooks/use-speaking-samples"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -41,6 +42,7 @@ const testSearchParamsSchema = z.object({
 function NewRoom() {
   const client = useStreamVideoClient()
   const { user } = useUser()
+  const { data: premium, isPending: loadingPremium } = usePremium()
   const [pending, startTransition] = useTransition()
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
@@ -109,12 +111,20 @@ function NewRoom() {
     setSelectedParts([])
   }, [selectedSpeakingSample])
 
-  if (!client || !user)
+  if (!client || !user || loadingPremium)
     return (
       <div className="mt-8 flex w-full justify-center">
         <Icons.Loader className="size-12" />
       </div>
     )
+
+  if (premium?.premiumPackageId !== 2 && premium?.premiumPackageId !== 3) {
+    toast.error(
+      "Bạn cần đăng ký gói thường hoặc gói nâng cao để sử dụng speaking room"
+    )
+    router.push("/premium")
+    return
+  }
 
   return (
     <div className="mt-8">
