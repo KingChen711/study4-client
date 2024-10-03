@@ -1,9 +1,33 @@
 import React from "react"
 import Link from "next/link"
+import getMyFlashcards from "@/queries/flashcard/get-my-flashcards"
+import { z } from "zod"
 
-import { Icons } from "@/components/ui/icons"
+import Paginator from "@/components/ui/paginator"
 
-function FlashCardsPage() {
+import CreateNewFlashcardDialog from "./_components/create-new-flashcard-dialog"
+import Flashcard from "./_components/flashcard"
+
+const flashcardsParamsSchema = z.object({
+  page: z.coerce
+    .number()
+    .catch(1)
+    .transform((value) => (value <= 0 ? 1 : value)),
+})
+
+type Props = {
+  searchParams: {
+    page?: string
+  }
+}
+
+async function FlashcardsPage({ searchParams }: Props) {
+  const { page } = flashcardsParamsSchema.parse(searchParams)
+  const { flashcards, totalPage } = await getMyFlashcards({
+    page,
+    pageSize: 12,
+  })
+
   return (
     <div>
       <h2 className="mb-4 mt-8 text-3xl font-bold">Flashcards</h2>
@@ -21,24 +45,32 @@ function FlashCardsPage() {
       </div>
 
       <div className="mt-4 flex flex-col gap-y-4">
-        <div className="flex size-48 cursor-pointer flex-col items-center justify-center rounded-xl border p-4 transition-all hover:-translate-y-1 hover:shadow hover:shadow-primary">
-          <Icons.Plus className="size-6 text-primary" />
-          <p className="mt-3 text-sm font-medium">Tạo học phần mới</p>
-        </div>
-        <div className="mb-6 mt-4 grid grid-cols-12 gap-4">
-          {/* {flashcards.map((flashcard) => (
+        <CreateNewFlashcardDialog />
+        <div className="mb-6 grid grid-cols-12 gap-4">
+          {flashcards.map((flashcard) => (
             <Flashcard
               key={flashcard.flashcardId}
               id={flashcard.flashcardId}
               title={flashcard.title}
               totalView={flashcard.totalView}
               totalWords={flashcard.totalWords}
+              description={flashcard.description}
+              showAdded={false}
             />
-          ))} */}
+          ))}
         </div>
+
+        {flashcards.length > 0 && (
+          <Paginator
+            metadata={{
+              pageNumber: page,
+              totalPages: totalPage,
+            }}
+          />
+        )}
       </div>
     </div>
   )
 }
 
-export default FlashCardsPage
+export default FlashcardsPage

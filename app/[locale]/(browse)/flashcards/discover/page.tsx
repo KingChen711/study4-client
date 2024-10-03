@@ -1,14 +1,29 @@
 import React from "react"
 import Link from "next/link"
 import getPublicFlashcards from "@/queries/flashcard/get-public-flashcards"
+import { z } from "zod"
 
 import Paginator from "@/components/ui/paginator"
 
 import Flashcard from "../_components/flashcard"
 
-async function FlashcardsDiscoveryPage() {
-  const { flashcards, page, totalPage } = await getPublicFlashcards({
-    page: 1,
+const flashcardsParamsSchema = z.object({
+  page: z.coerce
+    .number()
+    .catch(1)
+    .transform((value) => (value <= 0 ? 1 : value)),
+})
+
+type Props = {
+  searchParams: {
+    page?: string
+  }
+}
+
+async function FlashcardsDiscoveryPage({ searchParams }: Props) {
+  const { page } = flashcardsParamsSchema.parse(searchParams)
+  const { flashcards, totalPage } = await getPublicFlashcards({
+    page,
     pageSize: 12,
   })
 
@@ -32,6 +47,7 @@ async function FlashcardsDiscoveryPage() {
             key={flashcard.flashcardId}
             id={flashcard.flashcardId}
             title={flashcard.title}
+            description={flashcard.description}
             totalView={flashcard.totalView}
             totalWords={flashcard.totalWords}
           />

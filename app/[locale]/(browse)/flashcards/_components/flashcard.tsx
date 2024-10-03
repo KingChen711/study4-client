@@ -12,10 +12,20 @@ type Props = {
   totalView: number
   totalWords: number
   title: string
-  isAdded: boolean
+  description: string | null
+  isAdded?: boolean
+  showAdded?: boolean
 }
 
-function Flashcard({ id, title, totalView, totalWords, isAdded }: Props) {
+function Flashcard({
+  id,
+  title,
+  totalView,
+  totalWords,
+  description,
+  isAdded,
+  showAdded = true,
+}: Props) {
   return (
     <Link
       href={`/flashcards/list/${id}`}
@@ -31,12 +41,17 @@ function Flashcard({ id, title, totalView, totalWords, isAdded }: Props) {
           {totalView}
         </div>
       </div>
-      {isAdded ? (
-        <Button variant="outline" className="cursor-default">
-          Đã thêm
-        </Button>
-      ) : (
-        <AddToLearningListButton flashcardId={id} />
+      {description && <p className="text-sm">{description}</p>}
+      {showAdded && (
+        <>
+          {isAdded ? (
+            <Button variant="outline" className="cursor-default">
+              Đã thêm
+            </Button>
+          ) : (
+            <AddToLearningListButton flashcardId={id} />
+          )}
+        </>
       )}
     </Link>
   )
