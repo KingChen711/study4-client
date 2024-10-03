@@ -29,8 +29,6 @@ function useSpeakingRoom(id: string) {
     queryFn: async () => {
       const { data: room } = await axios.get<Room | null>(`/api/rooms/${id}`)
 
-      console.log({ room })
-
       if (!room) return null
 
       const speakingSample = await prep4Api
@@ -48,8 +46,6 @@ function useSpeakingRoom(id: string) {
         .catch((_: Error) => {
           return null
         })
-
-      console.log({ speakingSample })
 
       if (!speakingSample) return null
 

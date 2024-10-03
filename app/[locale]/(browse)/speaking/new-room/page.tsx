@@ -116,8 +116,6 @@ function NewRoom() {
       </div>
     )
 
-  console.log({ data })
-
   return (
     <div className="mt-8">
       <div className="text-3xl font-bold">{t("CreateRoom")}</div>

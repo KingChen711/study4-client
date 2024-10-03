@@ -6,7 +6,7 @@ import Paginator from "@/components/ui/paginator"
 
 import Flashcard from "../_components/flashcard"
 
-async function FlashCardsdiscoveryPage() {
+async function FlashcardsDiscoveryPage() {
   const { flashcards, page, totalPage } = await getPublicFlashcards({
     page: 1,
     pageSize: 12,
@@ -17,8 +17,9 @@ async function FlashCardsdiscoveryPage() {
       <h2 className="mb-4 mt-8 text-3xl font-bold">Flashcards</h2>
       <div className="flex items-center gap-x-4">
         <Link href="/flashcards" className="rounded-xl border px-4 py-1">
-          List từ của tôi
+          Của tôi
         </Link>
+
         <div className="rounded-xl border bg-primary/10 px-4 py-1 font-medium text-primary">
           Khám phá
         </div>
@@ -27,6 +28,7 @@ async function FlashCardsdiscoveryPage() {
       <div className="mb-6 mt-4 grid grid-cols-12 gap-4">
         {flashcards.map((flashcard) => (
           <Flashcard
+            isAdded={!!flashcard.userFlashcards?.[0]}
             key={flashcard.flashcardId}
             id={flashcard.flashcardId}
             title={flashcard.title}
@@ -48,4 +50,4 @@ async function FlashCardsdiscoveryPage() {
   )
 }
 
-export default FlashCardsdiscoveryPage
+export default FlashcardsDiscoveryPage

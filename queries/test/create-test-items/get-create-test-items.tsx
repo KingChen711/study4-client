@@ -39,12 +39,8 @@ const getCreateTestItem = cache(async (): Promise<CreateTestItems | null> => {
       }
     )
 
-    console.log({ data })
-
     return data.data || null
   } catch (error) {
-    console.log(error)
-
     return null
   }
 })

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import Link from "next/link"
 import { Check, ChevronsUpDown, LightbulbIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
@@ -76,21 +76,12 @@ function AnalyticsPage({ searchParams }: Props) {
   const [testTypeAnalyticIndex, setTestTypeAnalyticIndex] = useState(0)
   const [sectionIndex, setSectionIndex] = useState(0)
 
-  useEffect(() => {
-    console.log({ analytics })
-  }, [analytics])
-
   if (isPending)
     return (
       <div className="mt-8 flex w-full justify-center">
         <Icons.Loader className="size-12" />
       </div>
     )
-
-  const overallAnalytics =
-    analytics?.testCategoryAnalytics[categoryAnalyticIndex].testAnalytics
-
-  console.log(overallAnalytics)
 
   return (
     <div>

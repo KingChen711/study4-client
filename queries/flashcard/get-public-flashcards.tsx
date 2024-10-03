@@ -2,6 +2,8 @@ import { cache } from "react"
 
 import "server-only"
 
+import { auth } from "@clerk/nextjs/server"
+
 import prep4Api from "@/lib/prep4-api"
 
 export type FlashcardOrderBy = "-createDate" | "-totalEngaged"
@@ -18,6 +20,7 @@ type Flashcard = {
   totalView: number
   description: string | null
   createDate: Date
+  userFlashcards: { userId: number }[]
 }
 
 type GetPublicFlashcardsResult = {
@@ -28,11 +31,15 @@ type GetPublicFlashcardsResult = {
 
 const getPublicFlashcards = cache(
   async (params: Params): Promise<GetPublicFlashcardsResult> => {
+    const { getToken } = auth()
     try {
       const { data } = await prep4Api.get<{ data: GetPublicFlashcardsResult }>(
         "/api/flashcards",
         {
           params,
+          headers: {
+            Authorization: `Bearer ${await getToken()}`,
+          },
         }
       )
 
