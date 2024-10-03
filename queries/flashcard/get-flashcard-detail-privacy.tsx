@@ -16,7 +16,6 @@ type Flashcard = {
   description: string | null
   createDate: Date
   flashcardDetails: FlashcardDetail[]
-  userFlashcards: unknown[]
 }
 
 type FlashcardDetail = {
@@ -35,12 +34,12 @@ type FlashcardDetail = {
   flashcardDetailTagId: null
 }
 
-const getFlashcardDetail = cache(
+const getFlashcardDetailPrivacy = cache(
   async (id: number): Promise<Flashcard | null> => {
     const { getToken } = auth()
     try {
       const { data } = await prep4Api.get<{ data: Flashcard }>(
-        `/api/flashcards/${id}`,
+        `/api/flashcards/${id}/privacy`,
         {
           headers: {
             Authorization: `Bearer ${await getToken()}`,
@@ -55,4 +54,4 @@ const getFlashcardDetail = cache(
   }
 )
 
-export default getFlashcardDetail
+export default getFlashcardDetailPrivacy

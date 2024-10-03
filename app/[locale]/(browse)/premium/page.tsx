@@ -11,8 +11,6 @@ import ActiveButton from "./_components/active-button"
 async function PremiumPage() {
   const premium = await getUserPremium()
 
-  console.log({ premium })
-
   if (premium?.isPremiumActive) {
     return (
       <div className="mt-8 flex flex-col">

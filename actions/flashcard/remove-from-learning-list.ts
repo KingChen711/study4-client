@@ -7,21 +7,17 @@ import { auth } from "@clerk/nextjs/server"
 import prep4Api from "@/lib/prep4-api"
 import { getErrorResult } from "@/lib/utils"
 
-export const addToLearningList = async (
+export const removeFromLearningList = async (
   flashcardId: number
 ): Promise<ActionResponse> => {
   try {
     const { getToken } = auth()
 
-    await prep4Api.post(
-      `/api/flashcards/${flashcardId}/add-user`,
-      {},
-      {
-        headers: {
-          Authorization: `Bearer ${await getToken()}`,
-        },
-      }
-    )
+    await prep4Api.delete(`/api/flashcards/${flashcardId}/privacy/delete`, {
+      headers: {
+        Authorization: `Bearer ${await getToken()}`,
+      },
+    })
 
     revalidatePath(`/flashcards/discover`)
     revalidatePath(`/flashcards/list/${flashcardId}`)

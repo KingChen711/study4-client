@@ -15,6 +15,7 @@ type Props = {
   description: string | null
   isAdded?: boolean
   showAdded?: boolean
+  linkToPrivacy?: boolean
 }
 
 function Flashcard({
@@ -25,10 +26,11 @@ function Flashcard({
   description,
   isAdded,
   showAdded = true,
+  linkToPrivacy = false,
 }: Props) {
   return (
     <Link
-      href={`/flashcards/list/${id}`}
+      href={`/flashcards/list/${id}${linkToPrivacy ? "/privacy" : ""}`}
       className="col-span-12 flex flex-col rounded-xl border p-4 transition-all hover:-translate-y-1 hover:shadow hover:shadow-primary sm:col-span-6 lg:col-span-3"
     >
       <div className="font-bold">{title}</div>

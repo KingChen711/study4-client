@@ -55,6 +55,7 @@ async function FlashcardsPage({ searchParams }: Props) {
               totalView={flashcard.totalView}
               totalWords={flashcard.totalWords}
               description={flashcard.description}
+              linkToPrivacy
               showAdded={false}
             />
           ))}
