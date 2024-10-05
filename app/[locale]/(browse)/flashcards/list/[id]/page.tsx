@@ -1,9 +1,9 @@
 import React from "react"
 import { notFound, redirect } from "next/navigation"
 import getFlashcardDetail from "@/queries/flashcard/get-flashcard-detail"
-import { Shuffle } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { CardDescription, CardTitle } from "@/components/ui/card"
+import { Icons } from "@/components/ui/icons"
 
 import AddToLearningListButton from "../../_components/add-to-learning-list-button"
 import FlashcardDetail from "../../_components/flashcard-detail"
@@ -24,29 +24,32 @@ async function FlashcardDetailPage({ params }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-3xl space-y-4 py-8">
-      <h1 className="text-3xl font-bold">Flashcards: {flashcard.title}</h1>
-
-      <Button className="w-full py-6 text-lg font-semibold">
-        Luyện tập flashcards
-      </Button>
-
-      <div className="flex items-center justify-between">
-        <Button variant="outline" className="flex items-center gap-2">
-          <Shuffle className="size-4" />
-          Xem ngẫu nhiên
-        </Button>
-
-        <AddToLearningListButton
-          showPlus
-          redirectToPrivacy
-          flashcardId={flashcard.flashcardId}
-        />
+    <div className="mx-auto max-w-3xl py-8">
+      <div className="flex items-center justify-between gap-x-4">
+        <div>
+          <CardTitle className="text-3xl">{flashcard.title}</CardTitle>
+          <CardDescription className="mt-2">
+            {flashcard.description}
+          </CardDescription>
+        </div>
       </div>
 
-      <p className="text-sm text-gray-500">List có {flashcard.totalWords} từ</p>
+      <div className="mt-4 grid grid-cols-12 gap-3">
+        <AddToLearningListButton
+          flashcardId={flashcard.flashcardId}
+          type="add-to-my-list"
+        />
+        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+          <Icons.Fullscreen className="size-8 text-primary" />
+          FULLSCREEN
+        </div>
+        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+          <Icons.Practice className="size-8 text-primary" />
+          LUYỆN TẬP
+        </div>
+      </div>
 
-      <div className="flex flex-col gap-y-6">
+      <div className="mt-4 flex flex-col gap-y-6">
         {flashcard.flashcardDetails.map((fcd) => (
           <FlashcardDetail
             key={fcd.flashcardDetailId}

@@ -51,7 +51,7 @@ function Flashcard({
               Đã thêm
             </Button>
           ) : (
-            <AddToLearningListButton flashcardId={id} />
+            <AddToLearningListButton flashcardId={id} type="on-card" />
           )}
         </>
       )}
