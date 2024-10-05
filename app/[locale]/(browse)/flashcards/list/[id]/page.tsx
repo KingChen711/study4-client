@@ -7,6 +7,7 @@ import { Icons } from "@/components/ui/icons"
 
 import AddToLearningListButton from "../../_components/add-to-learning-list-button"
 import FlashcardDetail from "../../_components/flashcard-detail"
+import FlashcardSlider from "../../_components/flashcard-slider"
 
 type Props = {
   params: {
@@ -48,6 +49,8 @@ async function FlashcardDetailPage({ params }: Props) {
           LUYỆN TẬP
         </div>
       </div>
+
+      <FlashcardSlider />
 
       <div className="mt-4 flex flex-col gap-y-6">
         {flashcard.flashcardDetails.map((fcd) => (

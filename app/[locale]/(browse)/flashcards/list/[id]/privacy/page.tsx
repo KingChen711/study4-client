@@ -18,7 +18,9 @@ type Props = {
 async function FlashcardDetailPrivacyPage({ params }: Props) {
   const flashcard = await getFlashcardDetailPrivacy(+params.id)
 
-  if (!flashcard) return notFound()
+  if (!flashcard) {
+    notFound()
+  }
 
   return (
     <div className="mx-auto max-w-3xl py-8">
@@ -52,7 +54,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         </div>
         <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
           <Icons.Word className="size-8 text-primary" />
-          TỪ MỚI
+          THÊM TỪ MỚI
         </div>
         <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
           <Icons.Practice className="size-8 text-primary" />
@@ -64,7 +66,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         </div>
       </div>
 
-      <h3 className="mb-2 mt-4 text-lg font-bold">
+      <h3 className="mb-2 mt-4 text-lg font-bold text-info">
         Đang học ({flashcard.studyingFlashCardDetails.length})
       </h3>
       {flashcard.studyingFlashCardDetails.length === 0 && (
@@ -83,7 +85,27 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
           />
         ))}
       </div>
-      <h3 className="mb-2 mt-4 text-lg font-bold">
+      {flashcard.proficientFlashCardDetails.length > 0 && (
+        <>
+          <h3 className="mb-2 mt-4 text-lg font-bold text-primary">
+            Thành thạo ({flashcard.proficientFlashCardDetails.length})
+          </h3>
+          <div className="flex flex-col gap-y-6">
+            {flashcard.proficientFlashCardDetails.map((fcd) => (
+              <FlashcardDetail
+                key={fcd.flashcardDetailId}
+                definition={fcd.definition}
+                example={fcd.example}
+                imageUrl={fcd.cloudResource.url}
+                wordForm={fcd.wordForm}
+                wordPronunciation={fcd.wordPronunciation}
+                wordText={fcd.wordText}
+              />
+            ))}
+          </div>
+        </>
+      )}
+      <h3 className="mb-2 mt-4 text-lg font-bold text-danger">
         Chưa học ({flashcard.newFlashCardDetails.length})
       </h3>
       {flashcard.newFlashCardDetails.length === 0 && (
@@ -91,6 +113,27 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
       )}
       <div className="flex flex-col gap-y-6">
         {flashcard.newFlashCardDetails.map((fcd) => (
+          <FlashcardDetail
+            key={fcd.flashcardDetailId}
+            definition={fcd.definition}
+            example={fcd.example}
+            imageUrl={fcd.cloudResource.url}
+            wordForm={fcd.wordForm}
+            wordPronunciation={fcd.wordPronunciation}
+            wordText={fcd.wordText}
+          />
+        ))}
+      </div>
+
+      <h3 className="mb-2 mt-4 flex items-center gap-x-1 text-lg font-bold text-star">
+        Đánh dấu <Icons.Star className="size-5" /> (
+        {flashcard.starredFlashCardDetails.length})
+      </h3>
+      {flashcard.starredFlashCardDetails.length === 0 && (
+        <div>Không tìm thấy flashcards nào.</div>
+      )}
+      <div className="flex flex-col gap-y-6">
+        {flashcard.starredFlashCardDetails.map((fcd) => (
           <FlashcardDetail
             key={fcd.flashcardDetailId}
             definition={fcd.definition}

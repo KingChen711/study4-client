@@ -57,7 +57,7 @@ function RemoveFromLearningListButton({
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="destructive" size="icon">
-          <Trash className="size-4" />
+          <Trash className="size-5" />
         </Button>
       </DialogTrigger>
       <DialogContent>

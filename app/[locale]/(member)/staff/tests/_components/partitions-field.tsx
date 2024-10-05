@@ -4,7 +4,7 @@ import { editorPlugin } from "@/constants"
 import { type PartitionTag } from "@/queries/test/create-test-items/get-create-test-items"
 import { type TestType } from "@/types"
 import { Editor } from "@tinymce/tinymce-react"
-import { CheckIcon, Plus, Trash2Icon, UploadIcon } from "lucide-react"
+import { CheckIcon, Plus, Trash, UploadIcon } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
@@ -114,7 +114,7 @@ function PartitionsField({
               variant="ghost"
               size="icon"
             >
-              <Trash2Icon className="size-6 text-danger" />
+              <Trash className="size-5 text-danger" />
             </Button>
           </div>
 

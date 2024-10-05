@@ -2,7 +2,7 @@ import React from "react"
 import { editorPlugin } from "@/constants"
 import { type TestType } from "@/types"
 import { Editor } from "@tinymce/tinymce-react"
-import { Plus, Trash2Icon } from "lucide-react"
+import { Plus, Trash } from "lucide-react"
 import { useFieldArray, type Control, type FieldErrors } from "react-hook-form"
 
 import { cn } from "@/lib/utils"
@@ -64,7 +64,7 @@ function QuestionsField({
               variant="ghost"
               size="icon"
             >
-              <Trash2Icon className="size-6 text-danger" />
+              <Trash className="size-5 text-danger" />
             </Button>
           </div>
 

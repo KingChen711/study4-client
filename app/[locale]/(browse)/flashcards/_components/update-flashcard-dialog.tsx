@@ -66,7 +66,7 @@ function UpdateFlashcardDialog({ description, title, flashcardId }: Props) {
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button variant="outline" size="icon">
-          <Edit className="size-4" />
+          <Edit className="size-5" />
           <span className="sr-only">Edit topic</span>
         </Button>
       </DialogTrigger>

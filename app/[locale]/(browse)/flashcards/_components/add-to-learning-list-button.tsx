@@ -58,7 +58,7 @@ function AddToLearningListButton({ type, flashcardId }: Props) {
           {pending ? (
             <Icons.Loader className="size-8 text-primary" />
           ) : (
-            <Icons.Word className="size-8 text-primary" />
+            <Icons.Save className="size-8 text-primary" />
           )}
           {type === "add-to-my-list" ? "Thêm vào của tôi" : "Luyện tập"}
         </div>

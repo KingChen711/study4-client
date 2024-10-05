@@ -36,6 +36,9 @@ const config = {
           DEFAULT: "hsl(var(--skip))",
           100: "hsl(var(--skip-100))",
         },
+        star: {
+          DEFAULT: "hsl(var(--star))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

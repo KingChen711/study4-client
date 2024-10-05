@@ -1,6 +1,8 @@
 import React from "react"
 import Image from "next/image"
+import { Edit, Trash } from "lucide-react"
 
+import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
@@ -13,6 +15,7 @@ type Props = {
   wordPronunciation: string
   example: string | null
   imageUrl: string | null
+  showMutation?: boolean
 }
 
 function FlashcardDetail({
@@ -22,6 +25,7 @@ function FlashcardDetail({
   example,
   imageUrl,
   wordForm,
+  showMutation = false,
 }: Props) {
   return (
     <Card className="shadow-lg">
@@ -34,9 +38,20 @@ function FlashcardDetail({
             </span>
             <span className="ml-2 text-lg text-gray-500">({wordForm})</span>
           </div>
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <TextToSpeak text={wordText || ""} voiceType="UK" />
             <TextToSpeak text={wordText || ""} voiceType="US" />
+
+            {showMutation && (
+              <>
+                <Button size="icon" variant="outline">
+                  <Edit className="size-5" />
+                </Button>
+                <Button size="icon" variant="destructive">
+                  <Trash className="size-5" />
+                </Button>
+              </>
+            )}
           </div>
         </CardTitle>
       </CardHeader>
