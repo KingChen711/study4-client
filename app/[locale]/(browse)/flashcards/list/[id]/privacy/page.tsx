@@ -94,6 +94,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
       <div className="flex flex-col gap-y-6">
         {flashcard.studyingFlashCardDetails.map((fcd) => (
           <FlashcardDetail
+            showMutation={!flashcard.isPublic}
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}
@@ -112,6 +113,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
           <div className="flex flex-col gap-y-6">
             {flashcard.proficientFlashCardDetails.map((fcd) => (
               <FlashcardDetail
+                showMutation={!flashcard.isPublic}
                 key={fcd.flashcardDetailId}
                 definition={fcd.definition}
                 example={fcd.example}
@@ -133,6 +135,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
       <div className="flex flex-col gap-y-6">
         {flashcard.newFlashCardDetails.map((fcd) => (
           <FlashcardDetail
+            showMutation={!flashcard.isPublic}
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}
@@ -144,8 +147,8 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         ))}
       </div>
 
-      <h3 className="mb-2 mt-4 flex items-center gap-x-1 text-lg font-bold text-star">
-        Đánh dấu <Icons.Star className="size-5" /> (
+      <h3 className="mb-2 mt-4 flex items-center gap-x-1 text-lg font-bold text-yellow-500">
+        Đánh dấu <Icons.Star className="size-5 text-star" /> (
         {flashcard.starredFlashCardDetails.length})
       </h3>
       {flashcard.starredFlashCardDetails.length === 0 && (
@@ -154,6 +157,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
       <div className="flex flex-col gap-y-6">
         {flashcard.starredFlashCardDetails.map((fcd) => (
           <FlashcardDetail
+            showMutation={!flashcard.isPublic}
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}

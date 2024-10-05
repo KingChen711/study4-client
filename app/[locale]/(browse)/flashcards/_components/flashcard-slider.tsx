@@ -7,10 +7,12 @@ import { Check, ChevronLeft, ChevronRight, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { changeFlashcardStatus } from "@/actions/flashcard/detail/toggle-star"
 import { Button } from "@/components/ui/button"
+import { Icons } from "@/components/ui/icons"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 
 import FlashcardDetail from "./flashcard-detail"
+import TextToSpeak from "./text-to-speak"
 
 type Props = {
   showTrackSwitch?: boolean
@@ -29,6 +31,16 @@ export default function FlashcardSlider({
   const [showStudyingCard, setShowStudyingCard] = useState<
     "hide" | "rotate" | "slip"
   >("hide")
+  const [starredFlashcards, setStarredFlashcards] = useState<number[]>(
+    () =>
+      userFlashcardProgresses
+        .map((item) =>
+          item.progressStatus === "STARRED"
+            ? item.userFlashcardProgressId
+            : false
+        )
+        .filter(Boolean) as number[]
+  )
   const [showProficientCard, setShowProficientCard] = useState<
     "hide" | "rotate" | "slip"
   >("hide")
@@ -58,6 +70,29 @@ export default function FlashcardSlider({
     await new Promise((resolve) => setTimeout(resolve, 400))
     setShowProficientCard("hide")
     setPending(false)
+  }
+
+  const handleStarred = (
+    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    const progressId =
+      userFlashcardProgresses[currentIndex].userFlashcardProgressId!
+    const isStarred = starredFlashcards.includes(progressId)
+
+    if (isStarred) {
+      setStarredFlashcards((prev) => prev.filter((f) => f !== progressId))
+    } else {
+      setStarredFlashcards((prev) => [...prev, progressId])
+    }
+
+    changeFlashcardStatus(
+      userFlashcardProgresses[currentIndex].flashcardId,
+      progressId,
+      isStarred ? "STUDYING" : "STARRED"
+    )
   }
 
   const handlePrev = async () => {
@@ -111,6 +146,31 @@ export default function FlashcardSlider({
               flippedCards[currentIndex] && "opacity-0"
             )}
           >
+            <div className="absolute right-6 top-6 z-[5] flex w-full items-center justify-end gap-2">
+              <TextToSpeak
+                text={userFlashcardProgresses[currentIndex].wordText || ""}
+                voiceType="UK"
+              />
+              <TextToSpeak
+                text={userFlashcardProgresses[currentIndex].wordText || ""}
+                voiceType="US"
+              />
+              {!trackMode && (
+                <Button onClick={handleStarred} variant="ghost" size="icon">
+                  <Icons.Star
+                    className={cn(
+                      "size-7",
+                      starredFlashcards.includes(
+                        userFlashcardProgresses[currentIndex]
+                          .userFlashcardProgressId!
+                      )
+                        ? "text-star"
+                        : "text-neutral-300"
+                    )}
+                  />
+                </Button>
+              )}
+            </div>
             <p className="text-2xl font-semibold">
               {userFlashcardProgresses[currentIndex].wordText}
             </p>
@@ -118,7 +178,7 @@ export default function FlashcardSlider({
 
           <div
             className={cn(
-              "absolute z-10 flex size-full items-center justify-center rounded-xl border-2 border-info bg-gray-100 p-6 text-center opacity-0 shadow-lg duration-500",
+              "absolute z-10 flex size-full items-center justify-center rounded-xl border-2 border-yellow-500 bg-gray-100 p-6 text-center opacity-0 shadow-lg duration-500",
               showStudyingCard === "hide" && "hidden",
               showStudyingCard === "rotate" &&
                 "opacity-100 [transform:rotateZ(1.5deg)]",
@@ -126,7 +186,7 @@ export default function FlashcardSlider({
                 "opacity-100 [transform:translateX(-15%)]"
             )}
           >
-            <p className="text-3xl font-bold text-info">Chưa biết</p>
+            <p className="text-3xl font-bold text-yellow-500">Chưa biết</p>
           </div>
 
           <div
