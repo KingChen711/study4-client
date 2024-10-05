@@ -1,14 +1,13 @@
 import React from "react"
 import { notFound } from "next/navigation"
 import getFlashcardDetailPrivacy from "@/queries/flashcard/get-flashcard-detail-privacy"
-import { Edit } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
 import { CardDescription, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 
 import FlashcardDetail from "../../../_components/flashcard-detail"
 import RemoveFromLearningListButton from "../../../_components/remove-from-learning-list-button"
+import UpdateFlashcardDialog from "../../../_components/update-flashcard-dialog"
 
 type Props = {
   params: {
@@ -31,10 +30,14 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
           </CardDescription>
         </div>
         <div className="flex gap-x-2">
-          <Button variant="outline" size="icon">
-            <Edit className="size-4" />
-            <span className="sr-only">Edit topic</span>
-          </Button>
+          {!flashcard.isPublic && (
+            <UpdateFlashcardDialog
+              description={flashcard.description}
+              title={flashcard.title}
+              flashcardId={flashcard.flashcardId}
+            />
+          )}
+
           <RemoveFromLearningListButton
             redirectToPublic={flashcard.isPublic}
             flashcardId={flashcard.flashcardId}

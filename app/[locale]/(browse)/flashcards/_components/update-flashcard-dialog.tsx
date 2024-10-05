@@ -2,6 +2,7 @@
 
 import React, { useState, useTransition } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Edit } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
@@ -9,7 +10,7 @@ import {
   createFlashcardSchema,
   type TCreateFlashcardSchema,
 } from "@/lib/validation/flashcard"
-import { createFlashcard } from "@/actions/flashcard/create-flashcard"
+import { updateFlashcard } from "@/actions/flashcard/update-flashcard"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -32,12 +33,19 @@ import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 
-function CreateNewFlashcardDialog() {
+type Props = {
+  flashcardId: number
+  title: string
+  description: string | null
+}
+
+function UpdateFlashcardDialog({ description, title, flashcardId }: Props) {
   const [open, setOpen] = useState(false)
   const [pending, startTransition] = useTransition()
 
   const form = useForm<TCreateFlashcardSchema>({
     resolver: zodResolver(createFlashcardSchema),
+    defaultValues: { title, description: description || "" },
   })
 
   const handleOpenChange = (value: boolean) => {
@@ -47,7 +55,7 @@ function CreateNewFlashcardDialog() {
 
   const onSubmit = async (values: TCreateFlashcardSchema) => {
     startTransition(async () => {
-      const res = await createFlashcard(values)
+      const res = await updateFlashcard(flashcardId, values)
       setOpen(false)
       if (res.isSuccess) return
       toast.error(res.messageError)
@@ -57,15 +65,15 @@ function CreateNewFlashcardDialog() {
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <div className="flex cursor-pointer items-center justify-center gap-x-4 rounded-xl border p-4 transition-all hover:-translate-y-1 hover:shadow hover:shadow-primary">
-          <Icons.Plus className="size-6 text-primary" />
-          <p className="text-sm font-medium">Tạo học phần mới</p>
-        </div>
+        <Button variant="outline" size="icon">
+          <Edit className="size-4" />
+          <span className="sr-only">Edit topic</span>
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
           <DialogTitle asChild>
-            <p className="mb-2">Tạo học phần mới</p>
+            <p className="mb-2">Chỉnh sửa học phần</p>
           </DialogTitle>
           <DialogDescription asChild>
             <Form {...form}>
@@ -135,7 +143,8 @@ function CreateNewFlashcardDialog() {
                     type="submit"
                     className="float-right mt-4"
                   >
-                    Tạo {pending && <Icons.Loader className="ml-1 size-4" />}
+                    Cập nhật{" "}
+                    {pending && <Icons.Loader className="ml-1 size-4" />}
                   </Button>
                 </div>
               </form>
@@ -147,4 +156,4 @@ function CreateNewFlashcardDialog() {
   )
 }
 
-export default CreateNewFlashcardDialog
+export default UpdateFlashcardDialog
