@@ -1,11 +1,13 @@
 import React from "react"
 import { notFound } from "next/navigation"
 import getFlashcardDetailPrivacy from "@/queries/flashcard/get-flashcard-detail-privacy"
+import getFlashcardPractice from "@/queries/flashcard/get-flashcard-practice"
 
 import { CardDescription, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 
 import FlashcardDetail from "../../../_components/flashcard-detail"
+import FlashcardSlider from "../../../_components/flashcard-slider"
 import RemoveFromLearningListButton from "../../../_components/remove-from-learning-list-button"
 import UpdateFlashcardDialog from "../../../_components/update-flashcard-dialog"
 
@@ -16,9 +18,15 @@ type Props = {
 }
 
 async function FlashcardDetailPrivacyPage({ params }: Props) {
-  const flashcard = await getFlashcardDetailPrivacy(+params.id)
+  const flashcardData = getFlashcardDetailPrivacy(+params.id)
+  const flashcardPracticeData = getFlashcardPractice(+params.id)
 
-  if (!flashcard) {
+  const [flashcard, flashcardPractice] = await Promise.all([
+    flashcardData,
+    flashcardPracticeData,
+  ])
+
+  if (!flashcard || !flashcardPractice) {
     notFound()
   }
 
@@ -65,6 +73,17 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
           LỊCH SỬ
         </div>
       </div>
+
+      <FlashcardSlider
+        showTrackSwitch
+        userFlashcardProgresses={flashcardPractice.userFlashcardProgresses.map(
+          (item) => ({
+            ...item.flashcardDetail,
+            progressStatus: item.progressStatus,
+            userFlashcardProgressId: item.userFlashcardProgressId,
+          })
+        )}
+      />
 
       <h3 className="mb-2 mt-4 text-lg font-bold text-info">
         Đang học ({flashcard.studyingFlashCardDetails.length})

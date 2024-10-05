@@ -1,22 +1,21 @@
 "use server"
 
-import { revalidatePath } from "next/cache"
 import { type ActionResponse } from "@/types"
 import { auth } from "@clerk/nextjs/server"
 
 import prep4Api from "@/lib/prep4-api"
 import { getErrorResult } from "@/lib/utils"
 
-export const toggleStar = async (
+export const changeFlashcardStatus = async (
   flashcardId: number,
   flashcardDetailId: number,
-  isStarred: boolean
+  status: "STUDYING" | "PROFICIENT" | "STARRED"
 ): Promise<ActionResponse> => {
   try {
     const { getToken } = auth()
 
     const res = await prep4Api.patch(
-      `/api/flashcards/${flashcardId}/update-progress?userFlashcardProgressId=${flashcardDetailId}&status=${isStarred ? "STUDYING" : "STARRED"}`,
+      `/api/flashcards/${flashcardId}/update-progress?userFlashcardProgressId=${flashcardDetailId}&status=${status}`,
       {},
       {
         headers: {
@@ -25,7 +24,7 @@ export const toggleStar = async (
       }
     )
 
-    revalidatePath(`/flashcards/list/${flashcardId}/privacy`)
+    // revalidatePath(`/flashcards/list/${flashcardId}/privacy`)
     console.log(res)
 
     return { isSuccess: true }

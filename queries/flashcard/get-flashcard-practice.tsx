@@ -13,13 +13,14 @@ type FlashcardPractice = {
   userFlashcardProgresses: UserFlashcardProgress[]
 }
 
-export type UserFlashcardProgress = {
+type UserFlashcardProgress = {
   userFlashcardProgressId?: number
   progressStatus?: "NEW" | "STUDYING" | "PROFICIENT" | "STARRED"
   flashcardDetailId?: number
-} & FlashcardDetail
+  flashcardDetail: FlashcardDetail
+}
 
-type FlashcardDetail = {
+export type FlashcardDetail = {
   flashcardDetailId: number
   wordText: string
   definition: string
