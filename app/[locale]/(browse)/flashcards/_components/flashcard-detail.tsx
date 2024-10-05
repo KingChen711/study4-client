@@ -2,6 +2,7 @@ import React from "react"
 import Image from "next/image"
 import { Edit, Trash } from "lucide-react"
 
+import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -16,6 +17,7 @@ type Props = {
   example: string | null
   imageUrl: string | null
   showMutation?: boolean
+  className?: string
 }
 
 function FlashcardDetail({
@@ -26,9 +28,10 @@ function FlashcardDetail({
   imageUrl,
   wordForm,
   showMutation = false,
+  className,
 }: Props) {
   return (
-    <Card className="shadow-lg">
+    <Card className={cn("bg-gray-100 shadow-lg", className)}>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <div>

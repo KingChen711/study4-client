@@ -50,7 +50,7 @@ async function FlashcardDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <FlashcardSlider />
+      <FlashcardSlider userFlashcardProgresses={flashcard.flashcardDetails} />
 
       <div className="mt-4 flex flex-col gap-y-6">
         {flashcard.flashcardDetails.map((fcd) => (

@@ -11,7 +11,9 @@ type Props = {
 }
 
 function TextToSpeak({ text, voiceType }: Props) {
-  const speakText = () => {
+  const speakText = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault()
+    e.stopPropagation()
     // Kiểm tra nếu API SpeechSynthesis có sẵn
     if (!window.speechSynthesis) {
       console.error("SpeechSynthesis API is not supported in this browser.")
