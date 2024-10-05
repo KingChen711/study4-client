@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useTransition } from "react"
+import { useRouter } from "next/navigation"
 import { X } from "lucide-react"
 import { toast } from "sonner"
 
@@ -10,17 +11,28 @@ import { Icons } from "@/components/ui/icons"
 
 type Props = {
   flashcardId: number
+  redirectToPublic?: boolean
 }
 
-function RemoveFromLearningListButton({ flashcardId }: Props) {
+function RemoveFromLearningListButton({
+  flashcardId,
+  redirectToPublic = false,
+}: Props) {
   const [pending, startTransition] = useTransition()
+  const router = useRouter()
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault()
 
     startTransition(async () => {
       const res = await removeFromLearningList(flashcardId)
-      if (res.isSuccess) return
+      if (res.isSuccess) {
+        console.log("wtf")
+        if (redirectToPublic) {
+          router.push(`/flashcards/list/${flashcardId}`)
+        }
+        return
+      }
       toast.error(res.messageError)
     })
   }

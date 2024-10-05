@@ -2,6 +2,7 @@ import React from "react"
 import Image from "next/image"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
 
 import TextToSpeak from "./text-to-speak"
 
@@ -69,3 +70,7 @@ function FlashcardDetail({
 }
 
 export default FlashcardDetail
+
+export function FlashcardDetailSkeleton() {
+  return <Skeleton className="h-[350px] w-full" />
+}

@@ -14,8 +14,12 @@ type Flashcard = {
   totalWords: number
   totalView: number
   description: string | null
+  isPublic: boolean
   createDate: Date
-  flashcardDetails: FlashcardDetail[]
+  newFlashCardDetails: FlashcardDetail[]
+  studyingFlashCardDetails: FlashcardDetail[]
+  proficientFlashCardDetails: FlashcardDetail[]
+  starredFlashCardDetails: FlashcardDetail[]
 }
 
 type FlashcardDetail = {

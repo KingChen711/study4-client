@@ -1,5 +1,5 @@
 import React from "react"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import getFlashcardDetail from "@/queries/flashcard/get-flashcard-detail"
 import { Shuffle } from "lucide-react"
 
@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button"
 
 import AddToLearningListButton from "../../_components/add-to-learning-list-button"
 import FlashcardDetail from "../../_components/flashcard-detail"
-import RemoveFromLearningListButton from "../../_components/remove-from-learning-list-button"
 
 type Props = {
   params: {
@@ -19,6 +18,10 @@ async function FlashcardDetailPage({ params }: Props) {
   const flashcard = await getFlashcardDetail(+params.id)
 
   if (!flashcard) return notFound()
+
+  if (flashcard.userFlashcards?.[0]) {
+    redirect(`/flashcards/list/${flashcard.flashcardId}/privacy`)
+  }
 
   return (
     <div className="mx-auto max-w-3xl space-y-4 py-8">
@@ -34,14 +37,11 @@ async function FlashcardDetailPage({ params }: Props) {
           Xem ngẫu nhiên
         </Button>
 
-        {flashcard.userFlashcards?.[0] ? (
-          <RemoveFromLearningListButton flashcardId={flashcard.flashcardId} />
-        ) : (
-          <AddToLearningListButton
-            showPlus
-            flashcardId={flashcard.flashcardId}
-          />
-        )}
+        <AddToLearningListButton
+          showPlus
+          redirectToPrivacy
+          flashcardId={flashcard.flashcardId}
+        />
       </div>
 
       <p className="text-sm text-gray-500">List có {flashcard.totalWords} từ</p>

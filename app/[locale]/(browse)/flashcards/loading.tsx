@@ -23,7 +23,7 @@ function MyFlashcardsLoading() {
       </div>
 
       <div className="mt-4 flex flex-col gap-y-4">
-        <Skeleton className="flex size-48 cursor-pointer flex-col items-center justify-center rounded-xl border p-4 transition-all hover:-translate-y-1 hover:shadow hover:shadow-primary" />
+        <Skeleton className="h-[58px] w-full" />
 
         <div className="mb-6 mt-4 grid grid-cols-12 gap-4">
           <FlashcardSkeleton />

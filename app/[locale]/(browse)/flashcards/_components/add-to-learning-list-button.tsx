@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useTransition } from "react"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 import { addToLearningList } from "@/actions/flashcard/add-to-learning-list"
@@ -10,17 +11,28 @@ import { Icons } from "@/components/ui/icons"
 type Props = {
   flashcardId: number
   showPlus?: boolean
+  redirectToPrivacy?: boolean
 }
 
-function AddToLearningListButton({ flashcardId, showPlus = false }: Props) {
+function AddToLearningListButton({
+  flashcardId,
+  showPlus = false,
+  redirectToPrivacy = false,
+}: Props) {
   const [pending, startTransition] = useTransition()
+  const router = useRouter()
 
   function handleClick(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
     e.preventDefault()
 
     startTransition(async () => {
       const res = await addToLearningList(flashcardId)
-      if (res.isSuccess) return
+      if (res.isSuccess) {
+        if (redirectToPrivacy) {
+          router.push(`/flashcards/list/${flashcardId}/privacy`)
+        }
+        return
+      }
       toast.error(res.messageError)
     })
   }

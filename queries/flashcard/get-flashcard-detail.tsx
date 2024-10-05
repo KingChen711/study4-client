@@ -13,6 +13,7 @@ type Flashcard = {
   title: string
   totalWords: number
   totalView: number
+  isPublic: boolean
   description: string | null
   createDate: Date
   flashcardDetails: FlashcardDetail[]
