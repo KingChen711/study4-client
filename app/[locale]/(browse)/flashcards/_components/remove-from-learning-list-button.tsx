@@ -2,7 +2,7 @@
 
 import React, { useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { X } from "lucide-react"
+import { Trash } from "lucide-react"
 import { toast } from "sonner"
 
 import { removeFromLearningList } from "@/actions/flashcard/remove-from-learning-list"
@@ -39,14 +39,16 @@ function RemoveFromLearningListButton({
 
   return (
     <Button
+      variant="destructive"
+      size="icon"
       onClick={handleClick}
       disabled={pending}
-      variant="destructive"
-      className="flex items-center gap-2"
     >
-      <X className="size-4" />
-      Dừng học học phần này
-      {pending && <Icons.Loader className="ml-1 size-4" />}
+      {pending ? (
+        <Icons.Loader className="size-4" />
+      ) : (
+        <Trash className="size-4" />
+      )}
     </Button>
   )
 }

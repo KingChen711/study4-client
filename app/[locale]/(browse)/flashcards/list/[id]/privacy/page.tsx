@@ -1,9 +1,11 @@
 import React from "react"
 import { notFound } from "next/navigation"
 import getFlashcardDetailPrivacy from "@/queries/flashcard/get-flashcard-detail-privacy"
-import { Shuffle } from "lucide-react"
+import { Edit } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { CardDescription, CardTitle } from "@/components/ui/card"
+import { Icons } from "@/components/ui/icons"
 
 import FlashcardDetail from "../../../_components/flashcard-detail"
 import RemoveFromLearningListButton from "../../../_components/remove-from-learning-list-button"
@@ -19,29 +21,47 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
 
   if (!flashcard) return notFound()
 
-  console.log({ flashcard })
-
   return (
-    <div className="mx-auto max-w-3xl space-y-4 py-8">
-      <h1 className="text-3xl font-bold">Flashcards: {flashcard.title}</h1>
-
-      <Button className="w-full py-6 text-lg font-semibold">
-        Luyện tập flashcards
-      </Button>
-
-      <div className="flex items-center justify-between">
-        <Button variant="outline" className="flex items-center gap-2">
-          <Shuffle className="size-4" />
-          Xem ngẫu nhiên
-        </Button>
-        <RemoveFromLearningListButton
-          flashcardId={flashcard.flashcardId}
-          redirectToPublic
-        />
+    <div className="mx-auto max-w-3xl py-8">
+      <div className="flex items-center justify-between gap-x-4">
+        <div>
+          <CardTitle className="text-3xl">{flashcard.title}</CardTitle>
+          <CardDescription className="mt-2">
+            {flashcard.description}
+          </CardDescription>
+        </div>
+        <div className="flex gap-x-2">
+          <Button variant="outline" size="icon">
+            <Edit className="size-4" />
+            <span className="sr-only">Edit topic</span>
+          </Button>
+          <RemoveFromLearningListButton
+            redirectToPublic
+            flashcardId={flashcard.flashcardId}
+          />
+        </div>
       </div>
 
-      <p className="text-sm text-gray-500">List có {flashcard.totalWords} từ</p>
-      <h3 className="text-lg font-bold">
+      <div className="mt-4 grid grid-cols-12 gap-3">
+        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+          <Icons.Fullscreen className="size-8 text-primary" />
+          FULLSCREEN
+        </div>
+        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+          <Icons.Word className="size-8 text-primary" />
+          TỪ MỚI
+        </div>
+        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+          <Icons.Practice className="size-8 text-primary" />
+          LUYỆN TẬP
+        </div>
+        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+          <Icons.History className="size-8 text-primary" />
+          LỊCH SỬ
+        </div>
+      </div>
+
+      <h3 className="mb-2 mt-4 text-lg font-bold">
         Đang học ({flashcard.studyingFlashCardDetails.length})
       </h3>
       <div className="flex flex-col gap-y-6">
@@ -57,7 +77,7 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
           />
         ))}
       </div>
-      <h3 className="text-lg font-bold">
+      <h3 className="mb-2 mt-4 text-lg font-bold">
         Chưa học ({flashcard.newFlashCardDetails.length})
       </h3>
       <div className="flex flex-col gap-y-6">

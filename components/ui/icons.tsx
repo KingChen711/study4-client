@@ -35,6 +35,73 @@ export const Icons = {
       />
     </svg>
   ),
+  Word: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 48 48"
+      {...props}
+      className={cn(className)}
+    >
+      <mask id="ipSWord0">
+        <g fill="none" strokeWidth="4">
+          <rect
+            width="36"
+            height="36"
+            x="6"
+            y="6"
+            fill="#fff"
+            stroke="#fff"
+            rx="3"
+          ></rect>
+          <path
+            stroke="#000"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="m14 16l4 16l6-13l6 13l4-16"
+          ></path>
+        </g>
+      </mask>
+      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSWord0)"></path>
+    </svg>
+  ),
+  Practice: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+      className={cn(className)}
+    >
+      <path
+        fill="currentColor"
+        d="M5.5 2H17a2.5 2.5 0 0 1 2.5 2.5v6.813a6.5 6.5 0 0 0-8.187 8.187H4.5a1 1 0 0 0 1 1h6.232A6.518 6.518 0 0 0 12.81 22H5.5A2.5 2.5 0 0 1 3 19.5v-15A2.5 2.5 0 0 1 5.5 2ZM7 5a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H7Zm16 12.5a5.5 5.5 0 1 0-11 0a5.5 5.5 0 0 0 11 0Zm-6.086-2.403l2.806 1.84a.609.609 0 0 1 .28.52a.654.654 0 0 1-.072.299a.574.574 0 0 1-.198.226l-2.807 1.915a.635.635 0 0 1-.158.077a.551.551 0 0 1-.395-.023a.686.686 0 0 1-.193-.135a.72.72 0 0 1-.13-.2a.613.613 0 0 1-.047-.237v-3.758a.622.622 0 0 1 .367-.57a.552.552 0 0 1 .547.045Z"
+      ></path>
+    </svg>
+  ),
+  Fullscreen: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+      className={cn(className)}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+      >
+        <path d="M3 7V5a2 2 0 0 1 2-2h2m10 0h2a2 2 0 0 1 2 2v2m0 10v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2"></path>
+        <rect width="10" height="8" x="7" y="8" rx="1"></rect>
+      </g>
+    </svg>
+  ),
   History: ({ className, ...props }: IconProps) => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
