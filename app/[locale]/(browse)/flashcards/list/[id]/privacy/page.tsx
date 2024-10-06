@@ -6,6 +6,7 @@ import getFlashcardPractice from "@/queries/flashcard/get-flashcard-practice"
 import { CardDescription, CardTitle } from "@/components/ui/card"
 import { Icons } from "@/components/ui/icons"
 
+import AddNewWordDialog from "../../../_components/add-new-word-dialog"
 import FlashcardDetail from "../../../_components/flashcard-detail"
 import FlashcardSlider from "../../../_components/flashcard-slider"
 import RemoveFromLearningListButton from "../../../_components/remove-from-learning-list-button"
@@ -60,10 +61,9 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
           <Icons.Fullscreen className="size-8 text-primary" />
           FULLSCREEN
         </div>
-        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
-          <Icons.Word className="size-8 text-primary" />
-          THÊM TỪ MỚI
-        </div>
+        {!flashcard.isPublic && (
+          <AddNewWordDialog flashcardId={flashcard.flashcardId} />
+        )}
         <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
           <Icons.Practice className="size-8 text-primary" />
           LUYỆN TẬP
@@ -95,10 +95,12 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         {flashcard.studyingFlashCardDetails.map((fcd) => (
           <FlashcardDetail
             showMutation={!flashcard.isPublic}
+            flashcardId={flashcard.flashcardId}
+            flashcardDetailId={fcd.flashcardDetailId}
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}
-            imageUrl={fcd.cloudResource.url}
+            imageUrl={fcd.cloudResource?.url || null}
             wordForm={fcd.wordForm}
             wordPronunciation={fcd.wordPronunciation}
             wordText={fcd.wordText}
@@ -114,10 +116,12 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
             {flashcard.proficientFlashCardDetails.map((fcd) => (
               <FlashcardDetail
                 showMutation={!flashcard.isPublic}
+                flashcardId={flashcard.flashcardId}
+                flashcardDetailId={fcd.flashcardDetailId}
                 key={fcd.flashcardDetailId}
                 definition={fcd.definition}
                 example={fcd.example}
-                imageUrl={fcd.cloudResource.url}
+                imageUrl={fcd.cloudResource?.url || null}
                 wordForm={fcd.wordForm}
                 wordPronunciation={fcd.wordPronunciation}
                 wordText={fcd.wordText}
@@ -136,10 +140,12 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         {flashcard.newFlashCardDetails.map((fcd) => (
           <FlashcardDetail
             showMutation={!flashcard.isPublic}
+            flashcardId={flashcard.flashcardId}
+            flashcardDetailId={fcd.flashcardDetailId}
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}
-            imageUrl={fcd.cloudResource.url}
+            imageUrl={fcd.cloudResource?.url || null}
             wordForm={fcd.wordForm}
             wordPronunciation={fcd.wordPronunciation}
             wordText={fcd.wordText}
@@ -158,10 +164,12 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         {flashcard.starredFlashCardDetails.map((fcd) => (
           <FlashcardDetail
             showMutation={!flashcard.isPublic}
+            flashcardId={flashcard.flashcardId}
+            flashcardDetailId={fcd.flashcardDetailId}
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}
-            imageUrl={fcd.cloudResource.url}
+            imageUrl={fcd.cloudResource?.url || null}
             wordForm={fcd.wordForm}
             wordPronunciation={fcd.wordPronunciation}
             wordText={fcd.wordText}

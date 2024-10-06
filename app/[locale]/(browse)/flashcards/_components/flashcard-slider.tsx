@@ -16,6 +16,7 @@ import TextToSpeak from "./text-to-speak"
 
 type Props = {
   showTrackSwitch?: boolean
+  noStar?: boolean
   userFlashcardProgresses: ({
     userFlashcardProgressId?: number
     progressStatus?: "NEW" | "STUDYING" | "PROFICIENT" | "STARRED"
@@ -26,6 +27,7 @@ type Props = {
 export default function FlashcardSlider({
   userFlashcardProgresses,
   showTrackSwitch = false,
+  noStar = false,
 }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showStudyingCard, setShowStudyingCard] = useState<
@@ -118,6 +120,8 @@ export default function FlashcardSlider({
     setFlippedCards(newFlippedCards)
   }
 
+  if (!userFlashcardProgresses[currentIndex]) return null
+
   return (
     <div className="mb-4 mt-6 w-full">
       {showTrackSwitch && (
@@ -155,7 +159,7 @@ export default function FlashcardSlider({
                 text={userFlashcardProgresses[currentIndex].wordText || ""}
                 voiceType="US"
               />
-              {!trackMode && (
+              {!trackMode && !noStar && (
                 <Button onClick={handleStarred} variant="ghost" size="icon">
                   <Icons.Star
                     className={cn(
@@ -210,7 +214,9 @@ export default function FlashcardSlider({
             key={userFlashcardProgresses[currentIndex].flashcardDetailId}
             definition={userFlashcardProgresses[currentIndex].definition}
             example={userFlashcardProgresses[currentIndex].example}
-            imageUrl={userFlashcardProgresses[currentIndex].cloudResource.url}
+            imageUrl={
+              userFlashcardProgresses[currentIndex].cloudResource?.url || null
+            }
             wordForm={userFlashcardProgresses[currentIndex].wordForm}
             wordPronunciation={
               userFlashcardProgresses[currentIndex].wordPronunciation

@@ -31,7 +31,7 @@ type FlashcardDetail = {
   cloudResourceId: number
   cloudResource: {
     url: string
-  }
+  } | null
   flashcardId: number
   flashcardDetailTagId: null
 }

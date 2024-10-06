@@ -1,22 +1,21 @@
 "use server"
 
+import { revalidatePath } from "next/cache"
 import { type ActionResponse } from "@/types"
 import { auth } from "@clerk/nextjs/server"
 
 import prep4Api from "@/lib/prep4-api"
 import { getErrorResult } from "@/lib/utils"
 
-export const changeFlashcardStatus = async (
+export const deleteWord = async (
   flashcardId: number,
-  flashcardDetailId: number,
-  status: "STUDYING" | "PROFICIENT" | "STARRED"
+  flashcardDetailId: number
 ): Promise<ActionResponse> => {
   try {
     const { getToken } = auth()
 
-    await prep4Api.patch(
-      `/api/flashcards/${flashcardId}/update-progress?userFlashcardProgressId=${flashcardDetailId}&status=${status}`,
-      {},
+    await prep4Api.delete(
+      `/api/flashcard-details/${flashcardDetailId}/privacy/delete`,
       {
         headers: {
           Authorization: `Bearer ${await getToken()}`,
@@ -24,7 +23,8 @@ export const changeFlashcardStatus = async (
       }
     )
 
-    // revalidatePath(`/flashcards/list/${flashcardId}/privacy`)
+    revalidatePath(`/flashcards/discover`)
+    revalidatePath(`/flashcards/list/${flashcardId}/privacy`)
 
     return { isSuccess: true }
   } catch (error) {

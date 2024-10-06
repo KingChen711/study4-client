@@ -50,7 +50,10 @@ async function FlashcardDetailPage({ params }: Props) {
         </div>
       </div>
 
-      <FlashcardSlider userFlashcardProgresses={flashcard.flashcardDetails} />
+      <FlashcardSlider
+        noStar
+        userFlashcardProgresses={flashcard.flashcardDetails}
+      />
 
       <div className="mt-4 flex flex-col gap-y-6">
         {flashcard.flashcardDetails.map((fcd) => (
@@ -58,7 +61,7 @@ async function FlashcardDetailPage({ params }: Props) {
             key={fcd.flashcardDetailId}
             definition={fcd.definition}
             example={fcd.example}
-            imageUrl={fcd.cloudResource.url}
+            imageUrl={fcd.cloudResource?.url || null}
             wordForm={fcd.wordForm}
             wordPronunciation={fcd.wordPronunciation}
             wordText={fcd.wordText}

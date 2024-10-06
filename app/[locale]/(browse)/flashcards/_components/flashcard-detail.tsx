@@ -1,23 +1,25 @@
 import React from "react"
 import Image from "next/image"
-import { Edit, Trash } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 
+import DeleteWordButton from "./delete-word-button"
+import EditWordDialog from "./edit-word-dialog"
 import TextToSpeak from "./text-to-speak"
 
 type Props = {
-  wordText: string | null
-  definition: string | null
-  wordForm: string | null
-  wordPronunciation: string
+  wordText: string
+  definition: string
+  wordForm: string
+  wordPronunciation: string | null
   example: string | null
   imageUrl: string | null
   showMutation?: boolean
   className?: string
+  flashcardId?: number
+  flashcardDetailId?: number
 }
 
 function FlashcardDetail({
@@ -29,9 +31,11 @@ function FlashcardDetail({
   wordForm,
   showMutation = false,
   className,
+  flashcardDetailId,
+  flashcardId,
 }: Props) {
   return (
-    <Card className={cn("bg-gray-100 shadow-lg", className)}>
+    <Card className={cn("min-h-80 bg-gray-100 shadow-lg", className)}>
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <div>
@@ -39,20 +43,30 @@ function FlashcardDetail({
             <span className="ml-2 text-lg text-gray-500">
               {wordPronunciation}
             </span>
-            <span className="ml-2 text-lg text-gray-500">({wordForm})</span>
+            {wordForm && (
+              <span className="ml-2 text-lg text-gray-500">({wordForm})</span>
+            )}
           </div>
           <div className="flex items-center gap-2">
             <TextToSpeak text={wordText || ""} voiceType="UK" />
             <TextToSpeak text={wordText || ""} voiceType="US" />
 
-            {showMutation && (
+            {showMutation && flashcardDetailId && flashcardId && (
               <>
-                <Button size="icon" variant="outline">
-                  <Edit className="size-5" />
-                </Button>
-                <Button size="icon" variant="destructive">
-                  <Trash className="size-5" />
-                </Button>
+                <EditWordDialog
+                  flashcardId={flashcardId}
+                  flashcardDetailId={flashcardDetailId}
+                  definition={definition}
+                  wordText={wordText}
+                  example={example || undefined}
+                  imageUri={imageUrl || undefined}
+                  wordPronunciation={wordPronunciation || undefined}
+                  wordForm={wordForm}
+                />
+                <DeleteWordButton
+                  flashcardId={flashcardId}
+                  flashcardDetailId={flashcardDetailId}
+                />
               </>
             )}
           </div>
