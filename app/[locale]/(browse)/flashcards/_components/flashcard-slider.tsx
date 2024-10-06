@@ -143,15 +143,12 @@ export default function FlashcardSlider({
         </div>
       )}
       <div className="flex-1 cursor-pointer rounded-xl" onClick={handleFlip}>
-        <div
-          className={`relative size-full transition-all duration-500 ${
-            flippedCards[currentIndex] ? "[transform:rotateX(180deg)]" : ""
-          }`}
-        >
+        <div className="relative size-full transition-all duration-500">
           <div
             className={cn(
-              "absolute flex size-full items-center justify-center rounded-xl border bg-gray-100 p-6 text-center shadow-lg",
-              flippedCards[currentIndex] && "opacity-0"
+              "absolute flex size-full items-center justify-center rounded-xl border bg-gray-100 p-6 text-center shadow-lg transition-all duration-500",
+              flippedCards[currentIndex] &&
+                "opacity-0 [transform:rotateX(180deg)]"
             )}
           >
             <div className="absolute right-6 top-6 z-[5] flex w-full items-center justify-end gap-2">
@@ -228,9 +225,11 @@ export default function FlashcardSlider({
 
           <FlashcardDetail
             className={cn(
-              "w-full [transform:rotateX(180deg)]",
+              "w-full transition-all duration-500 [transform:rotateX(180deg)]",
               fullScreen && "h-full",
-              !flippedCards[currentIndex] && "opacity-0"
+              !flippedCards[currentIndex]
+                ? "opacity-0"
+                : "[transform:rotateX(0deg)]"
             )}
             fullScreen={fullScreen}
             key={userFlashcardProgresses[currentIndex].flashcardDetailId}
