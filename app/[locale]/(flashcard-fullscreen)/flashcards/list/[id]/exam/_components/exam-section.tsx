@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useEffect, useState, useTransition } from "react"
-import { useRouter } from "next/router"
-import { Check, ChevronDown, ChevronUp } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { Check, ChevronDown, ChevronUp, X } from "lucide-react"
 import { toast } from "sonner"
 
 import { cn, newDate } from "@/lib/utils"
@@ -30,9 +30,11 @@ type QuestionAnswer = {
 }
 
 function ExamSection({ flashcardId, title, totalQuestion }: Props) {
+  const [time, setTime] = useState<number>(0)
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [showSetting, setShowSetting] = useState(true)
+  const [focusIndex, setFocusIndex] = useState(0)
   const [questionsAmount, setQuestionsAmount] = useState(
     Math.min(20, totalQuestion)
   )
@@ -49,6 +51,9 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
       setQuestionTypes((prev) => prev.filter((t) => t !== type))
     }
   }
+  const [usedMatchings, setUsedMatchings] = useState<
+    { above: number; below: number }[]
+  >([])
 
   const { data: questions, isPending } = useFlashcardPractice(
     !showSetting,
@@ -72,7 +77,7 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
         isTermPattern,
         questionAnswers,
         takenDate: newDate(),
-        totalCompletionTime: 1,
+        totalCompletionTime: time,
       })
 
       if (res.isSuccess) {
@@ -87,6 +92,19 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
   useEffect(() => {
     if (!questions) return
 
+    if (questions?.[0]?.questionType === "Matching question") {
+      setQuestionAnswers(
+        questions[0].matchingQuestions.map((q) => ({
+          answer: "",
+          flashcardDetailId: q.flashcardDetailId,
+          questionDesc: q.questionDesc || "",
+          questionNumber: q.questionNumber,
+          questionType: "Matching question",
+        }))
+      )
+      return
+    }
+
     setQuestionAnswers(
       questions.map((q) => ({
         answer: "",
@@ -97,6 +115,19 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
       }))
     )
   }, [questions])
+
+  useEffect(() => {
+    function updateTime() {
+      if (pending || showSetting || (!showSetting && isPending)) return
+      setTime((prev) => prev + 1)
+    }
+
+    const timer = setInterval(updateTime, 1000)
+
+    return () => {
+      clearInterval(timer)
+    }
+  }, [pending, showSetting, isPending])
 
   return (
     <>
@@ -112,7 +143,7 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
             <CardContent className="space-y-4">
               <div className="flex items-center justify-between">
                 <Label htmlFor="questions" className="text-sm">
-                  Câu hỏi (tối đa {totalQuestion})
+                  Số câu hỏi (tối đa {totalQuestion})
                 </Label>
                 <Input
                   id="questions"
@@ -236,7 +267,16 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
                   />
                 </div>
               </div>
-              <Button onClick={() => setShowSetting(false)} className="w-full">
+              <Button
+                onClick={() => {
+                  if (questionsAmount < 1 || questionsAmount > totalQuestion) {
+                    toast.error("Số câu hỏi không hợp lệ.")
+                    return
+                  }
+                  setShowSetting(false)
+                }}
+                className="w-full"
+              >
                 Bắt đầu làm kiểm tra
               </Button>
             </CardContent>
@@ -253,7 +293,7 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
       {questions &&
         questions.length > 0 &&
         questions[0].questionType !== "Matching question" && (
-          <div className="flex w-full flex-col gap-y-6 pt-4">
+          <div className="mb-8 flex w-full flex-col gap-y-6 pt-4">
             {questions.map((q, i) => (
               <div
                 key={q.flashcardDetailId}
@@ -388,23 +428,134 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
                 </Button> */}
               </div>
             ))}
-
-            <section className="mb-16 mt-8 flex flex-col items-center">
-              <h3 className="mb-6 text-xl font-bold">
-                Tất cả đã xong! Bạn đã sẵn sàng gửi bài kiểm tra?
-              </h3>
-              <Button
-                disabled={pending}
-                onClick={handleSubmit}
-                size="lg"
-                className="w-fit"
-              >
-                Gửi bài kiểm tra
-                {pending && <Icons.Loader className="ml-1 size-4" />}
-              </Button>
-            </section>
           </div>
         )}
+
+      {questions && questions[0].questionType === "Matching question" && (
+        <div className="my-8 flex min-h-[400px] w-full flex-col rounded-xl border bg-neutral-100 px-8 py-6 shadow-lg">
+          <div className="mb-2 flex shrink-0 items-center justify-between gap-x-4">
+            <div className="mb-2 text-sm font-medium">Câu hỏi chọn đáp án</div>
+            <div className="mb-2 flex font-medium">
+              {`1-${questions[0].questionAnswers.length}/${questions[0].questionAnswers.length}`}
+            </div>
+          </div>
+          <div className="border-b-2 border-neutral-600 pb-4 text-lg font-medium">
+            Nhấp vào {!isTermPattern ? "thuật ngữ" : "định nghĩa"} để ghép với{" "}
+            {isTermPattern ? "thuật ngữ" : "định nghĩa"}
+          </div>
+
+          <div className="mt-6 grid grid-cols-12 gap-4 border-b-2 border-neutral-600 pb-6">
+            {questions[0].matchingQuestions.map((mq, i) => (
+              <React.Fragment key={mq.flashcardDetailId}>
+                <div className="col-span-6 flex items-center">
+                  {questions[0].matchingQuestions[i].questionTitle}
+                </div>
+                <div
+                  onClick={() => {
+                    if (
+                      focusIndex === i ||
+                      questionAnswers[i]?.answer.length > 0
+                    )
+                      return
+                    setFocusIndex(i)
+                  }}
+                  className={cn(
+                    "col-span-6 flex min-h-12 cursor-pointer items-center justify-between gap-x-4 rounded border-2 border-dashed border-neutral-700 bg-neutral-300 px-4 py-2",
+                    focusIndex === i &&
+                      "cursor-default justify-center border-solid border-primary font-bold text-primary",
+                    questionAnswers[i]?.answer.length > 0 &&
+                      "cursor-default border-solid text-sm font-medium"
+                  )}
+                >
+                  {focusIndex === i ? "Chọn từ danh sách bên dưới" : ""}
+                  {questionAnswers[i]?.answer.length > 0 && (
+                    <>
+                      <div>{questionAnswers[i].answer}</div>
+                      <X
+                        onClick={() => {
+                          setFocusIndex(i)
+                          setUsedMatchings((prev) =>
+                            prev.filter((um) => um.above !== i)
+                          )
+                          setQuestionAnswers((prev) => {
+                            const clone = structuredClone(prev)
+
+                            clone[i].answer = ""
+                            return clone
+                          })
+                        }}
+                        className="size-4 cursor-pointer"
+                      />
+                    </>
+                  )}
+                </div>
+              </React.Fragment>
+            ))}
+          </div>
+
+          <div className="mt-4 flex flex-wrap gap-3">
+            {questions[0].questionAnswers.map((qa, i) => (
+              <div
+                key={qa.answerText + i}
+                className={cn(
+                  "w-fit cursor-pointer rounded-lg border border-neutral-700 px-3 py-1 text-sm font-medium hover:border-primary",
+                  usedMatchings.find((um) => um.below === i) &&
+                    "pointer-events-none border-transparent opacity-50"
+                )}
+                onClick={() => {
+                  setQuestionAnswers((prev) => {
+                    const clone = structuredClone(prev)
+
+                    clone[focusIndex].answer = qa.answerText
+                    return clone
+                  })
+                  setUsedMatchings((prev) => [
+                    ...prev,
+                    {
+                      above: focusIndex,
+                      below: i,
+                    },
+                  ])
+                  setFocusIndex((prev) => {
+                    let newIndex = prev + 1
+
+                    while (prev !== newIndex) {
+                      if (newIndex === questions[0].questionAnswers.length) {
+                        newIndex = 0
+                      }
+                      if (questionAnswers[newIndex]?.answer.length > 0) {
+                        newIndex++
+                      } else {
+                        return newIndex
+                      }
+                    }
+                    return -1
+                  })
+                }}
+              >
+                {qa.answerText}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {questions && questions.length > 0 && (
+        <section className="mb-16 mt-8 flex flex-col items-center">
+          <h3 className="mb-6 text-xl font-bold">
+            Tất cả đã xong! Bạn đã sẵn sàng gửi bài kiểm tra?
+          </h3>
+          <Button
+            disabled={pending}
+            onClick={handleSubmit}
+            size="lg"
+            className="w-fit"
+          >
+            Gửi bài kiểm tra
+            {pending && <Icons.Loader className="ml-1 size-4" />}
+          </Button>
+        </section>
+      )}
     </>
   )
 }

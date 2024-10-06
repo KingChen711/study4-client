@@ -32,7 +32,7 @@ function AddToLearningListButton({ type, flashcardId }: Props) {
         if (type === "add-to-my-list") {
           router.push(`/flashcards/list/${flashcardId}/privacy`)
         } else if (type === "practice") {
-          router.push(`/flashcards/list/${flashcardId}/privacy/full-screen`)
+          router.push(`/flashcards/list/${flashcardId}/exam`)
         }
         return
       }
@@ -57,8 +57,10 @@ function AddToLearningListButton({ type, flashcardId }: Props) {
         >
           {pending ? (
             <Icons.Loader className="size-8 text-primary" />
-          ) : (
+          ) : type === "add-to-my-list" ? (
             <Icons.Save className="size-8 text-primary" />
+          ) : (
+            <Icons.Practice className="size-8 text-primary" />
           )}
           {type === "add-to-my-list" ? "Thêm vào của tôi" : "Luyện tập"}
         </div>
