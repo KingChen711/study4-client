@@ -2,7 +2,7 @@ import { z } from "zod"
 
 export const createFlashcardSchema = z.object({
   title: z.string().min(1).max(100),
-  description: z.string().min(1).max(200),
+  description: z.string().max(200).optional(),
 })
 
 export type TCreateFlashcardSchema = z.infer<typeof createFlashcardSchema>
@@ -35,3 +35,24 @@ export const updateWordSchema = z.object({
 })
 
 export type TUpdateWordSchema = z.infer<typeof updateWordSchema>
+
+export const submitFlashcardExamSchema = z.object({
+  takenDate: z.date(),
+  totalCompletionTime: z.number().int(),
+  flashcardId: z.number().int(),
+  isTermPattern: z.boolean(),
+  isSaveWrongToVocabSchedule: z.boolean(),
+  questionAnswers: z.array(
+    z.object({
+      questionNumber: z.number().int(),
+      questionDesc: z.string(),
+      questionType: z.string(),
+      flashcardDetailId: z.number().int(),
+      answer: z.string(),
+    })
+  ),
+})
+
+export type TSubmitFlashcardExamSchema = z.infer<
+  typeof submitFlashcardExamSchema
+>

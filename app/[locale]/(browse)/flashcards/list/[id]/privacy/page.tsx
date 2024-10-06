@@ -68,10 +68,13 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
         {!flashcard.isPublic && (
           <AddNewWordDialog flashcardId={flashcard.flashcardId} />
         )}
-        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+        <Link
+          href={`/flashcards/list/${params.id}/exam`}
+          className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3"
+        >
           <Icons.Practice className="size-8 text-primary" />
           LUYỆN TẬP
-        </div>
+        </Link>
         <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
           <Icons.History className="size-8 text-primary" />
           LỊCH SỬ
