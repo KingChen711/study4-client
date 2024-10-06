@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import { notFound, redirect } from "next/navigation"
 import getFlashcardDetail from "@/queries/flashcard/get-flashcard-detail"
 
@@ -40,10 +41,13 @@ async function FlashcardDetailPage({ params }: Props) {
           flashcardId={flashcard.flashcardId}
           type="add-to-my-list"
         />
-        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+        <Link
+          href={`/flashcards/list/${params.id}/fullscreen`}
+          className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3"
+        >
           <Icons.Fullscreen className="size-8 text-primary" />
           FULLSCREEN
-        </div>
+        </Link>
         <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
           <Icons.Practice className="size-8 text-primary" />
           LUYỆN TẬP

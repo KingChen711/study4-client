@@ -16,6 +16,7 @@ import TextToSpeak from "./text-to-speak"
 
 type Props = {
   showTrackSwitch?: boolean
+  fullScreen?: boolean
   noStar?: boolean
   userFlashcardProgresses: ({
     userFlashcardProgressId?: number
@@ -28,6 +29,7 @@ export default function FlashcardSlider({
   userFlashcardProgresses,
   showTrackSwitch = false,
   noStar = false,
+  fullScreen = false,
 }: Props) {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [showStudyingCard, setShowStudyingCard] = useState<
@@ -123,7 +125,9 @@ export default function FlashcardSlider({
   if (!userFlashcardProgresses[currentIndex]) return null
 
   return (
-    <div className="mb-4 mt-6 w-full">
+    <div
+      className={cn("mb-4 mt-6 flex w-full flex-col", fullScreen && "h-full")}
+    >
       {showTrackSwitch && (
         <div className="mb-4 flex flex-wrap items-center justify-between gap-4">
           <div className="flex items-center space-x-2">
@@ -138,7 +142,7 @@ export default function FlashcardSlider({
           </div>
         </div>
       )}
-      <div className="cursor-pointer rounded-xl" onClick={handleFlip}>
+      <div className="flex-1 cursor-pointer rounded-xl" onClick={handleFlip}>
         <div
           className={`relative size-full transition-all duration-500 ${
             flippedCards[currentIndex] ? "[transform:rotateX(180deg)]" : ""
@@ -175,7 +179,9 @@ export default function FlashcardSlider({
                 </Button>
               )}
             </div>
-            <p className="text-2xl font-semibold">
+            <p
+              className={cn("text-2xl font-semibold", fullScreen && "text-4xl")}
+            >
               {userFlashcardProgresses[currentIndex].wordText}
             </p>
           </div>
@@ -190,7 +196,14 @@ export default function FlashcardSlider({
                 "opacity-100 [transform:translateX(-15%)]"
             )}
           >
-            <p className="text-3xl font-bold text-yellow-500">Chưa biết</p>
+            <p
+              className={cn(
+                "text-3xl font-bold text-yellow-500",
+                fullScreen && "text-5xl"
+              )}
+            >
+              Chưa biết
+            </p>
           </div>
 
           <div
@@ -203,14 +216,23 @@ export default function FlashcardSlider({
                 "opacity-100 [transform:translateX(15%)]"
             )}
           >
-            <p className="text-3xl font-bold text-primary">Đã biết</p>
+            <p
+              className={cn(
+                "text-3xl font-bold text-success",
+                fullScreen && "text-5xl"
+              )}
+            >
+              Đã biết
+            </p>
           </div>
 
           <FlashcardDetail
             className={cn(
               "w-full [transform:rotateX(180deg)]",
+              fullScreen && "h-full",
               !flippedCards[currentIndex] && "opacity-0"
             )}
+            fullScreen={fullScreen}
             key={userFlashcardProgresses[currentIndex].flashcardDetailId}
             definition={userFlashcardProgresses[currentIndex].definition}
             example={userFlashcardProgresses[currentIndex].example}

@@ -115,6 +115,13 @@ function EditWordDialog({
 
       if (!file.type.includes("image")) return
 
+      if (file.size >= 10 * 1024 * 1024) {
+        form.setError("imageUri", { message: "Ảnh quá lớn." })
+        return
+      }
+
+      form.clearErrors("imageUri")
+
       form.setValue("image", file)
 
       fileReader.onload = async (event) => {
@@ -279,7 +286,7 @@ function EditWordDialog({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel>
-                        Ảnh minh họa
+                        Ảnh minh họa (&lt;10MB)
                         {field.value ? (
                           <div
                             className={cn(

@@ -20,6 +20,7 @@ type Props = {
   className?: string
   flashcardId?: number
   flashcardDetailId?: number
+  fullScreen?: boolean
 }
 
 function FlashcardDetail({
@@ -32,6 +33,7 @@ function FlashcardDetail({
   showMutation = false,
   className,
   flashcardDetailId,
+  fullScreen,
   flashcardId,
 }: Props) {
   return (
@@ -39,12 +41,28 @@ function FlashcardDetail({
       <CardHeader>
         <CardTitle className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2">
           <div>
-            <span className="text-2xl font-bold">{wordText}</span>
-            <span className="ml-2 text-lg text-gray-500">
+            <span
+              className={cn("text-2xl font-bold", fullScreen && "text-3xl")}
+            >
+              {wordText}
+            </span>
+            <span
+              className={cn(
+                "ml-2 text-lg text-gray-500",
+                fullScreen && "text-xl"
+              )}
+            >
               {wordPronunciation}
             </span>
             {wordForm && (
-              <span className="ml-2 text-lg text-gray-500">({wordForm})</span>
+              <span
+                className={cn(
+                  "ml-2 text-lg text-gray-500",
+                  fullScreen && "text-xl"
+                )}
+              >
+                ({wordForm})
+              </span>
             )}
           </div>
           <div className="flex items-center gap-2">
@@ -73,7 +91,12 @@ function FlashcardDetail({
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="flex flex-col gap-4 max-sm:items-center sm:flex-row">
+        <div
+          className={cn(
+            "flex flex-col gap-4 max-sm:items-center sm:flex-row",
+            fullScreen && "text-lg"
+          )}
+        >
           <div className="flex flex-1 flex-col gap-y-4">
             <div>
               {definition && (
@@ -93,7 +116,12 @@ function FlashcardDetail({
             </div>
           </div>
           {imageUrl && (
-            <Image alt="defi" src={imageUrl} width={240} height={240} />
+            <Image
+              alt="defi"
+              src={imageUrl}
+              width={fullScreen ? 360 : 240}
+              height={fullScreen ? 360 : 240}
+            />
           )}
         </div>
       </CardContent>
