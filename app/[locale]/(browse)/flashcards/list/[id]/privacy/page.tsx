@@ -1,4 +1,5 @@
 import React from "react"
+import Link from "next/link"
 import { notFound } from "next/navigation"
 import getFlashcardDetailPrivacy from "@/queries/flashcard/get-flashcard-detail-privacy"
 import getFlashcardPractice from "@/queries/flashcard/get-flashcard-practice"
@@ -57,10 +58,13 @@ async function FlashcardDetailPrivacyPage({ params }: Props) {
       </div>
 
       <div className="my-4 grid grid-cols-12 gap-3">
-        <div className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3">
+        <Link
+          href={`/flashcards/list/${params.id}/privacy/fullscreen`}
+          className="col-span-12 flex cursor-pointer select-none flex-col items-center justify-between gap-y-2 rounded-xl border-2 border-b-4 border-primary bg-primary/10 p-4 text-sm font-bold active:border-b-2 sm:col-span-6 lg:col-span-3"
+        >
           <Icons.Fullscreen className="size-8 text-primary" />
           FULLSCREEN
-        </div>
+        </Link>
         {!flashcard.isPublic && (
           <AddNewWordDialog flashcardId={flashcard.flashcardId} />
         )}

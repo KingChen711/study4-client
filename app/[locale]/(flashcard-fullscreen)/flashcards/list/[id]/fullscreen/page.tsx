@@ -5,7 +5,6 @@ import getFlashcardDetail from "@/queries/flashcard/get-flashcard-detail"
 import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
-import { Icons } from "@/components/ui/icons"
 import FlashcardSlider from "@/app/[locale]/(browse)/flashcards/_components/flashcard-slider"
 
 type Props = {
