@@ -34,7 +34,9 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
   const router = useRouter()
   const [pending, startTransition] = useTransition()
   const [showSetting, setShowSetting] = useState(true)
-  const [focusIndex, setFocusIndex] = useState(0)
+  const [focusIndex, setFocusIndex] = useState<Map<number, number>>(
+    new Map<number, number>()
+  )
   const [questionsAmount, setQuestionsAmount] = useState(
     Math.min(20, totalQuestion)
   )
@@ -52,8 +54,8 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
     }
   }
   const [usedMatchings, setUsedMatchings] = useState<
-    { above: number; below: number }[]
-  >([])
+    Map<number, { above: number; below: number }[]>
+  >(new Map<number, { above: number; below: number }[]>())
 
   const { data: questions, isPending } = useFlashcardPractice(
     !showSetting,
@@ -92,28 +94,45 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
   useEffect(() => {
     if (!questions) return
 
-    if (questions?.[0]?.questionType === "Matching question") {
-      setQuestionAnswers(
-        questions[0].matchingQuestions.map((q) => ({
-          answer: "",
-          flashcardDetailId: q.flashcardDetailId,
-          questionDesc: q.questionDesc || "",
-          questionNumber: q.questionNumber,
-          questionType: "Matching question",
-        }))
-      )
-      return
-    }
+    setQuestionAnswers(() => {
+      const res: QuestionAnswer[] = []
 
-    setQuestionAnswers(
-      questions.map((q) => ({
-        answer: "",
-        flashcardDetailId: q.flashcardDetailId,
-        questionDesc: q.questionDesc || "",
-        questionNumber: q.questionNumber,
-        questionType: q.questionType,
-      }))
-    )
+      questions.forEach((q) => {
+        if (q.questionType === "Matching question") {
+          res.push(
+            ...q.matchingQuestions.map((q) => ({
+              answer: "",
+              flashcardDetailId: q.flashcardDetailId,
+              questionDesc: q.questionDesc || "",
+              questionNumber: q.questionNumber,
+              questionType: "Matching question",
+            }))
+          )
+        } else {
+          res.push({
+            answer: "",
+            flashcardDetailId: q.flashcardDetailId,
+            questionDesc: q.questionDesc || "",
+            questionNumber: q.questionNumber,
+            questionType: q.questionType,
+          })
+        }
+      })
+
+      return res
+    })
+
+    setFocusIndex(() => {
+      const map = new Map<number, number>()
+
+      questions.forEach((q, i) => {
+        if (q.questionType === "Matching question") {
+          map.set(i, q.matchingQuestions[0].questionNumber - 1)
+        }
+      })
+
+      return map
+    })
   }, [questions])
 
   useEffect(() => {
@@ -128,6 +147,13 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
       clearInterval(timer)
     }
   }, [pending, showSetting, isPending])
+
+  useEffect(() => {
+    console.log(focusIndex)
+  }, [focusIndex])
+  useEffect(() => {
+    console.log(questionAnswers)
+  }, [questionAnswers])
 
   return (
     <>
@@ -290,253 +316,324 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
         </div>
       )}
 
-      {questions &&
-        questions.length > 0 &&
-        questions[0].questionType !== "Matching question" && (
-          <div className="mb-8 flex w-full flex-col gap-y-6 pt-4">
-            {questions.map((q, i) => (
-              <div
-                key={q.flashcardDetailId}
-                className="flex min-h-[400px] w-full flex-col rounded-xl border bg-neutral-100 px-8 py-6 shadow-lg"
-              >
-                <div className="mb-2 flex shrink-0 items-center justify-between gap-x-4">
-                  <div className="mb-2 text-sm font-medium">
-                    {q.questionType !== "True/False" &&
-                      (isTermPattern ? "Thuật ngữ" : "Định nghĩa")}
+      {questions && questions.length > 0 && (
+        <div className="mb-8 flex w-full flex-col gap-y-6 pt-4">
+          {questions.map((q, i) => (
+            <React.Fragment key={q.flashcardDetailId}>
+              {questions[i].questionType !== "Matching question" ? (
+                <div className="flex min-h-[400px] w-full flex-col rounded-xl border bg-neutral-100 px-8 py-6 shadow-lg">
+                  <div className="mb-2 flex shrink-0 items-center justify-between gap-x-4">
+                    <div className="mb-2 text-sm font-medium">
+                      {q.questionType !== "True/False" &&
+                        (isTermPattern ? "Thuật ngữ" : "Định nghĩa")}
+                    </div>
+                    <div className="mb-2 flex font-medium">
+                      {q.questionNumber}/{totalQuestion}
+                    </div>
                   </div>
-                  <div className="mb-2 flex font-medium">
-                    {i + 1}/{questions.length}
-                  </div>
-                </div>
-                {q.questionType === "Multiple choice" && (
-                  <>
-                    <div className="mb-4 flex-1 text-xl">{q.questionTitle}</div>
-                    <div className="shrink-0">
-                      <div className="my-4 font-medium">
-                        Chọn {!isTermPattern ? "thuật ngữ" : "định nghĩa"} đúng
+                  {q.questionType === "Multiple choice" && (
+                    <>
+                      <div className="mb-4 flex-1 text-xl">
+                        {q.questionTitle}
                       </div>
-                      <div className="grid grid-cols-12 gap-6">
-                        {q.questionAnswers.map((qa, j) => (
+                      <div className="shrink-0">
+                        <div className="my-4 font-medium">
+                          Chọn {!isTermPattern ? "thuật ngữ" : "định nghĩa"}{" "}
+                          đúng
+                        </div>
+                        <div className="grid grid-cols-12 gap-6">
+                          {q.questionAnswers.map((qa, j) => (
+                            <div
+                              key={qa.answerText + j}
+                              className={cn(
+                                "col-span-12 cursor-pointer rounded-xl border-2 px-4 py-2 shadow sm:col-span-6",
+                                pending && "pointer-events-none",
+                                questionAnswers[q.questionNumber - 1]
+                                  ?.answer === qa.answerText &&
+                                  "pointer-events-none border-primary bg-neutral-300"
+                              )}
+                              onClick={() => {
+                                setQuestionAnswers((prev) => {
+                                  const clone = structuredClone(prev)
+                                  clone[q.questionNumber - 1].answer =
+                                    qa.answerText
+                                  return clone
+                                })
+                              }}
+                            >
+                              {qa.answerText}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </>
+                  )}
+
+                  {q.questionType === "True/False" && (
+                    <>
+                      <div className="grid flex-1 grid-cols-12">
+                        <div className="col-span-12 flex flex-col pb-4 sm:col-span-6 sm:pb-0 sm:pr-4">
+                          <div className="mb-2 text-sm font-medium">
+                            {isTermPattern ? "Thuật ngữ" : "Định nghĩa"}
+                          </div>
+                          <p>{q.questionTitle}</p>
+                        </div>
+                        <div className="col-span-12 flex flex-col border-t-2 pt-4 sm:col-span-6 sm:border-l-2 sm:border-t-0 sm:pl-4 sm:pt-0">
+                          <div className="mb-2 text-sm font-medium">
+                            {!isTermPattern ? "Thuật ngữ" : "Định nghĩa"}
+                          </div>
+                          <p>{q.questionDesc}</p>
+                        </div>
+                      </div>
+                      <div className="shrink-0">
+                        <div className="my-4 font-medium">Chọn câu trả lời</div>
+                        <div className="grid grid-cols-12 gap-6">
                           <div
-                            key={qa.answerText + j}
                             className={cn(
                               "col-span-12 cursor-pointer rounded-xl border-2 px-4 py-2 shadow sm:col-span-6",
                               pending && "pointer-events-none",
-                              questionAnswers[i]?.answer === qa.answerText &&
+                              questionAnswers[q.questionNumber - 1]?.answer ===
+                                q.questionDesc &&
                                 "pointer-events-none border-primary bg-neutral-300"
                             )}
                             onClick={() => {
                               setQuestionAnswers((prev) => {
                                 const clone = structuredClone(prev)
-                                clone[i].answer = qa.answerText
+                                clone[q.questionNumber - 1].answer =
+                                  q.questionAnswers[0].answerText
                                 return clone
                               })
                             }}
                           >
-                            {qa.answerText}
+                            Đúng
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  </>
-                )}
-
-                {q.questionType === "True/False" && (
-                  <>
-                    <div className="grid flex-1 grid-cols-12">
-                      <div className="col-span-12 flex flex-col pb-4 sm:col-span-6 sm:pb-0 sm:pr-4">
-                        <div className="mb-2 text-sm font-medium">
-                          {isTermPattern ? "Thuật ngữ" : "Định nghĩa"}
-                        </div>
-                        <p>{q.questionTitle}</p>
-                      </div>
-                      <div className="col-span-12 flex flex-col border-t-2 pt-4 sm:col-span-6 sm:border-l-2 sm:border-t-0 sm:pl-4 sm:pt-0">
-                        <div className="mb-2 text-sm font-medium">
-                          {!isTermPattern ? "Thuật ngữ" : "Định nghĩa"}
-                        </div>
-                        <p>{q.questionDesc}</p>
-                      </div>
-                    </div>
-                    <div className="shrink-0">
-                      <div className="my-4 font-medium">Chọn câu trả lời</div>
-                      <div className="grid grid-cols-12 gap-6">
-                        <div
-                          className={cn(
-                            "col-span-12 cursor-pointer rounded-xl border-2 px-4 py-2 shadow sm:col-span-6",
-                            pending && "pointer-events-none",
-                            questionAnswers[i]?.answer === q.questionDesc &&
-                              "pointer-events-none border-primary bg-neutral-300"
-                          )}
-                          onClick={() => {
-                            setQuestionAnswers((prev) => {
-                              const clone = structuredClone(prev)
-                              clone[i].answer = q.questionAnswers[0].answerText
-                              return clone
-                            })
-                          }}
-                        >
-                          Đúng
-                        </div>
-                        <div
-                          className={cn(
-                            "col-span-12 cursor-pointer rounded-xl border-2 px-4 py-2 shadow sm:col-span-6",
-                            questionAnswers[i]?.answer &&
-                              questionAnswers[i].answer !== q.questionDesc &&
-                              "pointer-events-none border-primary bg-neutral-300"
-                          )}
-                          onClick={() => {
-                            setQuestionAnswers((prev) => {
-                              const clone = structuredClone(prev)
-                              clone[i].answer = q.questionAnswers[1].answerText
-                              return clone
-                            })
-                          }}
-                        >
-                          Sai
+                          <div
+                            className={cn(
+                              "col-span-12 cursor-pointer rounded-xl border-2 px-4 py-2 shadow sm:col-span-6",
+                              questionAnswers[q.questionNumber - 1]?.answer &&
+                                questionAnswers[q.questionNumber - 1].answer !==
+                                  q.questionDesc &&
+                                "pointer-events-none border-primary bg-neutral-300"
+                            )}
+                            onClick={() => {
+                              setQuestionAnswers((prev) => {
+                                const clone = structuredClone(prev)
+                                clone[q.questionNumber - 1].answer =
+                                  q.questionAnswers[1].answerText
+                                return clone
+                              })
+                            }}
+                          >
+                            Sai
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </>
-                )}
-
-                {q.questionType === "Written" && (
-                  <>
-                    <div className="mb-4 flex-1 text-xl">{q.questionTitle}</div>
-                    <div className="shrink-0">
-                      <div className="my-4 font-medium">Đáp án của bạn</div>
-                      <Input
-                        value={questionAnswers[i]?.answer || ""}
-                        onChange={(e) => {
-                          setQuestionAnswers((prev) => {
-                            const clone = structuredClone(prev)
-                            clone[i].answer = e.target.value
-                            return clone
-                          })
-                        }}
-                        disabled={pending}
-                        placeholder="Nhập đáp án..."
-                      />
-                    </div>
-                  </>
-                )}
-
-                {/* <Button
-                  variant="ghost"
-                  className="mx-auto mt-6 font-medium text-primary"
-                >
-                  Bạn không biết?
-                </Button> */}
-              </div>
-            ))}
-          </div>
-        )}
-
-      {questions && questions[0].questionType === "Matching question" && (
-        <div className="my-8 flex min-h-[400px] w-full flex-col rounded-xl border bg-neutral-100 px-8 py-6 shadow-lg">
-          <div className="mb-2 flex shrink-0 items-center justify-between gap-x-4">
-            <div className="mb-2 text-sm font-medium">Câu hỏi chọn đáp án</div>
-            <div className="mb-2 flex font-medium">
-              {`1-${questions[0].questionAnswers.length}/${questions[0].questionAnswers.length}`}
-            </div>
-          </div>
-          <div className="border-b-2 border-neutral-600 pb-4 text-lg font-medium">
-            Nhấp vào {!isTermPattern ? "thuật ngữ" : "định nghĩa"} để ghép với{" "}
-            {isTermPattern ? "thuật ngữ" : "định nghĩa"}
-          </div>
-
-          <div className="mt-6 grid grid-cols-12 gap-4 border-b-2 border-neutral-600 pb-6">
-            {questions[0].matchingQuestions.map((mq, i) => (
-              <React.Fragment key={mq.flashcardDetailId}>
-                <div className="col-span-6 flex items-center">
-                  {questions[0].matchingQuestions[i].questionTitle}
-                </div>
-                <div
-                  onClick={() => {
-                    if (
-                      focusIndex === i ||
-                      questionAnswers[i]?.answer.length > 0
-                    )
-                      return
-                    setFocusIndex(i)
-                  }}
-                  className={cn(
-                    "col-span-6 flex min-h-12 cursor-pointer items-center justify-between gap-x-4 rounded border-2 border-dashed border-neutral-700 bg-neutral-300 px-4 py-2",
-                    focusIndex === i &&
-                      "cursor-default justify-center border-solid border-primary font-bold text-primary",
-                    questionAnswers[i]?.answer.length > 0 &&
-                      "cursor-default border-solid text-sm font-medium"
-                  )}
-                >
-                  {focusIndex === i ? "Chọn từ danh sách bên dưới" : ""}
-                  {questionAnswers[i]?.answer.length > 0 && (
-                    <>
-                      <div>{questionAnswers[i].answer}</div>
-                      <X
-                        onClick={() => {
-                          setFocusIndex(i)
-                          setUsedMatchings((prev) =>
-                            prev.filter((um) => um.above !== i)
-                          )
-                          setQuestionAnswers((prev) => {
-                            const clone = structuredClone(prev)
-
-                            clone[i].answer = ""
-                            return clone
-                          })
-                        }}
-                        className="size-4 cursor-pointer"
-                      />
                     </>
                   )}
+
+                  {q.questionType === "Written" && (
+                    <>
+                      <div className="mb-4 flex-1 text-xl">
+                        {q.questionTitle}
+                      </div>
+                      <div className="shrink-0">
+                        <div className="my-4 font-medium">Đáp án của bạn</div>
+                        <Input
+                          value={
+                            questionAnswers[q.questionNumber - 1]?.answer || ""
+                          }
+                          onChange={(e) => {
+                            setQuestionAnswers((prev) => {
+                              const clone = structuredClone(prev)
+                              clone[q.questionNumber - 1].answer =
+                                e.target.value
+                              return clone
+                            })
+                          }}
+                          disabled={pending}
+                          placeholder="Nhập đáp án..."
+                        />
+                      </div>
+                    </>
+                  )}
+
+                  {/* <Button
+                      variant="ghost"
+                      className="mx-auto mt-6 font-medium text-primary"
+                    >
+                      Bạn không biết?
+                    </Button> */}
                 </div>
-              </React.Fragment>
-            ))}
-          </div>
-
-          <div className="mt-4 flex flex-wrap gap-3">
-            {questions[0].questionAnswers.map((qa, i) => (
-              <div
-                key={qa.answerText + i}
-                className={cn(
-                  "w-fit cursor-pointer rounded-lg border border-neutral-700 px-3 py-1 text-sm font-medium hover:border-primary",
-                  usedMatchings.find((um) => um.below === i) &&
-                    "pointer-events-none border-transparent opacity-50"
-                )}
-                onClick={() => {
-                  setQuestionAnswers((prev) => {
-                    const clone = structuredClone(prev)
-
-                    clone[focusIndex].answer = qa.answerText
-                    return clone
-                  })
-                  setUsedMatchings((prev) => [
-                    ...prev,
-                    {
-                      above: focusIndex,
-                      below: i,
-                    },
-                  ])
-                  setFocusIndex((prev) => {
-                    let newIndex = prev + 1
-
-                    while (prev !== newIndex) {
-                      if (newIndex === questions[0].questionAnswers.length) {
-                        newIndex = 0
+              ) : (
+                <div className="my-8 flex min-h-[400px] w-full flex-col rounded-xl border bg-neutral-100 px-8 py-6 shadow-lg">
+                  <div className="mb-2 flex shrink-0 items-center justify-between gap-x-4">
+                    <div className="mb-2 text-sm font-medium">
+                      Câu hỏi chọn đáp án
+                    </div>
+                    <div className="mb-2 flex font-medium">
+                      {q.matchingQuestions[0].questionNumber}-
+                      {
+                        q.matchingQuestions[q.matchingQuestions.length - 1]
+                          .questionNumber
                       }
-                      if (questionAnswers[newIndex]?.answer.length > 0) {
-                        newIndex++
-                      } else {
-                        return newIndex
-                      }
-                    }
-                    return -1
-                  })
-                }}
-              >
-                {qa.answerText}
-              </div>
-            ))}
-          </div>
+                      /{totalQuestion}
+                    </div>
+                  </div>
+                  <div className="border-b-2 border-neutral-600 pb-4 text-lg font-medium">
+                    Nhấp vào {!isTermPattern ? "thuật ngữ" : "định nghĩa"} để
+                    ghép với {isTermPattern ? "thuật ngữ" : "định nghĩa"}
+                  </div>
+
+                  <div className="mt-6 grid grid-cols-12 gap-4 border-b-2 border-neutral-600 pb-6">
+                    {questions[i].matchingQuestions.map((mq, mqIndex) => {
+                      const questionIndex =
+                        q.matchingQuestions[mqIndex].questionNumber - 1
+                      return (
+                        <React.Fragment key={mq.flashcardDetailId}>
+                          <div className="col-span-6 flex items-center">
+                            {
+                              questions[i].matchingQuestions[mqIndex]
+                                .questionTitle
+                            }
+                          </div>
+                          <div
+                            onClick={() => {
+                              if (
+                                focusIndex.get(i) === questionIndex ||
+                                questionAnswers[questionIndex]?.answer.length >
+                                  0
+                              )
+                                return
+                              setFocusIndex((prev) => {
+                                const clone = structuredClone(prev)
+                                clone.set(i, questionIndex)
+                                return clone
+                              })
+                            }}
+                            className={cn(
+                              "col-span-6 flex min-h-12 cursor-pointer items-center justify-between gap-x-4 rounded border-2 border-dashed border-neutral-700 bg-neutral-300 px-4 py-2",
+                              focusIndex.get(i) === questionIndex &&
+                                "cursor-default justify-center border-solid border-primary font-bold text-primary",
+                              questionAnswers[questionIndex]?.answer.length >
+                                0 &&
+                                "cursor-default border-solid text-sm font-medium"
+                            )}
+                          >
+                            {focusIndex.get(i) === questionIndex
+                              ? "Chọn từ danh sách bên dưới"
+                              : ""}
+                            {questionAnswers[questionIndex]?.answer.length >
+                              0 && (
+                              <>
+                                <div>
+                                  {questionAnswers[questionIndex].answer}
+                                </div>
+                                <X
+                                  onClick={() => {
+                                    setFocusIndex((prev) => {
+                                      const clone = structuredClone(prev)
+                                      clone.set(i, questionIndex)
+                                      return clone
+                                    })
+                                    setUsedMatchings((prev) => {
+                                      const clone = structuredClone(prev)
+                                      clone.set(
+                                        i,
+                                        clone
+                                          .get(i)
+                                          ?.filter(
+                                            (um) => um.above !== questionIndex
+                                          ) || []
+                                      )
+                                      return clone
+                                    })
+                                    setQuestionAnswers((prev) => {
+                                      const clone = structuredClone(prev)
+
+                                      clone[questionIndex].answer = ""
+                                      return clone
+                                    })
+                                  }}
+                                  className="size-4 cursor-pointer"
+                                />
+                              </>
+                            )}
+                          </div>
+                        </React.Fragment>
+                      )
+                    })}
+                  </div>
+
+                  <div className="mt-4 flex flex-wrap gap-3">
+                    {questions[i].questionAnswers.map((qa, qaIndex) => (
+                      <div
+                        key={qa.answerText + qaIndex}
+                        className={cn(
+                          "w-fit cursor-pointer rounded-lg border border-neutral-700 px-3 py-1 text-sm font-medium hover:border-primary",
+                          usedMatchings
+                            .get(i)
+                            ?.find((um) => um.below === qaIndex) &&
+                            "pointer-events-none border-transparent opacity-50"
+                        )}
+                        onClick={() => {
+                          setQuestionAnswers((prev) => {
+                            const clone = structuredClone(prev)
+
+                            if (focusIndex.get(i) !== undefined) {
+                              clone[focusIndex.get(i)!].answer = qa.answerText
+                            }
+                            return clone
+                          })
+                          setUsedMatchings((prev) => {
+                            const clone = structuredClone(prev)
+
+                            clone.set(i, [
+                              ...(clone.get(i) || []),
+                              {
+                                above: focusIndex.get(i)!,
+                                below: qaIndex,
+                              },
+                            ])
+
+                            return clone
+                          })
+                          setFocusIndex((prev) => {
+                            const clone = structuredClone(prev)
+                            let newIndex = clone.get(i)! + 1
+
+                            while (clone.get(i)! !== newIndex) {
+                              if (
+                                newIndex ===
+                                questions[i].matchingQuestions[
+                                  questions[i].matchingQuestions.length - 1
+                                ].questionNumber
+                              ) {
+                                newIndex =
+                                  questions[i].matchingQuestions[0]
+                                    .questionNumber - 1
+                              }
+                              if (
+                                questionAnswers[newIndex]?.answer.length > 0
+                              ) {
+                                newIndex++
+                              } else {
+                                clone.set(i, newIndex)
+                                return clone
+                              }
+                            }
+                            clone.set(i, -1)
+                            return clone
+                          })
+                        }}
+                      >
+                        {qa.answerText}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       )}
 
