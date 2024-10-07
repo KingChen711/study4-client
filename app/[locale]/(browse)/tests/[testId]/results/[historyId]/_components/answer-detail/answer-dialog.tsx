@@ -143,10 +143,20 @@ function AnswerDialog({
                   <QuestionContent answerTranscript={answerTranscript} />
                 </div>
                 {answerTranscript.testGrades[0].question
-                  .questionAnswerExplanation && (
+                  .questionAnswerExplanation ? (
                   <div className="mt-4 flex flex-col gap-y-4">
-                    <div className="font-bold">Giải thích chi tiết</div>
-                    <ParseHtml data={"Hello đáp án nè"} />
+                    <div className="font-bold">{t("DetailExplain")}</div>
+                    <ParseHtml
+                      data={
+                        answerTranscript.testGrades[0].question
+                          .questionAnswerExplanation
+                      }
+                    />
+                  </div>
+                ) : (
+                  <div className="mt-4 flex flex-col gap-y-4">
+                    <div className="font-bold">{t("DetailExplain")}</div>
+                    {t("MessagePremium")}
                   </div>
                 )}
               </DialogDescription>

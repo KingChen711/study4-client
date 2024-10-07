@@ -176,7 +176,9 @@
     "Answers": "Answers",
     "Retake": "Retake the wrong answers",
     "ViewAnswerDetail": "View answer detail",
-    "ShowTranscript": "Show transcript"
+    "ShowTranscript": "Show transcript",
+    "DetailExplain": "Detail explain",
+    "MessagePremium": "You need to subscribe to premium to see detailed explanation"
   },
   "Errors": {
     "NotFoundRoom": "Not found any room match condition"

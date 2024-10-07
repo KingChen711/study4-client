@@ -176,7 +176,9 @@
     "Answers": "Đáp án",
     "Retake": "Làm lại các câu sai",
     "ViewAnswerDetail": "Xem đáp án chi tiết",
-    "ShowTranscript": "Hiện transcript"
+    "ShowTranscript": "Hiện transcript",
+    "DetailExplain": "Giải thích chi tiết",
+    "MessagePremium": " Bạn cần đăng ký premium để xem giải thích chi tiết"
   },
   "Errors": {
     "NotFoundRoom": "Không tìm thấy phòng phù hợp"
