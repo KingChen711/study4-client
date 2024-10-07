@@ -21,7 +21,7 @@ function Logo({ mobile = false }: Props) {
         <div className="overflow-hidden rounded-full bg-foreground">
           <Image
             // className="invert dark:invert-0"
-            src="/logo_sm.webp"
+            src="/logo.jpg"
             alt="logo"
             width={44}
             height={44}

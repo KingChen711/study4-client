@@ -14,7 +14,7 @@ function Logo() {
     <div className="flex flex-col items-center gap-y-4">
       <Image
         // className="invert dark:invert-0"
-        src="/logo_sm.webp"
+        src="/logo.jpg"
         alt="twitch"
         className="rounded-full"
         height={80}

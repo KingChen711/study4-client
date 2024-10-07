@@ -11,7 +11,7 @@ function Logo({ mobile = false }: Props) {
     <div className="flex items-center gap-x-1 lg:px-5">
       <Image
         alt="logo"
-        src="/logo_sm.webp"
+        src="/logo.jpg"
         width={40}
         height={40}
         className="rounded-full object-cover"
