@@ -6,6 +6,12 @@ import { useTranslations } from "next-intl"
 import { cn } from "@/lib/utils"
 import useAnswerTranscript from "@/hooks/use-answer-transcript"
 import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -29,6 +35,7 @@ type Props = {
   circleQuestion?: boolean
   gradeStatus?: "Correct" | "Wrong" | "Skip"
   questionNumber?: number
+  transcript?: string
 }
 
 function AnswerDialog({
@@ -37,6 +44,7 @@ function AnswerDialog({
   gradeStatus,
   questionNumber,
   circleQuestion = false,
+  transcript,
 }: Props) {
   const { data: answerTranscript, isPending } = useAnswerTranscript({
     gradeId,
@@ -105,6 +113,20 @@ function AnswerDialog({
                       }
                     />
                   </div>
+                  {transcript && (
+                    <Accordion type="single" collapsible>
+                      <AccordionItem value="item-1">
+                        <AccordionTrigger className="w-fit">
+                          {t("ShowTranscript")}
+                        </AccordionTrigger>
+                        <AccordionContent>
+                          <div className="rounded-md bg-neutral-100 p-3">
+                            <ParseHtml data={transcript} />
+                          </div>
+                        </AccordionContent>
+                      </AccordionItem>
+                    </Accordion>
+                  )}
                   <Passage
                     readingDesc={
                       answerTranscript.testSectionPart.testSection.readingDesc
@@ -120,6 +142,13 @@ function AnswerDialog({
                 <div className="max-h-[35dvh] overflow-y-auto">
                   <QuestionContent answerTranscript={answerTranscript} />
                 </div>
+                {answerTranscript.testGrades[0].question
+                  .questionAnswerExplanation && (
+                  <div className="mt-4 flex flex-col gap-y-4">
+                    <div className="font-bold">Giải thích chi tiết</div>
+                    <ParseHtml data={"Hello đáp án nè"} />
+                  </div>
+                )}
               </DialogDescription>
             </>
           )}

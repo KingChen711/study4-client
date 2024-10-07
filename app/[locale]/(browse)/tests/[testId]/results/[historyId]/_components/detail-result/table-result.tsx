@@ -84,6 +84,7 @@ function TableResult({ section }: Props) {
                         circleQuestion
                         gradeStatus={grade.gradeStatus}
                         questionNumber={grade.questionNumber}
+                        transcript={section.transcript || undefined}
                       />
                     ))}
                   </div>

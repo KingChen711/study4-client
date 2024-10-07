@@ -2,12 +2,13 @@
 
 import React, { useCallback, useEffect, useState, useTransition } from "react"
 import { useRouter } from "next/navigation"
-import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
+// import { UNKNOWN_ERROR_MESSAGE } from "@/constants"
 import { type TestGrade } from "@/queries/test/get-retake-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
 import { useTranslations } from "next-intl"
-import { toast } from "sonner"
+
+// import { toast } from "sonner"
 
 import { cn, convertSecondToText, newDate } from "@/lib/utils"
 import { resubmitTest } from "@/actions/do-test/resubmit-test"
@@ -49,7 +50,7 @@ function AnswerProgress({
 
   const handleSubmit = useCallback(() => {
     startTransition(async () => {
-      const res = !retake
+      !retake
         ? await submitTest({
             isFull: isFullTest,
             testId,
@@ -71,13 +72,13 @@ function AnswerProgress({
             })),
           })
 
-      if (res.isSuccess) {
-        router.push(`/tests/${testId}`)
-        return
-      }
+      // if (res.isSuccess) {
+      router.push(`/tests/${testId}`)
+      return
+      // }
 
       //i18n
-      toast.error(UNKNOWN_ERROR_MESSAGE)
+      // toast.error(UNKNOWN_ERROR_MESSAGE)
     })
   }, [answers, isFullTest, router, testId, time, retake, testHistoryId])
 

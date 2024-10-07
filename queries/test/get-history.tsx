@@ -36,6 +36,7 @@ export interface SectionHistory {
   totalSkipAnswer: number
   accuracyRate: number
   partitionHistories: PartitionHistory[]
+  transcript: string | null
 }
 
 export interface PartitionHistory {

@@ -175,7 +175,8 @@
     "BandScore": "Thang điểm",
     "Answers": "Đáp án",
     "Retake": "Làm lại các câu sai",
-    "ViewAnswerDetail": "Xem đáp án chi tiết"
+    "ViewAnswerDetail": "Xem đáp án chi tiết",
+    "ShowTranscript": "Hiện transcript"
   },
   "Errors": {
     "NotFoundRoom": "Không tìm thấy phòng phù hợp"

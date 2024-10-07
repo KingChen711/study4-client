@@ -78,6 +78,7 @@ const AnswerDetail = async ({ sections, testId, testHistoryId }: Props) => {
                     <AnswerDialog
                       gradeId={tg.testGradeId}
                       partitionId={tg.partitionHistoryId}
+                      transcript={section.transcript || undefined}
                     />
                   </div>
                 )

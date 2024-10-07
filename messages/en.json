@@ -175,7 +175,8 @@
     "BandScore": "Band score",
     "Answers": "Answers",
     "Retake": "Retake the wrong answers",
-    "ViewAnswerDetail": "View answer detail"
+    "ViewAnswerDetail": "View answer detail",
+    "ShowTranscript": "Show transcript"
   },
   "Errors": {
     "NotFoundRoom": "Not found any room match condition"
