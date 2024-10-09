@@ -25,7 +25,7 @@ function MultipleChoiceRadioGroupItem({
     <label>
       <div
         className={cn(
-          "flex aspect-square size-7 shrink-0 cursor-pointer items-center justify-center rounded-full bg-neutral-200 p-1 text-sm font-medium uppercase",
+          "flex aspect-square size-7 shrink-0 cursor-pointer items-center justify-center rounded-full bg-neutral-200 p-1 text-sm font-bold uppercase",
           checked && "bg-primary text-primary-foreground",
           className
         )}

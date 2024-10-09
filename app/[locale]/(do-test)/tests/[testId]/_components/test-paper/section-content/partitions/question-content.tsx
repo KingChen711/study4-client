@@ -30,21 +30,23 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
         <div
           key={question.questionId}
           className={cn(
-            "flex gap-x-4 p-3",
+            "flex flex-col gap-y-2 rounded-2xl p-3",
             highlightedQuestion?.questionId === question.questionId &&
               "rounded-lg border-2 border-primary shadow shadow-primary"
           )}
         >
-          <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
-            {question.questionNumber}
-          </div>
-          <div className="flex flex-col gap-y-2">
+          <div className="flex items-center gap-x-2">
+            <div className="flex size-9 items-center justify-center rounded-full bg-primary/20 text-sm font-bold text-primary">
+              {question.questionNumber}
+            </div>
             <div>{question.questionDesc}</div>
+          </div>
+          <div className="mt-1 flex flex-col gap-y-2 pl-1">
             <RadioGroup
               onValueChange={(value) =>
                 handleChangeAnswer(value, question.questionId)
               }
-              className="flex flex-col gap-y-2"
+              className="flex flex-col gap-y-3"
               disabled={showAnswer}
             >
               {question.questionAnswers?.map((a, i) => {
@@ -86,7 +88,7 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
           </div>
         </div>
         {showAnswer && testGrade && (
-          <div className="pl-16 text-success">
+          <div className="pl-6 text-success">
             Đáp án đúng: {testGrade.rightAnswer}
           </div>
         )}
@@ -103,7 +105,7 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
             "rounded-lg border-2 border-primary shadow shadow-primary"
         )}
       >
-        <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+        <div className="flex size-9 items-center justify-center rounded-full bg-primary/20 text-sm font-bold text-primary">
           {question.questionNumber}
         </div>
         <div className="flex flex-col gap-y-2">

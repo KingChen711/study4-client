@@ -1,5 +1,6 @@
 import React from "react"
 import { getTranslations } from "@/queries/i18n/get-translations"
+import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -25,8 +26,8 @@ async function EscapeDialog({ testId }: Props) {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button size="sm" variant="outline" className="border">
-          {t("Leave")}
+        <Button size="icon" variant="outline" className="border">
+          <X className="size-7" />
         </Button>
       </DialogTrigger>
       <DialogContent>

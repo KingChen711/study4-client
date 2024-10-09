@@ -19,10 +19,12 @@ function Recording({ srcUrl, className }: Props) {
   return (
     <>
       {srcUrl && (
-        <audio ref={audioRef} controls className={cn("w-full", className)}>
-          <source src={srcUrl} type="audio/mpeg" />
-          Your browser does not support the audio element.
-        </audio>
+        <div className="rounded-2xl bg-card p-3">
+          <audio ref={audioRef} controls className={cn("w-full", className)}>
+            <source src={srcUrl} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </div>
       )}
     </>
   )
