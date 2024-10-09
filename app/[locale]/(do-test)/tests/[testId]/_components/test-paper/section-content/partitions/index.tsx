@@ -23,7 +23,7 @@ function Partitions({
   return (
     <div
       className={cn(
-        "col-span-12 flex flex-col gap-y-4 xl:col-span-5",
+        "col-span-12 flex flex-col gap-y-4 overflow-y-auto xl:col-span-5",
         !havePassage && "xl:col-span-12"
       )}
     >
