@@ -73,17 +73,20 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
     if (pending) return
 
     startTransition(async () => {
+      const takenDate = newDate()
       const res = await submitFlashcardExam({
         flashcardId,
         isSaveWrongToVocabSchedule: true,
         isTermPattern,
         questionAnswers,
-        takenDate: newDate(),
+        takenDate,
         totalCompletionTime: time,
       })
 
       if (res.isSuccess) {
-        router.push(`/flashcards/list/${flashcardId}/privacy`)
+        router.push(
+          `/flashcards/list/${flashcardId}/exam-result?takenDateTime=${new Date(takenDate).toISOString()}`
+        )
         return
       }
 
