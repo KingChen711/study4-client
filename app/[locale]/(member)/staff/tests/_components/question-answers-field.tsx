@@ -14,7 +14,8 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import MultipleChoiceRadioGroupItem from "@/components/ui/multiple-choice-radio-group-item"
+import { RadioGroup } from "@/components/ui/radio-group"
 
 import { type THandleChangeCorrectOption } from "./test-form"
 
@@ -105,7 +106,7 @@ function QuestionAnswersField({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="flex items-center gap-x-2">
-                      <RadioGroupItem
+                      <MultipleChoiceRadioGroupItem
                         checked={field.value}
                         value={String(index)}
                         onClick={() =>

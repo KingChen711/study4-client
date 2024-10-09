@@ -8,7 +8,8 @@ import { cn, indexToAlphabet } from "@/lib/utils"
 import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import MultipleChoiceRadioGroupItem from "@/components/ui/multiple-choice-radio-group-item"
+import { RadioGroup } from "@/components/ui/radio-group"
 
 type Props = { question: Question; showAnswer?: boolean; testGrade?: TestGrade }
 
@@ -52,7 +53,7 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
                     key={a.questionAnswerId}
                     className="flex items-center space-x-2"
                   >
-                    <RadioGroupItem
+                    <MultipleChoiceRadioGroupItem
                       disabled={showAnswer}
                       checked={
                         showAnswer
@@ -64,7 +65,7 @@ function QuestionContent({ question, showAnswer = false, testGrade }: Props) {
                       id={a.questionAnswerId.toString()}
                     />
                     <Label htmlFor={a.questionAnswerId.toString()}>
-                      {indexToAlphabet(i)}. {a.answerText}
+                      {a.answerText}
                     </Label>
 
                     {showAnswer &&

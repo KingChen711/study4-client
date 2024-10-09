@@ -6,7 +6,8 @@ import { type AnswerTranscript } from "@/hooks/use-answer-transcript"
 import { Icons } from "@/components/ui/icons"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import MultipleChoiceRadioGroupItem from "@/components/ui/multiple-choice-radio-group-item"
+import { RadioGroup } from "@/components/ui/radio-group"
 
 type Props = { answerTranscript: AnswerTranscript }
 
@@ -30,14 +31,12 @@ function QuestionContent({ answerTranscript }: Props) {
                   key={a.questionAnswerId}
                   className="flex items-center space-x-2"
                 >
-                  <RadioGroupItem
+                  <MultipleChoiceRadioGroupItem
                     checked={testGrade.inputedAnswer === indexToAlphabet(i)}
                     value={indexToAlphabet(i)}
                     id={a.questionAnswerId.toString()}
                   />
-                  <Label>
-                    {indexToAlphabet(i)}. {a.answerText}
-                  </Label>
+                  <Label>{a.answerText}</Label>
 
                   {testGrade.inputedAnswer === indexToAlphabet(i) &&
                     testGrade.gradeStatus === "Correct" && (
