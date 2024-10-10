@@ -156,10 +156,10 @@
     "TestResult": "Kết quả thi: {testName}",
     "Overall": "Tổng quan:",
     "BackToTest": "Quay về đề thi",
-    "Result": "Kết quả:",
-    "Accurate": "Độ chính xác:",
+    "Result": "Kết quả",
+    "Accurate": "Độ chính xác",
     "Accurate2": "Độ chính xác",
-    "CompletionTime": "Thời gian làm bài:",
+    "CompletionTime": "Thời gian làm bài",
     "RightAnswer": "Số câu đúng",
     "WrongAnswer": "Số câu sai",
     "SkipAnswer": "Số câu bỏ qua",
@@ -178,7 +178,8 @@
     "ViewAnswerDetail": "Xem đáp án chi tiết",
     "ShowTranscript": "Hiện transcript",
     "DetailExplain": "Giải thích chi tiết",
-    "MessagePremium": " Bạn cần đăng ký premium để xem giải thích chi tiết"
+    "MessagePremium": " Bạn cần đăng ký premium để xem giải thích chi tiết",
+    "AnswerSummary": "Tóm tắt"
   },
   "Errors": {
     "NotFoundRoom": "Không tìm thấy phòng phù hợp"

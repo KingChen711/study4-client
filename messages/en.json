@@ -156,10 +156,10 @@
     "TestResult": "Test result: {testName}",
     "Overall": "Overall:",
     "BackToTest": "Back to test",
-    "Result": "Result:",
-    "Accurate": "Accurate:",
+    "Result": "Result",
+    "Accurate": "Accurate",
     "Accurate2": "Accurate",
-    "CompletionTime": "Completion time:",
+    "CompletionTime": "Completion time",
     "RightAnswer": "Right answer",
     "WrongAnswer": "Wrong answer",
     "SkipAnswer": "Skip answer",
@@ -178,7 +178,8 @@
     "ViewAnswerDetail": "View answer detail",
     "ShowTranscript": "Show transcript",
     "DetailExplain": "Detail explain",
-    "MessagePremium": "You need to subscribe to premium to see detailed explanation"
+    "MessagePremium": "You need to subscribe to premium to see detailed explanation",
+    "AnswerSummary": "Answer summary"
   },
   "Errors": {
     "NotFoundRoom": "Not found any room match condition"
