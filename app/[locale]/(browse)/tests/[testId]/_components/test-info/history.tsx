@@ -48,55 +48,65 @@ async function History({ testHistories, testId, locale }: Props) {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {testHistories.map((test) => (
-                <TableRow key={test.testHistoryId}>
-                  <TableCell>
-                    <div className="text-nowrap font-medium">
-                      {toDateTime(test.takenDate, locale === "en" ? enUS : vi)}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex flex-wrap gap-2">
-                      {test.isFull ? (
-                        <div className="rounded-lg bg-success px-2 py-1 text-xs font-bold text-success-foreground">
-                          Full test
-                        </div>
-                      ) : (
-                        Array.from(
-                          new Set(
-                            test.partitionHistories.map(
-                              (ph) => ph.testSectionName
-                            )
-                          )
-                        ).map((section) => (
-                          <div
-                            key={section}
-                            className="rounded-lg bg-warning px-2 py-1 text-xs font-bold text-warning-foreground"
-                          >
-                            {section}
+              {testHistories
+                .sort(
+                  (a, b) =>
+                    new Date(b.takenDate).getTime() -
+                    new Date(a.takenDate).getTime()
+                )
+                .slice(0, 5)
+                .map((test) => (
+                  <TableRow key={test.testHistoryId}>
+                    <TableCell>
+                      <div className="text-nowrap font-medium">
+                        {toDateTime(
+                          test.takenDate,
+                          locale === "en" ? enUS : vi
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex flex-wrap gap-2">
+                        {test.isFull ? (
+                          <div className="rounded-lg bg-success px-2 py-1 text-xs font-bold text-success-foreground">
+                            Full test
                           </div>
-                        ))
-                      )}
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="text-nowrap text-center">{`${test.totalRightAnswer}/${test.totalQuestion}`}</div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="text-nowrap text-center">
-                      {convertSecondToText(test.totalCompletionTime)}
-                    </div>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Link
-                      href={`/tests/${testId}/results/${test.testHistoryId}`}
-                      className="cursor-pointer text-nowrap text-right text-primary hover:underline"
-                    >
-                      {t("History.ViewDetail")}
-                    </Link>
-                  </TableCell>
-                </TableRow>
-              ))}
+                        ) : (
+                          Array.from(
+                            new Set(
+                              test.partitionHistories.map(
+                                (ph) => ph.testSectionName
+                              )
+                            )
+                          ).map((section) => (
+                            <div
+                              key={section}
+                              className="rounded-lg bg-warning px-2 py-1 text-xs font-bold text-warning-foreground"
+                            >
+                              {section}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-nowrap text-center">{`${test.totalRightAnswer}/${test.totalQuestion}`}</div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="text-nowrap text-center">
+                        {convertSecondToText(test.totalCompletionTime)}
+                      </div>
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Link
+                        href={`/tests/${testId}/results/${test.testHistoryId}`}
+                        className="cursor-pointer text-nowrap text-right text-primary hover:underline"
+                      >
+                        {t("History.ViewDetail")}
+                      </Link>
+                    </TableCell>
+                  </TableRow>
+                ))}
             </TableBody>
           </Table>
         </div>
