@@ -7,6 +7,15 @@ import { Check, X } from "lucide-react"
 import { z } from "zod"
 
 import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Icons } from "@/components/ui/icons"
 import { Progress } from "@/components/ui/progress"
 
 type Props = {
@@ -95,17 +104,85 @@ async function FlashcardExamResultPage({ params, searchParams }: Props) {
               </div>
               <div className="flex flex-1 flex-wrap gap-4">
                 {result.flashcardExamGrades.map((feg) => (
-                  <div
-                    key={feg.flashcardExamGradeId}
-                    className="flex items-center gap-1"
-                  >
-                    {feg.questionNumber}
-                    {feg.flashcardGradeStatus === "Correct" ? (
-                      <Check className="size-6 text-success" />
-                    ) : (
-                      <X className="size-6 text-danger" />
-                    )}
-                  </div>
+                  <Dialog key={feg.flashcardExamGradeId}>
+                    <DialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="flex items-center gap-1"
+                      >
+                        {feg.questionNumber}
+                        {feg.flashcardGradeStatus === "Correct" ? (
+                          <Check className="size-6 text-success" />
+                        ) : (
+                          <X className="size-6 text-danger" />
+                        )}
+                      </Button>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle className="pr-2">
+                          Question type: {feg.questionType}
+                        </DialogTitle>
+                        <DialogDescription className="flex flex-col">
+                          {feg.questionType !== "True/False" ? (
+                            <>
+                              <div className="my-3 text-base font-medium text-foreground">
+                                {feg.questionTitle}
+                              </div>
+
+                              <div className="flex items-center gap-x-1">
+                                <div>Your answer:</div>
+                                <div>{feg.userAnswer}</div>
+                                {feg.flashcardGradeStatus === "Correct" ? (
+                                  <Icons.Check className="size-5 text-success" />
+                                ) : (
+                                  <X className="size-5 text-danger" />
+                                )}
+                              </div>
+                              <div className="flex items-center gap-x-1">
+                                <div>Correct answer:</div>
+                                <div>{feg.correctAnswer}</div>
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <div className="my-3 flex items-center">
+                                <div className="flex-1 text-base text-foreground">
+                                  {feg.questionTitle}
+                                </div>
+                                <div className="mx-2 h-full w-[2px] bg-neutral-200" />
+                                <div className="flex-1 text-base text-foreground">
+                                  {feg.questionDesc}
+                                </div>
+                              </div>
+                              <div className="flex items-center gap-x-1">
+                                <div>Your answer:</div>
+                                <div>
+                                  {feg.userAnswer === feg.questionDesc
+                                    ? "True"
+                                    : "False"}
+                                </div>
+                                {feg.flashcardGradeStatus === "Correct" ? (
+                                  <Icons.Check className="size-5 text-success" />
+                                ) : (
+                                  <X className="size-5 text-danger" />
+                                )}
+                              </div>
+                              <div className="flex items-center gap-x-1">
+                                <div>Correct answer:</div>
+                                <div>
+                                  {feg.questionDesc === feg.correctAnswer
+                                    ? "True"
+                                    : "False"}
+                                </div>
+                              </div>
+                            </>
+                          )}
+                        </DialogDescription>
+                      </DialogHeader>
+                    </DialogContent>
+                  </Dialog>
                 ))}
               </div>
             </div>
