@@ -1,7 +1,8 @@
 import React from "react"
 import Link from "next/link"
-import { notFound } from "next/navigation"
+import { notFound, redirect } from "next/navigation"
 import getFlashcardDetailPrivacy from "@/queries/flashcard/get-flashcard-detail-privacy"
+import getUserPremium from "@/queries/users/get-user-premium"
 import { X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -15,6 +16,16 @@ type Props = {
 }
 
 async function FlashcardExamPage({ params }: Props) {
+  const premium = await getUserPremium()
+
+  if (
+    !premium ||
+    (!premium?.isPremiumActive &&
+      (!premium?.totalTrials || premium.totalTrials <= 0))
+  ) {
+    return redirect("/premium")
+  }
+
   const flashcard = await getFlashcardDetailPrivacy(+params.id)
 
   if (!flashcard) return notFound()
@@ -34,6 +45,9 @@ async function FlashcardExamPage({ params }: Props) {
       </div>
       <div className="mx-auto flex size-full max-w-3xl flex-1 flex-col items-center justify-center pt-[92px]">
         <ExamSection
+          totalTrialsLeft={
+            !premium?.isPremiumActive ? premium.totalTrials : undefined
+          }
           totalQuestion={
             flashcard.newFlashCardDetails.length +
             flashcard.proficientFlashCardDetails.length +

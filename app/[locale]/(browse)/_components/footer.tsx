@@ -7,12 +7,7 @@ import { Icons } from "@/components/ui/icons"
 async function Footer() {
   const t = await getTranslations("Layout")
   return (
-    <footer
-      style={{
-        backgroundImage: "url(/footer.webp)",
-      }}
-      className="flex flex-col border bg-auto bg-bottom bg-no-repeat px-6 py-8 max-md:pb-14 sm:px-14"
-    >
+    <footer className="flex flex-col border bg-auto bg-bottom bg-no-repeat px-6 py-8 max-md:pb-14 sm:px-14">
       <div className="mx-auto size-full max-w-6xl">
         <div className="flex flex-col gap-6 lg:flex-row">
           <div className="flex w-48 flex-col gap-y-3">

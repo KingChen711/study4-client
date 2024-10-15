@@ -19,6 +19,7 @@ type Props = {
   flashcardId: number
   title: string
   totalQuestion: number
+  totalTrialsLeft?: number
 }
 
 type QuestionAnswer = {
@@ -29,7 +30,12 @@ type QuestionAnswer = {
   answer: string
 }
 
-function ExamSection({ flashcardId, title, totalQuestion }: Props) {
+function ExamSection({
+  flashcardId,
+  title,
+  totalQuestion,
+  totalTrialsLeft,
+}: Props) {
   const [time, setTime] = useState<number>(0)
   const router = useRouter()
   const [pending, startTransition] = useTransition()
@@ -93,6 +99,14 @@ function ExamSection({ flashcardId, title, totalQuestion }: Props) {
       toast.error(res.messageError)
     })
   }
+
+  useEffect(() => {
+    if (totalTrialsLeft) {
+      toast.info(
+        `Bạn còn ${totalTrialsLeft} lần dùng thử kiểm tra flashcard. Hệ thống sẽ được tính khi bạn nộp bài`
+      )
+    }
+  }, [totalTrialsLeft])
 
   useEffect(() => {
     if (!questions) return

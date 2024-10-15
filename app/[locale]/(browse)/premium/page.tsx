@@ -14,10 +14,10 @@ async function PremiumPage() {
   if (premium?.isPremiumActive) {
     return (
       <div className="mt-8 flex flex-col">
-        <div className="mb-6 text-3xl font-bold">Premium</div>
-        <div>Bạn đã đăng ký một gói {premium.premiumPackageName}</div>
+        <div className="mb-4 text-3xl font-bold">Premium</div>
+        <div>Bạn đã đăng ký một {premium.premiumPackageName}</div>
         <div>Hết hạn {toDateTime2(premium.expireDate)}</div>
-        <div className="grid grid-cols-12 gap-6">
+        <div className="mt-4 grid grid-cols-12 gap-6">
           <div
             className={cn(
               "col-span-12 flex flex-col rounded-3xl border px-6 py-10 shadow sm:col-span-6 xl:col-span-3",
@@ -55,15 +55,27 @@ async function PremiumPage() {
                 </div>
               )}
               {premium.premiumPackageId >= 3 ? (
-                <div className="flex items-center gap-x-2">
-                  <Icons.Check className="size-4 text-success" />
-                  Tạo flashcards cá nhân
-                </div>
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.Check className="size-4 text-success" />
+                    Làm kiểm tra flashcard
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.Check className="size-4 text-success" />
+                    Lịch học flashcard
+                  </div>
+                </>
               ) : (
-                <div className="flex items-center gap-x-2">
-                  <Icons.X className="size-4 text-danger" />
-                  Tạo flashcards cá nhân
-                </div>
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.X className="size-4 text-danger" />
+                    Làm kiểm tra flashcard
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.X className="size-4 text-danger" />
+                    Lịch học flashcard
+                  </div>
+                </>
               )}
             </div>
             <Button variant="outline" className="hover:cursor-default">
@@ -109,7 +121,12 @@ async function PremiumPage() {
 
             <div className="flex items-center gap-x-2">
               <Icons.X className="size-4 text-danger" />
-              Tạo flashcards cá nhân
+              Làm kiểm tra flashcard
+            </div>
+
+            <div className="flex items-center gap-x-2">
+              <Icons.X className="size-4 text-danger" />
+              Lịch học flashcard
             </div>
           </div>
           <Button variant="outline" className="hover:cursor-default">
@@ -161,15 +178,27 @@ async function PremiumPage() {
                 </div>
               )}
               {i >= 2 ? (
-                <div className="flex items-center gap-x-2">
-                  <Icons.Check className="size-4 text-success" />
-                  Tạo flashcards cá nhân
-                </div>
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.Check className="size-4 text-success" />
+                    Làm kiểm tra flashcard
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.Check className="size-4 text-success" />
+                    Lịch học flashcard
+                  </div>
+                </>
               ) : (
-                <div className="flex items-center gap-x-2">
-                  <Icons.X className="size-4 text-danger" />
-                  Tạo flashcards cá nhân
-                </div>
+                <>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.X className="size-4 text-danger" />
+                    Làm kiểm tra flashcard
+                  </div>
+                  <div className="flex items-center gap-x-2">
+                    <Icons.X className="size-4 text-danger" />
+                    Lịch học flashcard
+                  </div>
+                </>
               )}
             </div>
             <ActiveButton packageId={_package.premiumPackageId} />

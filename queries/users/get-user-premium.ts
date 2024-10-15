@@ -13,6 +13,7 @@ export type PremiumInfo = {
   description: string
   expireDate: Date
   isPremiumActive: false
+  totalTrials: number
 }
 
 export type Tag = { tagId: string; tagName: string }
