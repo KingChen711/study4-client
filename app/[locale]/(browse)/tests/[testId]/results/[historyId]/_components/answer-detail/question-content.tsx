@@ -19,7 +19,7 @@ function QuestionContent({ answerTranscript }: Props) {
   if (isMultipleChoice)
     return (
       <div className="flex gap-x-4 p-3">
-        <div className="flex size-9 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+        <div className="flex aspect-square size-9 shrink-0 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
           {testGrade.questionNumber}
         </div>
         <div className="flex flex-col gap-y-2">

@@ -23,7 +23,6 @@ import NoResult from "@/components/ui/no-result"
 import ParseHtml from "@/components/ui/parse-html"
 import Passage from "@/components/ui/passage"
 import Recording from "@/components/ui/recording"
-import { Separator } from "@/components/ui/separator"
 import { Skeleton } from "@/components/ui/skeleton"
 import TagBadges from "@/components/badges/tag-badge"
 
@@ -75,7 +74,7 @@ function AnswerDialog({
           </div>
         )}
       </DialogTrigger>
-      <DialogContent className="w-full max-w-screen-md overflow-y-hidden">
+      <DialogContent className="w-full max-w-screen-lg overflow-y-hidden">
         <DialogHeader>
           {isPending && (
             <div className="flex aspect-[9/14] w-full flex-col">
@@ -96,7 +95,7 @@ function AnswerDialog({
                   questionNumber: answerTranscript.testGrades[0].questionNumber,
                 })}
               </DialogTitle>
-              <DialogDescription className="overflow-y-hidden">
+              <DialogDescription className="overflow-y-hidden text-left">
                 <TagBadges
                   tagName={
                     answerTranscript.testSectionPart.partitionTag
@@ -104,61 +103,76 @@ function AnswerDialog({
                   }
                 />
 
-                <div className="mt-4 flex max-h-[50dvh] flex-col gap-y-4 overflow-y-auto border-b">
-                  <div>
-                    <Recording
-                      srcUrl={
-                        answerTranscript?.testSectionPart?.testSection
-                          ?.cloudResource?.url || null
-                      }
-                    />
+                <div className="flex gap-x-4">
+                  <div className="mt-4 flex w-7/12 flex-col gap-y-4 border-b">
+                    <div>
+                      <Recording
+                        srcUrl={
+                          answerTranscript?.testSectionPart?.testSection
+                            ?.cloudResource?.url || null
+                        }
+                      />
+                    </div>
+                    <div className="max-h-[40dvh] overflow-y-auto">
+                      {transcript && (
+                        <Accordion
+                          type="single"
+                          collapsible
+                          defaultValue="item-1"
+                        >
+                          <AccordionItem value="item-1">
+                            <AccordionTrigger className="w-fit">
+                              {t("ShowTranscript")}
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <div className="rounded-md bg-neutral-100 p-3">
+                                <ParseHtml data={transcript} />
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      )}
+                      <Passage
+                        readingDesc={
+                          answerTranscript.testSectionPart.testSection
+                            .readingDesc
+                        }
+                      />
+                    </div>
+                    <div className="max-h-[30dvh] overflow-y-auto rounded-md bg-neutral-100 p-3">
+                      <ParseHtml
+                        data={answerTranscript.testSectionPart.partitionDesc}
+                      />
+                    </div>
                   </div>
-                  {transcript && (
-                    <Accordion type="single" collapsible>
-                      <AccordionItem value="item-1">
-                        <AccordionTrigger className="w-fit">
-                          {t("ShowTranscript")}
-                        </AccordionTrigger>
-                        <AccordionContent>
-                          <div className="rounded-md bg-neutral-100 p-3">
-                            <ParseHtml data={transcript} />
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                  )}
-                  <Passage
-                    readingDesc={
-                      answerTranscript.testSectionPart.testSection.readingDesc
-                    }
-                  />
-                  <div className="rounded-md bg-neutral-100 p-3">
-                    <ParseHtml
-                      data={answerTranscript.testSectionPart.partitionDesc}
-                    />
+
+                  <div className="w-5/12">
+                    <div className="overflow-y-auto">
+                      <QuestionContent answerTranscript={answerTranscript} />
+                    </div>
+                    {answerTranscript.testGrades[0].question
+                      .questionAnswerExplanation ? (
+                      <div className="mt-4 flex flex-col">
+                        <div className="mb-2 font-bold">
+                          {t("DetailExplain")}
+                        </div>
+                        <ParseHtml
+                          data={
+                            answerTranscript.testGrades[0].question
+                              .questionAnswerExplanation
+                          }
+                        />
+                      </div>
+                    ) : (
+                      <div className="mt-4 flex flex-col">
+                        <div className="mb-2 font-bold">
+                          {t("DetailExplain")}
+                        </div>
+                        {t("MessagePremium")}
+                      </div>
+                    )}
                   </div>
                 </div>
-                <Separator className="my-2" />
-                <div className="max-h-[35dvh] overflow-y-auto">
-                  <QuestionContent answerTranscript={answerTranscript} />
-                </div>
-                {answerTranscript.testGrades[0].question
-                  .questionAnswerExplanation ? (
-                  <div className="mt-4 flex flex-col gap-y-4">
-                    <div className="font-bold">{t("DetailExplain")}</div>
-                    <ParseHtml
-                      data={
-                        answerTranscript.testGrades[0].question
-                          .questionAnswerExplanation
-                      }
-                    />
-                  </div>
-                ) : (
-                  <div className="mt-4 flex flex-col gap-y-4">
-                    <div className="font-bold">{t("DetailExplain")}</div>
-                    {t("MessagePremium")}
-                  </div>
-                )}
               </DialogDescription>
             </>
           )}
