@@ -17,11 +17,11 @@ type Props = {
 
 function SectionContent({ section, showAnswer, testGrades }: Props) {
   return (
-    <div className="flex min-h-full flex-col gap-y-6">
+    <div className="flex h-full flex-col gap-y-6">
       <Recording srcUrl={section.cloudResource?.url || null} />
 
-      <div className="grid grid-cols-12 gap-4">
-        <Passage readingDesc={section.readingDesc} />
+      <div className="grid grid-cols-12 gap-4 xl:h-full">
+        <Passage readingDesc={section.readingDesc} doTestLayout />
         <Partitions
           showAnswer={showAnswer}
           testGrades={testGrades}

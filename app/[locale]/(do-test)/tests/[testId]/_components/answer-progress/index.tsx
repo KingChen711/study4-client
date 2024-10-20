@@ -6,7 +6,6 @@ import { useRouter } from "next/navigation"
 import { type TestGrade } from "@/queries/test/get-retake-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
-import { ChevronDown, ChevronUp } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 // import { toast } from "sonner"
@@ -44,7 +43,6 @@ function AnswerProgress({
   const t = useTranslations("DoTestPage")
   const [pending, startTransition] = useTransition()
   const router = useRouter()
-  const [minimal, setMinimal] = useState(false)
 
   const handleNavigateQuestion = (answer: Answer) => {
     useHighlightQuestion.getState().highlightQuestion({
@@ -253,10 +251,7 @@ function AnswerProgress({
         </div>
 
         <div
-          className={cn(
-            "flex flex-col gap-y-2 transition-all duration-500",
-            minimal && "hidden"
-          )}
+          className={cn("flex flex-col gap-y-2 transition-all duration-500")}
         >
           <div className="flex flex-wrap gap-2">
             {Object.entries(getAnswersEachSection())
@@ -288,7 +283,7 @@ function AnswerProgress({
         </div>
       </div>
       <div className="flex flex-1 justify-end gap-x-6">
-        <Button
+        {/* <Button
           onClick={() => setMinimal((prev) => !prev)}
           variant="outline"
           size="icon"
@@ -299,7 +294,7 @@ function AnswerProgress({
           ) : (
             <ChevronDown className="size-7" />
           )}
-        </Button>
+        </Button> */}
         {!showAnswer && (
           <Button
             onClick={handleSubmit}

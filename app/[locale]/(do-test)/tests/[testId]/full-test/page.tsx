@@ -33,7 +33,7 @@ async function FullTestPage({ params }: Props) {
           <EscapeDialog testId={test.id} />
         </div>
       </div>
-      <div className="mx-auto flex w-full flex-1 gap-4 bg-[#f2f4f7] px-2 pb-[128px] pt-[76px]">
+      <div className="mx-auto flex h-screen w-full flex-1 gap-4 bg-[#f2f4f7] px-2 pb-[128px] pt-[76px]">
         <TestPaper test={test} />
       </div>
       <AnswerProgress

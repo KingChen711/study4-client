@@ -49,7 +49,7 @@ function TestPaper({ test, showAnswer = false, testGrades = [] }: Props) {
   }, [highlightedQuestion, setActiveSection])
 
   return (
-    <section className="flex flex-1 flex-col gap-y-6 rounded-lg border p-4">
+    <section className="flex h-full flex-1 flex-col gap-y-6 rounded-lg border p-4">
       <SectionContent
         section={
           testSections.find((s) => s.testSectionName === activeSection) ||
