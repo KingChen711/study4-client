@@ -1,12 +1,14 @@
 "use client"
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { type TestGrade } from "@/queries/test/get-history"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers } from "@/stores/use-submit-answers"
 
 import { type DoTest } from "@/types/do-test"
 import { useActiveSection } from "@/hooks/use-active-section"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
 
 import SectionContent from "./section-content"
 
@@ -19,8 +21,27 @@ type Props = {
 function TestPaper({ test, showAnswer = false, testGrades = [] }: Props) {
   const testSections = test.testSections
   const { highlightedQuestion } = useHighlightQuestion()
+  const [isHighlightMode, setIsHighlightMode] = useState(false)
 
   const { activeSection, setActiveSection } = useActiveSection()
+
+  const handleMouseUp = () => {
+    if (isHighlightMode) {
+      const selectedText = window.getSelection()
+      if (!selectedText) return
+
+      try {
+        if (selectedText.rangeCount > 0) {
+          const range = selectedText.getRangeAt(0)
+          const span = document.createElement("mark") // Sử dụng thẻ <mark> để highlight
+          range.surroundContents(span)
+          selectedText.removeAllRanges() // Bỏ lựa chọn
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
 
   useEffect(() => {
     setActiveSection(testSections[0].testSectionName)
@@ -49,7 +70,19 @@ function TestPaper({ test, showAnswer = false, testGrades = [] }: Props) {
   }, [highlightedQuestion, setActiveSection])
 
   return (
-    <section className="flex h-full flex-1 flex-col gap-y-6 rounded-lg border p-4">
+    <section
+      onMouseUp={handleMouseUp}
+      className="flex h-full flex-1 flex-col gap-y-6 rounded-lg border p-4"
+    >
+      <div className="flex items-center space-x-2">
+        <Switch
+          checked={isHighlightMode}
+          onCheckedChange={setIsHighlightMode}
+          id="airplane-mode"
+        />
+        <Label htmlFor="airplane-mode">Highlight Mode</Label>
+      </div>
+
       <SectionContent
         section={
           testSections.find((s) => s.testSectionName === activeSection) ||
