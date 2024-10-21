@@ -83,14 +83,15 @@ function TestPaper({ test, showAnswer = false, testGrades = [] }: Props) {
         <Label htmlFor="airplane-mode">Highlight Mode</Label>
       </div>
 
-      <SectionContent
-        section={
-          testSections.find((s) => s.testSectionName === activeSection) ||
-          testSections[0]
-        }
-        showAnswer={showAnswer}
-        testGrades={testGrades}
-      />
+      {testSections.map((ts) => (
+        <SectionContent
+          key={ts.testSectionId}
+          section={ts}
+          active={ts.testSectionName === activeSection}
+          showAnswer={showAnswer}
+          testGrades={testGrades}
+        />
+      ))}
     </section>
   )
 }
