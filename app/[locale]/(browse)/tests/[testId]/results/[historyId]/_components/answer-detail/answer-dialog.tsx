@@ -114,24 +114,6 @@ function AnswerDialog({
                       />
                     </div>
                     <div className="max-h-[40dvh] overflow-y-auto">
-                      {transcript && (
-                        <Accordion
-                          type="single"
-                          collapsible
-                          defaultValue="item-1"
-                        >
-                          <AccordionItem value="item-1">
-                            <AccordionTrigger className="w-fit">
-                              {t("ShowTranscript")}
-                            </AccordionTrigger>
-                            <AccordionContent>
-                              <div className="rounded-md bg-neutral-100 p-3">
-                                <ParseHtml data={transcript} />
-                              </div>
-                            </AccordionContent>
-                          </AccordionItem>
-                        </Accordion>
-                      )}
                       <Passage
                         readingDesc={
                           answerTranscript.testSectionPart.testSection
@@ -163,14 +145,36 @@ function AnswerDialog({
                           }
                         />
                       </div>
-                    ) : (
+                    ) : answerTranscript.testSectionPart.testSection
+                        .readingDesc ? (
                       <div className="mt-4 flex flex-col">
                         <div className="mb-2 font-bold">
                           {t("DetailExplain")}
                         </div>
                         {t("MessagePremium")}
                       </div>
-                    )}
+                    ) : null}
+
+                    <div className="max-h-[30dvh] overflow-y-auto">
+                      {transcript && (
+                        <Accordion
+                          type="single"
+                          collapsible
+                          defaultValue="item-1"
+                        >
+                          <AccordionItem value="item-1">
+                            <AccordionTrigger className="w-fit">
+                              {t("ShowTranscript")}
+                            </AccordionTrigger>
+                            <AccordionContent>
+                              <div className="rounded-md bg-neutral-100 p-3">
+                                <ParseHtml data={transcript} />
+                              </div>
+                            </AccordionContent>
+                          </AccordionItem>
+                        </Accordion>
+                      )}
+                    </div>
                   </div>
                 </div>
               </DialogDescription>
