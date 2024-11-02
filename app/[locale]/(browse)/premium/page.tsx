@@ -133,77 +133,79 @@ async function PremiumPage() {
             Gói hiện tại của bạn
           </Button>
         </div>
-        {packages.map((_package, i) => (
-          <div
-            className={cn(
-              "col-span-12 flex flex-col rounded-3xl border px-6 py-10 shadow sm:col-span-6 xl:col-span-3",
-              i === 0 && "border-info shadow-info",
-              i === 1 && "border-warning shadow-warning",
-              i === 2 && "border-danger shadow-danger"
-            )}
-            key={_package.premiumPackageId}
-          >
-            <div className="flex items-end gap-x-2">
-              <div className="text-2xl font-bold">
-                đ{formatePrice(_package.price)}
-              </div>{" "}
-              <div className="text-base">/tháng</div>
-            </div>
-            <p className="mb-2 mt-4 text-xl font-semibold">
-              {_package.premiumPackageName}
-            </p>
-            <div className="mb-4 flex flex-1 flex-col gap-y-2">
-              <div className="flex items-center gap-x-2">
-                <Icons.Check className="size-4 text-success" />
-                Luyện tập làm test online
+        {packages.map((_package, i) =>
+          i !== 2 ? null : (
+            <div
+              className={cn(
+                "col-span-12 flex flex-col rounded-3xl border px-6 py-10 shadow sm:col-span-6 xl:col-span-3",
+                // i === 0 && "border-info shadow-info",
+                // i === 1 && "border-warning shadow-warning",
+                i === 2 && "border-danger shadow-danger"
+              )}
+              key={_package.premiumPackageId}
+            >
+              <div className="flex items-end gap-x-2">
+                <div className="text-2xl font-bold">
+                  đ{formatePrice(_package.price)}
+                </div>{" "}
+                <div className="text-base">/tháng</div>
               </div>
-              <div className="flex items-center gap-x-2">
-                <Icons.Check className="size-4 text-success" />
-                Xem đáp án
-              </div>
-
-              <div className="flex items-center gap-x-2">
-                <Icons.Check className="size-4 text-success" />
-                Xem giải thích đáp án
-              </div>
-              {i >= 1 ? (
+              <p className="mb-2 mt-4 text-xl font-semibold">
+                {_package.premiumPackageName}
+              </p>
+              <div className="mb-4 flex flex-1 flex-col gap-y-2">
                 <div className="flex items-center gap-x-2">
                   <Icons.Check className="size-4 text-success" />
-                  Luyện tập speaking
+                  Luyện tập làm test online
                 </div>
-              ) : (
                 <div className="flex items-center gap-x-2">
-                  <Icons.X className="size-4 text-danger" />
-                  Luyện tập speaking
+                  <Icons.Check className="size-4 text-success" />
+                  Xem đáp án
                 </div>
-              )}
-              {i >= 2 ? (
-                <>
+
+                <div className="flex items-center gap-x-2">
+                  <Icons.Check className="size-4 text-success" />
+                  Xem giải thích đáp án
+                </div>
+                {i >= 1 ? (
                   <div className="flex items-center gap-x-2">
                     <Icons.Check className="size-4 text-success" />
-                    Làm kiểm tra flashcard
+                    Luyện tập speaking
                   </div>
-                  <div className="flex items-center gap-x-2">
-                    <Icons.Check className="size-4 text-success" />
-                    Lịch học flashcard
-                  </div>
-                </>
-              ) : (
-                <>
+                ) : (
                   <div className="flex items-center gap-x-2">
                     <Icons.X className="size-4 text-danger" />
-                    Làm kiểm tra flashcard
+                    Luyện tập speaking
                   </div>
-                  <div className="flex items-center gap-x-2">
-                    <Icons.X className="size-4 text-danger" />
-                    Lịch học flashcard
-                  </div>
-                </>
-              )}
+                )}
+                {i >= 2 ? (
+                  <>
+                    <div className="flex items-center gap-x-2">
+                      <Icons.Check className="size-4 text-success" />
+                      Làm kiểm tra flashcard
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <Icons.Check className="size-4 text-success" />
+                      Lịch học flashcard
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-center gap-x-2">
+                      <Icons.X className="size-4 text-danger" />
+                      Làm kiểm tra flashcard
+                    </div>
+                    <div className="flex items-center gap-x-2">
+                      <Icons.X className="size-4 text-danger" />
+                      Lịch học flashcard
+                    </div>
+                  </>
+                )}
+              </div>
+              <ActiveButton packageId={_package.premiumPackageId} />
             </div>
-            <ActiveButton packageId={_package.premiumPackageId} />
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   )

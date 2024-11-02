@@ -20,8 +20,12 @@ const getPackages = cache(async (): Promise<Package[]> => {
       "/api/premium-packages"
     )
 
+    console.log(data.data)
+
     return data.data || []
   } catch (error) {
+    console.log(error)
+
     return []
   }
 })
