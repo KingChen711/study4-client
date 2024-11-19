@@ -10,10 +10,9 @@ import { Input } from "@/components/ui/input"
 type Props = {
   search: string
   placeholder: string
-  status: "active" | "inactive"
 }
 
-function SearchForm({ search, placeholder, status }: Props) {
+function SearchForm({ search, placeholder }: Props) {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState(search)
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -27,7 +26,7 @@ function SearchForm({ search, placeholder, status }: Props) {
   useEffect(() => {
     const handleSearch = () => {
       router.push(
-        `/admin/users?page=1&term=${debouncedSearchTerm}&status=${status}`
+        `/admin/transactions?page=1&searchValue=${debouncedSearchTerm}`
       )
     }
 
