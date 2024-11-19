@@ -83,6 +83,18 @@ export const UserButton = () => {
           </Link>
         )}
 
+        {currentUser?.role.roleName === "Admin" && (
+          <Link
+            className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
+            href="/admin"
+          >
+            <div className="flex items-center justify-center px-3">
+              <Icons.Staff className="size-5" />
+            </div>
+            {t("AdminSite")}
+          </Link>
+        )}
+
         <Link
           className="flex w-full items-center justify-start gap-x-3 text-nowrap px-6 py-3 text-sm font-medium hover:cursor-pointer hover:bg-muted"
           href="/histories"

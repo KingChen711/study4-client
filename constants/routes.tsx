@@ -16,3 +16,27 @@ export const staffRoutes = [
     },
   },
 ]
+
+export const adminRoutes = [
+  {
+    route: "/admin",
+    label: "Dashboard",
+    Icon: (props: { className?: string }) => {
+      return <Icons.Analysis {...props} />
+    },
+  },
+  {
+    route: "/admin/users",
+    label: "Users",
+    Icon: (props: { className?: string }) => {
+      return <Icons.User {...props} />
+    },
+  },
+  {
+    route: "/admin/transactions",
+    label: "Transactions",
+    Icon: (props: { className?: string }) => {
+      return <Icons.Transaction {...props} />
+    },
+  },
+]

@@ -1,3 +1,4 @@
+/* eslint-disable tailwindcss/no-custom-classname */
 import { cn } from "@/lib/utils"
 
 export type IconProps = React.HTMLAttributes<SVGElement>
@@ -50,6 +51,42 @@ export const Icons = {
         d="M0 .75A.75.75 0 0 1 .75 0h6.5a.75.75 0 0 1 0 1.5H.75A.75.75 0 0 1 0 .75M3.25 3a.75.75 0 0 0 0 1.5h4a.75.75 0 0 0 0-1.5zm2 3a.75.75 0 0 0 0 1.5h2a.75.75 0 0 0 0-1.5zm5.5-6a1 1 0 0 1 1 1v9h1.5a.75.75 0 0 1 .53 1.28l-2.5 2.5a.75.75 0 0 1-1.06 0l-2.5-2.5A.75.75 0 0 1 8.25 10h1.5V1a1 1 0 0 1 1-1"
         clipRule="evenodd"
       />
+    </svg>
+  ),
+  User: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+      className={cn(className)}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        d="M8 24v-5m8 5v-5M3 24v-5c0-4.97 4.03-8 9-8s9 3.03 9 8v5m-9-13a5 5 0 1 0 0-10a5 5 0 0 0 0 10Z"
+      ></path>
+    </svg>
+  ),
+  Transaction: ({ className, ...props }: IconProps) => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      {...props}
+      className={cn(className)}
+    >
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M20.8 13a2 2 0 0 0-1.8-1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1-1.8-1m2.8-8v10M3 5a2 2 0 1 0 4 0a2 2 0 1 0-4 0m12 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0M7 5h8M7 5v8a3 3 0 0 0 3 3h1"
+      ></path>
     </svg>
   ),
   Alarm: ({ className, ...props }: IconProps) => (
@@ -350,33 +387,28 @@ export const Icons = {
       xmlns="http://www.w3.org/2000/svg"
       width="200"
       height="200"
-      viewBox="0 0 48 48"
-      className={cn(className)}
+      viewBox="0 0 36 36"
       {...props}
+      className={cn(className)}
     >
-      <mask id="ipSAnalysis0">
-        <g fill="none" strokeWidth="4">
-          <path
-            fill="#fff"
-            stroke="#fff"
-            strokeLinejoin="round"
-            d="M44 5H4v12h40V5Z"
-          />
-          <path
-            stroke="#fff"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="m4 41.03l12.176-12.3l6.579 6.3L30.798 27l4.48 4.368"
-          />
-          <path
-            stroke="#fff"
-            strokeLinecap="round"
-            d="M44 16.172v26m-40-26v14M13.015 43H44"
-          />
-          <path stroke="#000" strokeLinecap="round" d="M17 11h21m-28-.003h1" />
-        </g>
-      </mask>
-      <path fill="currentColor" d="M0 0h48v48H0z" mask="url(#ipSAnalysis0)" />
+      <path
+        fill="currentColor"
+        d="M32 13.22V29H4V7h18.57a7.447 7.447 0 0 1-.07-1c.001-.335.024-.669.07-1H4a2 2 0 0 0-2 2v22a2 2 0 0 0 2 2h28a2 2 0 0 0 2-2V12.34c-.62.39-1.294.686-2 .88Z"
+        className="clr-i-outline--badged clr-i-outline-path-1--badged"
+      />
+      <path
+        fill="currentColor"
+        d="m15.62 15.222l-6.018 8.746l-4.052-3.584l1.06-1.198l2.698 2.386l6.326-9.192l6.75 10.015l6.754-8.925l1.276.966l-8.106 10.709z"
+        className="clr-i-outline--badged clr-i-outline-path-2--badged"
+      />
+      <circle
+        cx="30"
+        cy="6"
+        r="5"
+        fill="currentColor"
+        className="clr-i-outline--badged clr-i-outline-path-3--badged clr-i-badge"
+      />
+      <path fill="none" d="M0 0h36v36H0z" />
     </svg>
   ),
   Language: ({ className, ...props }: IconProps) => (
