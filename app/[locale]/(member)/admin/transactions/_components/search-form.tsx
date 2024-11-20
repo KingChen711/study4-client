@@ -10,9 +10,10 @@ import { Input } from "@/components/ui/input"
 type Props = {
   search: string
   placeholder: string
+  sort: string
 }
 
-function SearchForm({ search, placeholder }: Props) {
+function SearchForm({ search, placeholder, sort }: Props) {
   const router = useRouter()
   const [searchTerm, setSearchTerm] = useState(search)
   const debouncedSearchTerm = useDebounce(searchTerm, 300)
@@ -26,7 +27,7 @@ function SearchForm({ search, placeholder }: Props) {
   useEffect(() => {
     const handleSearch = () => {
       router.push(
-        `/admin/transactions?page=1&searchValue=${debouncedSearchTerm}`
+        `/admin/transactions?page=1&searchValue=${debouncedSearchTerm}&sort=${sort}`
       )
     }
 
@@ -38,7 +39,7 @@ function SearchForm({ search, placeholder }: Props) {
 
     setMounted(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedSearchTerm, router, search, status])
+  }, [debouncedSearchTerm, router, search])
 
   return (
     <div className="flex max-w-md flex-1 items-center rounded-lg border-2 px-2">

@@ -73,6 +73,7 @@ const getTransactions = cache(
     pageIndex: number
     pageSize: number
     searchValue: string
+    sort: string
   }): Promise<GetTransactionsResult> => {
     const { getToken } = auth()
     try {

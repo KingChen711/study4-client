@@ -91,11 +91,6 @@ async function UsersManagementPage({ searchParams }: Props) {
                       <p className="select-none">ID</p>
                     </div>
                   </TableHead>
-                  <TableHead className="h-10 cursor-pointer">
-                    <div className="flex items-center">
-                      <p className="select-none text-nowrap">Clerk ID</p>
-                    </div>
-                  </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center">
                       <p className="select-none text-nowrap">Email</p>
@@ -129,9 +124,6 @@ async function UsersManagementPage({ searchParams }: Props) {
                 {paginationResult.users.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-extrabold">{user.id}</TableCell>
-                    <TableCell className="font-extrabold">
-                      {user.clerkId}
-                    </TableCell>
                     <TableCell className="flex items-center gap-x-3 font-semibold">
                       <Image
                         alt="avatar"

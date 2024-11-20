@@ -17,12 +17,13 @@ import {
 
 import TransactionBadge from "../_components/transaction-badge"
 import SearchForm from "./_components/search-form"
+import SortFieldHoc from "./_components/sort-field-hoc"
 
 type Props = {
   searchParams: {
-    searchValue: string
-    pageIndex: string
-    status: string
+    searchValue?: string
+    pageIndex?: string
+    sort?: string
   }
 }
 
@@ -32,10 +33,28 @@ const testSearchParamsSchema = z.object({
     .catch(1)
     .transform((value) => (value <= 0 ? 1 : value)),
   searchValue: z.string().catch(""),
+  sort: z
+    .enum([
+      "PAYMENTAMOUNT",
+      "CREATEAT",
+      "TRANSACTIONDATE",
+      "TRANSACTIONSTATUS",
+      "TRANSACTIONCODE",
+      "CANCELLATIONREASON",
+      "CANCELLEDAT",
+      "-PAYMENTAMOUNT",
+      "-CREATEAT",
+      "-TRANSACTIONDATE",
+      "-TRANSACTIONSTATUS",
+      "-TRANSACTIONCODE",
+      "-CANCELLATIONREASON",
+      "-CANCELLEDAT",
+    ])
+    .catch("-CREATEAT"),
 })
 
 async function TransactionsManagementPage({ searchParams }: Props) {
-  const { page, searchValue } = testSearchParamsSchema.parse(searchParams)
+  const { page, searchValue, sort } = testSearchParamsSchema.parse(searchParams)
 
   if (!(await isAdmin())) return redirect("/")
 
@@ -43,14 +62,22 @@ async function TransactionsManagementPage({ searchParams }: Props) {
     pageIndex: page,
     pageSize: 10,
     searchValue,
+    sort,
   })
+
+  console.log({ page, searchValue, sort })
+
   // const paginationResult = { pageIndex: 0, totalPage: 0, users: [] }
 
   return (
     <section className="flex flex-col">
       <div className="flex items-center justify-between gap-x-5">
         <h3 className="text-2xl font-semibold">Transactions</h3>
-        <SearchForm search={searchValue} placeholder="Search transactions..." />
+        <SearchForm
+          sort={sort}
+          search={searchValue}
+          placeholder="Search transactions..."
+        />
       </div>
 
       <div className="my-5 rounded-2xl bg-card">
@@ -66,7 +93,9 @@ async function TransactionsManagementPage({ searchParams }: Props) {
                   </TableHead>
                   <TableHead className="h-10 cursor-pointer">
                     <div className="flex items-center">
-                      <p className="select-none">Code</p>
+                      <SortFieldHoc curSort={sort} sortField="TRANSACTIONCODE">
+                        <p className="select-none">Code</p>
+                      </SortFieldHoc>
                     </div>
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
@@ -76,20 +105,35 @@ async function TransactionsManagementPage({ searchParams }: Props) {
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-center">
-                      <p className="select-none text-nowrap">Amount</p>
+                      <SortFieldHoc curSort={sort} sortField="PAYMENTAMOUNT">
+                        <p className="select-none text-nowrap">Amount</p>
+                      </SortFieldHoc>
                     </div>
                   </TableHead>
-                  <TableHead className="text-center">Status</TableHead>
+                  <TableHead className="text-center">
+                    <div className="flex items-center justify-center">
+                      <SortFieldHoc
+                        curSort={sort}
+                        sortField="TRANSACTIONSTATUS"
+                      >
+                        <p className="select-none text-nowrap">Status</p>
+                      </SortFieldHoc>
+                    </div>
+                  </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-center">
-                      <p className="select-none text-nowrap">
-                        Transaction Date
-                      </p>
+                      <SortFieldHoc curSort={sort} sortField="TRANSACTIONDATE">
+                        <p className="select-none text-nowrap">
+                          Transaction Date
+                        </p>
+                      </SortFieldHoc>
                     </div>
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-end">
-                      <p className="select-none text-nowrap">Created At</p>
+                      <SortFieldHoc curSort={sort} sortField="CREATEAT">
+                        <p className="select-none text-nowrap">Created At</p>
+                      </SortFieldHoc>
                     </div>
                   </TableHead>
                 </TableRow>
