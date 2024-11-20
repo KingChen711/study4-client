@@ -82,12 +82,14 @@ async function TransactionsManagementPage({ searchParams }: Props) {
                   <TableHead className="text-center">Status</TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-center">
-                      <p className="select-none">Transaction Date</p>
+                      <p className="select-none text-nowrap">
+                        Transaction Date
+                      </p>
                     </div>
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-end">
-                      <p className="select-none">Created At</p>
+                      <p className="select-none text-nowrap">Created At</p>
                     </div>
                   </TableHead>
                 </TableRow>
@@ -116,7 +118,7 @@ async function TransactionsManagementPage({ searchParams }: Props) {
                     <TableCell className="text-center">
                       {transaction.transactionDate
                         ? toDate(transaction.transactionDate)
-                        : ""}
+                        : "-"}
                     </TableCell>
                     <TableCell className="text-end">
                       {toDate(transaction.createAt)}

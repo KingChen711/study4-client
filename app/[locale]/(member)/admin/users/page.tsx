@@ -93,7 +93,7 @@ async function UsersManagementPage({ searchParams }: Props) {
                   </TableHead>
                   <TableHead className="h-10 cursor-pointer">
                     <div className="flex items-center">
-                      <p className="select-none">Clerk ID</p>
+                      <p className="select-none text-nowrap">Clerk ID</p>
                     </div>
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
@@ -108,17 +108,17 @@ async function UsersManagementPage({ searchParams }: Props) {
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-center">
-                      <p className="select-none">Created At</p>
+                      <p className="select-none text-nowrap">Created At</p>
                     </div>
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-center">
-                      <p className="select-none">Taken Test Date</p>
+                      <p className="select-none text-nowrap">Taken Test Date</p>
                     </div>
                   </TableHead>
                   <TableHead className="h-10 w-fit cursor-pointer">
                     <div className="flex items-center justify-center">
-                      <p className="select-none">Target Score</p>
+                      <p className="select-none text-nowrap">Target Score</p>
                     </div>
                   </TableHead>
                   <TableHead className="text-center">Role</TableHead>
@@ -142,15 +142,17 @@ async function UsersManagementPage({ searchParams }: Props) {
                       />
                       <p>{user.email}</p>
                     </TableCell>
-                    <TableCell className="text-center">{user.phone}</TableCell>
+                    <TableCell className="px-4 text-center">
+                      {user.phone || "-"}
+                    </TableCell>
                     <TableCell className="text-center">
                       {toDate(user.createDate)}
                     </TableCell>
                     <TableCell className="text-center">
-                      {user.testTakenDate ? toDate(user.testTakenDate) : ""}
+                      {user.testTakenDate ? toDate(user.testTakenDate) : "-"}
                     </TableCell>
                     <TableCell className="text-center">
-                      {user.targetScore}
+                      {user.targetScore || "-"}
                     </TableCell>
                     <TableCell>
                       <RoleBadge status={user.role.roleName} />
