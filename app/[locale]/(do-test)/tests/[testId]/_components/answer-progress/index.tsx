@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { type TestGrade } from "@/queries/test/get-retake-test"
 import { useHighlightQuestion } from "@/stores/use-highlight-question"
 import { useSubmitAnswers, type Answer } from "@/stores/use-submit-answers"
+import { LightbulbIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
 
 // import { toast } from "sonner"
@@ -17,6 +18,12 @@ import { useActiveSection } from "@/hooks/use-active-section"
 import { Button } from "@/components/ui/button"
 import { Icons } from "@/components/ui/icons"
 import { Progress } from "@/components/ui/progress"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 type Props = {
   limit: string
@@ -26,6 +33,7 @@ type Props = {
   retake?: boolean
   testHistoryId?: number
   showAnswer?: boolean
+  isPractice?: boolean
 }
 
 function AnswerProgress({
@@ -36,6 +44,7 @@ function AnswerProgress({
   retake = false,
   testHistoryId,
   showAnswer = false,
+  isPractice = false,
 }: Props) {
   const { getAnswersEachSection, answers } = useSubmitAnswers()
   const { activeSection, setActiveSection } = useActiveSection()
@@ -202,7 +211,7 @@ function AnswerProgress({
             <Icons.Alarm className="size-6" />
             <p
               className={cn(
-                "line-clamp-1 text-xl font-bold",
+                "line-clamp-1 min-h-0 w-28 text-xl font-bold leading-none",
                 limit !== "no-limit" && +limit * 60 <= time && "text-danger"
               )}
             >
@@ -210,6 +219,24 @@ function AnswerProgress({
                 limit === "no-limit" ? time : Math.max(0, +limit * 60 - time)
               )}
             </p>
+            {isPractice && (
+              <TooltipProvider delayDuration={0}>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div className="flex items-center gap-x-1 text-lg text-primary">
+                      <LightbulbIcon className="size-5" />
+                      Pro tips
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>
+                      Hệ thống sẽ không tự nộp bài khi hết giờ trong chế độ
+                      luyện tập
+                    </p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
           </div>
         )}
       </div>

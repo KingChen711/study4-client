@@ -55,7 +55,7 @@ async function PracticePage({ params, searchParams }: Props) {
       <div className="mx-auto flex w-full flex-1 gap-4 bg-[#f2f4f7] px-2 pb-[128px] pt-[76px]">
         <TestPaper test={test} />
       </div>
-      <AnswerProgress testId={test.id} limit={limit} />
+      <AnswerProgress isPractice testId={test.id} limit={limit} />
     </div>
   )
 }
