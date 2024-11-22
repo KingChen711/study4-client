@@ -1,9 +1,11 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { Check, ChevronsUpDown, LightbulbIcon } from "lucide-react"
 import { useTranslations } from "next-intl"
+import { z } from "zod"
 
 import { cn, convertSecondToText, toDate } from "@/lib/utils"
 import useAnalytics from "@/hooks/use-analytics"
@@ -62,14 +64,16 @@ const timeItems = [
   },
 ]
 
-type Props = {
-  searchParams: {
-    qDays?: string
-  }
-}
+const analyticsPageParamsSchema = z.object({
+  qDays: z.enum(["3D", "7D", "1M", "2M", "3M", "6T", "1Y"]).catch("3D"),
+})
 
-function AnalyticsPage({ searchParams }: Props) {
-  const { qDays = "3D" } = searchParams
+function AnalyticsPage() {
+  const searchParams = useSearchParams()
+  const { qDays = "3D" } = analyticsPageParamsSchema.parse({
+    qDays: searchParams.get("qDays"),
+  })
+
   const { data: analytics, isPending } = useAnalytics(qDays)
   const [categoryAnalyticIndex, setCategoryAnalyticIndex] = useState(0)
   const t = useTranslations("AnalyticsPage")

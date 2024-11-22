@@ -15,10 +15,6 @@ function SortFieldHoc({ children, sortField, curSort }: Props) {
   const router = useRouter()
   const searchValue = searchParams.get("searchValue") || ""
 
-  if (sortField === "CREATEDAT") {
-    console.log({ curSort })
-  }
-
   const handleSort = () => {
     if (curSort === "-" + sortField) {
       router.push(

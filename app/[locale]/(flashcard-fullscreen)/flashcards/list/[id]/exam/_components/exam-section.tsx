@@ -165,13 +165,6 @@ function ExamSection({
     }
   }, [pending, showSetting, isPending])
 
-  useEffect(() => {
-    console.log(focusIndex)
-  }, [focusIndex])
-  useEffect(() => {
-    console.log(questionAnswers)
-  }, [questionAnswers])
-
   return (
     <>
       {showSetting && (

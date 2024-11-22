@@ -47,7 +47,7 @@ function useAnalytics(qDays: string) {
   const { getToken } = useAuth()
 
   return useQuery({
-    queryKey: ["users", "analytics"],
+    queryKey: ["users", "analytics", { qDays }],
     queryFn: async () => {
       return prep4Api
         .get<{ data: Analytics }>(`/api/tests/analytics/?qDays=${qDays}`, {

@@ -65,8 +65,6 @@ async function TransactionsManagementPage({ searchParams }: Props) {
     sort,
   })
 
-  console.log({ page, searchValue, sort })
-
   // const paginationResult = { pageIndex: 0, totalPage: 0, users: [] }
 
   return (
