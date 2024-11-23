@@ -62,7 +62,7 @@ async function PremiumPage() {
                   </div>
                   <div className="flex items-center gap-x-2">
                     <Icons.Check className="size-4 text-success" />
-                    Lịch học flashcard
+                    Kiểm tra với flashcard
                   </div>
                 </>
               ) : (
@@ -73,7 +73,7 @@ async function PremiumPage() {
                   </div>
                   <div className="flex items-center gap-x-2">
                     <Icons.X className="size-4 text-danger" />
-                    Lịch học flashcard
+                    Kiểm tra với flashcard
                   </div>
                 </>
               )}
@@ -126,7 +126,7 @@ async function PremiumPage() {
 
             <div className="flex items-center gap-x-2">
               <Icons.X className="size-4 text-danger" />
-              Lịch học flashcard
+              Kiểm tra với flashcard
             </div>
           </div>
           <Button variant="outline" className="hover:cursor-default">
@@ -186,7 +186,7 @@ async function PremiumPage() {
                     </div>
                     <div className="flex items-center gap-x-2">
                       <Icons.Check className="size-4 text-success" />
-                      Lịch học flashcard
+                      Kiểm tra với flashcard
                     </div>
                   </>
                 ) : (
@@ -197,7 +197,7 @@ async function PremiumPage() {
                     </div>
                     <div className="flex items-center gap-x-2">
                       <Icons.X className="size-4 text-danger" />
-                      Lịch học flashcard
+                      Kiểm tra với flashcard
                     </div>
                   </>
                 )}
